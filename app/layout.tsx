@@ -16,6 +16,7 @@ export default function RootLayout({
       <body className="bg-slate-white">
         <NavBar />
         {children}
+        <div id="modal"></div>
       </body>
     </html>
   );
