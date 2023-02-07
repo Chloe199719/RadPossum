@@ -8,7 +8,7 @@ function NavBarList({}: Props) {
       <li>RESORCES</li>
       <li>BOOKING</li>
       <li>CONCTACT ME</li>
-      <li>ABC</li>
+      {/* <li>ABC</li> */}
     </>
   );
 }
