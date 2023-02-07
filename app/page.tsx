@@ -3,8 +3,10 @@ import Hero from "@/app/Hero";
 export default function Home() {
   return (
     <main className="h-screen snap-y snap-mandatory overflow-y-scroll">
-      {/* <h1 className="text-8xl font-bold underline">test Page</h1> */}
+      {/* @ts-expect-error */}
       <Hero />
+      {/* @ts-expect-error */}
+
       <Hero />
     </main>
   );

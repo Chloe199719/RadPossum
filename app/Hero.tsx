@@ -1,10 +1,9 @@
-import { Button } from "flowbite-react";
 import Image from "next/image";
 import React from "react";
 
 type Props = {};
 
-function Hero({}: Props) {
+async function Hero({}: Props) {
   return (
     <section className="min-h-screen flex flex-col bg-gradient-to-r from-[#30bead]/30 to-[#ff7e84]/40 mx-auto items-center justify-center z-[5] snap-start md:snap-center py-24 relative">
       <div className="max-w-7xl flex flex-col md:flex-row items-center ">
@@ -25,7 +24,7 @@ function Hero({}: Props) {
             natus doloremque debitis animi sunt perferendis tempore esse commodi
             ipsam nam excepturi. Dolore?
           </p>
-          <button className="uppercase bg-[#30bead]/60 rounded-md py-3 font-bold ">
+          <button className=" text-lg uppercase bg-[#30bead]/60 rounded-md py-3 font-bold ">
             book a lesson now
           </button>
         </div>
@@ -66,11 +65,11 @@ function Hero({}: Props) {
         height={880}
       ></Image>
       <Image
-        className="hidden md:block absolute  top-24  right-0 opacity-40  z-[6]"
-        src="/effect4.png"
+        className="hidden md:block absolute  top-32  right-40 opacity-60  z-[6]"
+        src="/effect6.png"
         alt="hero"
-        width={880}
-        height={880}
+        width={600}
+        height={600}
       ></Image>
     </section>
   );

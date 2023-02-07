@@ -1,5 +1,5 @@
 import React from "react";
-import chloeAvatar from "./chloe.png";
+
 import { Avatar as Pic } from "flowbite-react";
 import { Dropdown } from "flowbite-react";
 
@@ -12,7 +12,7 @@ export default function Avatar({}: Props) {
       {user ? (
         <Dropdown
           label={
-            <Pic size="md" rounded={true} img={chloeAvatar}>
+            <Pic size="md" rounded={true} img="/chloe.png">
               <div className="space-y-1 font-medium dark:text-white">
                 <div>Chloe Pratas</div>
               </div>

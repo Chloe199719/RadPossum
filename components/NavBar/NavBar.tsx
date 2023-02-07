@@ -2,7 +2,8 @@
 import Avatar from "./Avatar";
 import React, { useState } from "react";
 import NavBarList from "./NavBarList";
-import Modal from "./Portal";
+import Modal from "../../app/Portal";
+import Image from "next/image";
 
 type Props = {};
 
@@ -23,9 +24,18 @@ function NavBar({}: Props) {
           >
             <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
           </svg>
-          <h2 className="text-3xl sm:text-4xl uppercase align-middle">
-            Place Holder Title
-          </h2>
+          <div className="flex items-center justify-center gap-2">
+            <Image
+              className="hidden md:block w-12 h-12 rounded-full"
+              src="/logo.jpg"
+              alt="logo"
+              width={10}
+              height={10}
+            />
+            <h2 className="text-3xl sm:text-4xl uppercase align-middle tracking-widest	">
+              Rad Possum
+            </h2>
+          </div>
         </div>
         {/* <div className="hidden md:flex flex-1 gap-8 items-center justify-between"> */}{" "}
         <ul className="hidden md:flex space-x-4 text-xl  ">

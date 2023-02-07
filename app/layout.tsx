@@ -1,7 +1,8 @@
-import NavBar from "@/components/NavBar/NavBar";
+import NavBar from "../components/NavBar/NavBar";
+import Avatar from "../components/NavBar/Avatar";
 import "./globals.css";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
