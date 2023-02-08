@@ -10,7 +10,7 @@ function Modal({ fun }: Props) {
       onClick={() => {
         fun(false);
       }}
-      className=" absolute inset-0 z-10 "
+      className=" absolute inset-0 z-20 "
     ></div>,
     document.getElementById(`modal`) as HTMLDivElement
   );

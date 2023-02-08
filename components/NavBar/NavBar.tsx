@@ -10,7 +10,7 @@ type Props = {};
 function NavBar({}: Props) {
   const [open, setOpen] = useState(false);
   return (
-    <nav className="flex  fixed top-0  left-0 right-0  justify-left gap-2 md:justify-between max-w-full z-20 md:items-center mx-auto bg-zinc-50 shadow-xl flex-col  ">
+    <nav className="flex  fixed top-0  left-0 right-0  justify-left gap-2 md:justify-between max-w-full z-30 md:items-center mx-auto bg-zinc-50 shadow-xl flex-col  ">
       <div className=" flex p-5 flex-col  gap-2  md:justify-between  max-w-7xl z-20 md:items-center mx-auto md:flex-row w-screen">
         <div className=" flex items-center p-2">
           {" "}

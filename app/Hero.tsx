@@ -5,7 +5,7 @@ type Props = {};
 
 async function Hero({}: Props) {
   return (
-    <section className="min-h-screen flex flex-col bg-gradient-to-r from-[#30bead]/30 to-[#ff7e84]/40 mx-auto items-center justify-center z-[5] snap-start md:snap-center py-24 relative">
+    <section className="min-h-screen flex flex-col bg-gradient-to-l from-[#30bead]/30 to-[#ff7e84]/40 mx-auto items-center justify-center z-[5] snap-start md:snap-center py-24 relative">
       <div className="max-w-7xl flex flex-col md:flex-row items-center ">
         <div className="flex-1 flex flex-col space-y-10 p-5 z-10">
           {" "}
