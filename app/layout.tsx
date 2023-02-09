@@ -1,5 +1,5 @@
 import NavBar from "../components/NavBar/NavBar";
-import Avatar from "../components/NavBar/Avatar";
+
 import "./globals.css";
 
 export default async function RootLayout({

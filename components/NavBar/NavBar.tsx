@@ -4,15 +4,33 @@ import React, { useState } from "react";
 import NavBarList from "./NavBarList";
 import Modal from "../../app/Portal";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 type Props = {};
 
 function NavBar({}: Props) {
   const [open, setOpen] = useState(false);
   return (
-    <nav className="flex  fixed top-0  left-0 right-0  justify-left gap-2 md:justify-between max-w-full z-30 md:items-center mx-auto bg-zinc-50 shadow-xl flex-col  ">
+    <motion.nav
+      initial={{ opacity: 0 }}
+      animate={{ opacity: [0.1, 0.2, 0.4, 0.5, 0.7, 0.5, 0.8, 1] }}
+      transition={{ duration: 1.2, delayChildren: 0.5 }}
+      className="flex  fixed top-0  left-0 right-0  justify-left gap-2 md:justify-between max-w-full z-30 md:items-center mx-auto bg-zinc-50 shadow-xl flex-col  "
+    >
       <div className=" flex p-5 flex-col  gap-2  md:justify-between  max-w-7xl z-20 md:items-center mx-auto md:flex-row w-screen">
-        <div className=" flex items-center p-2">
+        <motion.div
+          initial={{ x: -200, opacity: 0 }}
+          animate={{ x: 0, opacity: [0.1, 0.2, 0.4, 0.5, 0.7, 0.5, 0.8, 1] }}
+          transition={{
+            when: "afterChildren",
+            duration: 1.5,
+            delay: 0.5,
+            ease: [0.17, 0.67, 0.83, 0.67],
+            bounce: 0.85,
+            velocity: 2,
+          }}
+          className=" flex items-center p-2"
+        >
           {" "}
           <svg
             onClick={() => {
@@ -29,22 +47,45 @@ function NavBar({}: Props) {
               className="hidden md:block w-12 h-12 rounded-full"
               src="/logo.jpg"
               alt="logo"
-              width={10}
-              height={10}
+              width={48}
+              height={48}
             />
             <h2 className="text-3xl sm:text-4xl uppercase align-middle tracking-widest	">
               Rad Possum
             </h2>
           </div>
-        </div>
+        </motion.div>
         {/* <div className="hidden md:flex flex-1 gap-8 items-center justify-between"> */}{" "}
-        <ul className="hidden md:flex space-x-4 text-xl  ">
+        <motion.ul
+          initial={{ y: -200, opacity: 0 }}
+          animate={{ y: 0, opacity: [0.1, 0.2, 0.4, 0.5, 0.7, 0.5, 0.8, 1] }}
+          transition={{
+            duration: 1.8,
+            delay: 0.5,
+            ease: [0.17, 0.67, 0.83, 0.67],
+            bounce: 0.85,
+            velocity: 2,
+          }}
+          className="hidden md:flex space-x-4 text-xl  "
+        >
           <NavBarList />
-        </ul>
-        <div className="hidden md:flex">
+        </motion.ul>
+        <motion.div
+          initial={{ x: 200, opacity: 0 }}
+          animate={{ x: 0, opacity: [0.1, 0.2, 0.4, 0.5, 0.7, 0.5, 0.8, 1] }}
+          transition={{
+            when: "afterChildren",
+            duration: 1.5,
+            delay: 0.5,
+            ease: [0.17, 0.67, 0.83, 0.67],
+            bounce: 0.85,
+            velocity: 2,
+          }}
+          className="hidden md:flex"
+        >
           {" "}
           <Avatar />
-        </div>
+        </motion.div>
         {/* </div> */}
         {/* Mobile Nav Bar */}
         {open ? (
@@ -58,7 +99,7 @@ function NavBar({}: Props) {
           </ul>
         ) : null}
       </div>
-    </nav>
+    </motion.nav>
   );
 }
 
