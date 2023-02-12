@@ -25,8 +25,8 @@ type Props = {};
 const fetchAboutMe = async function () {
   try {
     const res = await fetch(
-      `http://127.0.0.1:8090/api/collections/aboutme/records/`,
-      { cache: `no-store`, next: { revalidate: 10 } }
+      `${process.env.DB_URL}api/collections/aboutme/records/`,
+      { cache: `no-store`, next: { revalidate: 0 } }
     );
     const data = await res.json();
 
@@ -39,7 +39,7 @@ const fetchAboutMe = async function () {
 const fetchSocialMedia = async function () {
   try {
     const res = await fetch(
-      `http://127.0.0.1:8090/api/collections/social_media/records`
+      `${process.env.DB_URL}api/collections/social_media/records`
     );
     const data = await res.json();
     return data;

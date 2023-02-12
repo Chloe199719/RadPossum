@@ -4,7 +4,7 @@ import Faq from "./Faq";
 const fetchQA = async function () {
   try {
     const res = await fetch(
-      `http://127.0.0.1:8090/api/collections/questions/records/`,
+      `${process.env.DB_URL}api/collections/questions/records/`,
       {
         method: `get`,
       }

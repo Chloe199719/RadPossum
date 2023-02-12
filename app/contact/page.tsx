@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 interface formData {
@@ -18,7 +18,7 @@ type Props = {};
 
 function Page({}: Props) {
   const [error, setError] = useState(``);
-  const [sucess, setSucess] = useState(``);
+  const [success, setSuccess] = useState(``);
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, reset } = useForm<formData>();
   const onSubmit: SubmitHandler<formData> = function (data) {
