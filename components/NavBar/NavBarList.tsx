@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 type Props = {};
@@ -5,9 +6,13 @@ type Props = {};
 function NavBarList({}: Props) {
   return (
     <>
-      <li>RESORCES</li>
+      <li>
+        <Link href="#"> RESORCES</Link>
+      </li>
       <li>BOOKING</li>
-      <li>CONCTACT ME</li>
+      <li>
+        <Link href="/contact"> CONCTACT ME </Link>
+      </li>
       {/* <li>ABC</li> */}
     </>
   );
