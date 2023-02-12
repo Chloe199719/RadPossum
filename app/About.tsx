@@ -26,7 +26,7 @@ const fetchAboutMe = async function () {
   try {
     const res = await fetch(
       `${process.env.DB_URL}api/collections/aboutme/records/`,
-      { cache: `no-store`, next: { revalidate: 0 } }
+      { next: { revalidate: 0 } }
     );
     const data = await res.json();
 
