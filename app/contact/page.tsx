@@ -38,6 +38,7 @@ function Page({}: Props) {
         readSolved: false,
       });
       setSuccess(`Message Sent Expect a message in next 24Hours`);
+      reset();
     } catch (error: any) {
       console.log(error.data);
       setError(`There was a Error Sending Your message Try again`);
