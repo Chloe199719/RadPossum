@@ -1,6 +1,9 @@
 "use client";
+import pb from "@/lib/pocketbase";
+import { Spinner, Toast } from "flowbite-react";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import Alert from "./alert";
 
 interface formData {
   HeHim: Boolean;
@@ -21,9 +24,25 @@ function Page({}: Props) {
   const [success, setSuccess] = useState(``);
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, reset } = useForm<formData>();
-  const onSubmit: SubmitHandler<formData> = function (data) {
-    console.log(data);
-    console.log(checkPronouns(data));
+  const onSubmit: SubmitHandler<formData> = async function (data) {
+    setLoading(true);
+    setError(``);
+    setSuccess(``);
+    try {
+      const record = await pb.collection("messages").create({
+        name: data.name,
+        email: data.email,
+        discordID: data.discordID,
+        pronouns: checkPronouns(data),
+        message: data.message,
+        readSolved: false,
+      });
+      setSuccess(`Message Sent Expect a message in next 24Hours`);
+    } catch (error: any) {
+      console.log(error.data);
+      setError(`There was a Error Sending Your message Try again`);
+    }
+    setLoading(false);
   };
 
   const checkPronouns = function (data: formData) {
@@ -151,9 +170,17 @@ function Page({}: Props) {
             id="message"
             {...register("message")}
           />
-          <button className="w-full py-2 mt-3 px-10 bg-[#30bead] uppercase text-2xl rounded-lg">
-            Submit
+          <button
+            disabled={loading}
+            className="w-full py-2 mt-3 px-10 bg-[#30bead] uppercase text-2xl rounded-lg"
+          >
+            Submit{" "}
+            {loading ? <Spinner color="info" aria-label="Loading" /> : null}
           </button>
+          {error ? <Alert color="red" message={error} func={setError} /> : null}
+          {success ? (
+            <Alert color="green" message={success} func={setSuccess} />
+          ) : null}
         </form>
       </div>
     </main>

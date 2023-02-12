@@ -7,11 +7,11 @@ function NavBarList({}: Props) {
   return (
     <>
       <li>
-        <Link href="#"> RESORCES</Link>
+        <Link href="#"> RESOURCES</Link>
       </li>
       <li>BOOKING</li>
       <li>
-        <Link href="/contact"> CONCTACT ME </Link>
+        <Link href="/contact"> CONTACT ME </Link>
       </li>
       {/* <li>ABC</li> */}
     </>
