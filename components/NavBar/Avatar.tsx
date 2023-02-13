@@ -1,15 +1,19 @@
+"use client";
 import React from "react";
 
-import { Avatar as Pic } from "flowbite-react";
+import { Avatar as Pic, Button } from "flowbite-react";
 import { Dropdown } from "flowbite-react";
+import pb from "@/lib/pocketbase";
 
-type Props = {};
+type Props = {
+  data: any;
+};
 
-export default function Avatar({}: Props) {
+export default function Avatar({ data }: Props) {
   let user = true;
   return (
     <>
-      {user ? (
+      {/* {data ? (
         <Dropdown
           label={
             <Pic size="md" rounded={true} img="/chloe.png">
@@ -31,10 +35,35 @@ export default function Avatar({}: Props) {
           <Dropdown.Item>Settings</Dropdown.Item>
           <Dropdown.Item>Earnings</Dropdown.Item>
           <Dropdown.Divider />
-          <Dropdown.Item>Sign out</Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => {
+              pb.authStore.clear();
+            }}
+          >
+            Sign out
+          </Dropdown.Item>
         </Dropdown>
       ) : (
-        <button>Sign Up</button>
+        <Button.Group>
+          <Button className="focus:ring-0" color="gray">
+            Signup
+          </Button>
+          <Button className="focus:ring-0" color="gray">
+            Login
+          </Button>
+        </Button.Group>
+      )} */}
+      {data ? (
+        <div>{data.name}</div>
+      ) : (
+        <Button.Group>
+          <Button className="focus:ring-0" color="gray">
+            Signup
+          </Button>
+          <Button className="focus:ring-0" color="gray">
+            Login
+          </Button>
+        </Button.Group>
       )}
     </>
   );

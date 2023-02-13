@@ -7,17 +7,13 @@ import { useForm } from "react-hook-form";
 import Alert from "../contact/alert";
 
 interface formData {
-  userName: string;
-  displayName: string;
   email: string;
   password: string;
-  confirmPassword: string;
 }
 
 type Props = {};
 function Page({}: Props) {
   const [errorEmail, setErrorEmail] = useState(``);
-  const [errorUserName, setErrorUserName] = useState(``);
   const [passwordError, setPasswordError] = useState(``);
   const [error, setError] = useState(``);
   const [success, setSuccess] = useState(``);
@@ -33,70 +29,28 @@ function Page({}: Props) {
     setLoading(true);
     setErrorEmail(``);
     setError(``);
-    setErrorUserName(``);
+
     setPasswordError(``);
     setSuccess(``);
-    if (data.password !== data.confirmPassword) {
-      setPasswordError(`Passwords don't match`);
-      setLoading(false);
-      return;
-    }
     try {
-      const request = await pb.collection(`users`).create({
-        username: data.userName,
-        email: data.email,
-        password: data.password,
-        passwordConfirm: data.confirmPassword,
-        name: data.displayName,
-      });
-      setSuccess(`SuccessFully created your account`);
-      reset();
+      const request = await pb
+        .collection(`users`)
+        .authWithPassword(data.email, data.password);
+      console.log(pb.authStore);
     } catch (error: any) {
-      // console.log(error.data.data.email.message);
-      if (error.data.data.hasOwnProperty(`email`)) {
-        setErrorEmail(error.data.data.email.message);
-      }
-      if (error.data.data.hasOwnProperty(`username`)) {
-        setErrorUserName(error.data.data.username.message);
-      }
-      setError(`There was an Error Creating Your account`);
+      console.log(error.data);
     }
     setLoading(false);
   };
+  console.log(pb.authStore.model?.name);
   return (
     <section className="min-h-screen flex flex-col py-24  mx-auto items-center justify-center z-[5] snap-start md:snap-center bg-gradient-to-b from-[#30bead]/30 to-[#ff7e84]/40 ">
       <div className="font-mono max-w-6xl  flex flex-col items-center justify-center mx-auto  border-black rounded-xl p-12 bg-zinc-200 md:w-1/2 ">
-        <h2 className="text-6xl">Sign UP</h2>
+        <h2 className="text-6xl">Login</h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-2 md:w-full mx-auto w-full px-10 py-5"
         >
-          <div className="flex flex-col gap-2">
-            {" "}
-            <label htmlFor="username">
-              UserName<span className="text-red-600">*</span>{" "}
-              {errorUserName ? (
-                <span className="text-red-600">{errorUserName}</span>
-              ) : null}
-            </label>
-            <input
-              id="username"
-              type="text"
-              required
-              {...register("userName")}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="name">
-              DisplayName<span className="text-red-600">*</span>
-            </label>
-            <input
-              id="name"
-              type="text"
-              required
-              {...register("displayName")}
-            />{" "}
-          </div>{" "}
           <div className="flex flex-col gap-2">
             <label htmlFor="email">
               Email<span className="text-red-600">*</span>{" "}
@@ -118,22 +72,8 @@ function Page({}: Props) {
               type="password"
               required
               {...register(`password`)}
-            />{" "}
-          </div>{" "}
-          <div className="flex flex-col gap-2">
-            <label htmlFor="confirmPassword">
-              Confirm PassWord<span className="text-red-600">*</span>{" "}
-              {passwordError ? (
-                <span className="text-red-600">{passwordError}</span>
-              ) : null}
-            </label>
-            <input
-              id="confirmPassword"
-              type="password"
-              required
-              {...register(`confirmPassword`)}
-            />{" "}
-          </div>{" "}
+            />
+          </div>
           {error ? <Alert color="red" message={error} func={setError} /> : null}
           {success ? (
             <Alert color="green" message={success} func={setSuccess} />
@@ -142,14 +82,14 @@ function Page({}: Props) {
             disabled={loading}
             className="bg-[#30bead] mt-2 p-4 rounded-lg"
           >
-            Sign UP{" "}
+            Login{" "}
             {loading ? <Spinner color="info" aria-label="Loading" /> : null}
           </button>
         </form>
         <div className="flex flex-1 w-full px-10">
-          <Link className="w-full" href="/login">
+          <Link className="w-full" href="/signup">
             <button className="bg-[#30bead] mt-2 p-4 w-full  rounded-lg">
-              Already have Account? Login instead
+              Dont have an account already? Signup Instead!
             </button>
           </Link>
         </div>

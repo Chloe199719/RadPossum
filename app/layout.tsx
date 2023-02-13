@@ -1,3 +1,4 @@
+import pb from "@/lib/pocketbase";
 import NavBar from "../components/NavBar/NavBar";
 
 import "./globals.css";
