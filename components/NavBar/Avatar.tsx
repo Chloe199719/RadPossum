@@ -6,6 +6,7 @@ import { Dropdown } from "flowbite-react";
 import pb from "@/lib/pocketbase";
 import { create } from "zustand";
 import { useStore } from "../useStore";
+import Link from "next/link";
 
 type Props = {};
 
@@ -26,7 +27,7 @@ export default function Avatar({}: Props) {
           label={
             <Pic size="md" rounded={true} img="/chloe.png">
               <div className="space-y-1 font-medium dark:text-white">
-                <div>Chloe Pratas </div>
+                <div>{data.name} </div>
               </div>
             </Pic>
           }
@@ -34,9 +35,9 @@ export default function Avatar({}: Props) {
           inline={true}
         >
           <Dropdown.Header>
-            <span className="block text-sm">Chloe Pratas</span>
+            <span className="block text-sm">{data.name}</span>
             <span className="block truncate text-sm font-medium">
-              chloe@chloevision.com
+              {data.email}
             </span>
           </Dropdown.Header>
           <Dropdown.Item>Dashboard</Dropdown.Item>
@@ -55,10 +56,15 @@ export default function Avatar({}: Props) {
       ) : (
         <Button.Group>
           <Button className="focus:ring-0" color="gray">
-            Signup
+            <Link className="w-full h-full" href="/signup">
+              {" "}
+              Signup
+            </Link>
           </Button>
           <Button className="focus:ring-0" color="gray">
-            Login
+            <Link className="w-full h-full" href="/login">
+              Login
+            </Link>
           </Button>
         </Button.Group>
       )}
