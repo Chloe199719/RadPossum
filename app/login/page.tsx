@@ -1,4 +1,5 @@
 "use client";
+import { useStore } from "@/components/useStore";
 import pb from "@/lib/pocketbase";
 import { Spinner } from "flowbite-react";
 import Link from "next/link";
@@ -14,6 +15,7 @@ interface formData {
 type Props = {};
 function Page({}: Props) {
   const [errorEmail, setErrorEmail] = useState(``);
+  const { count } = useStore();
   const [passwordError, setPasswordError] = useState(``);
   const [error, setError] = useState(``);
   const [success, setSuccess] = useState(``);
@@ -37,6 +39,7 @@ function Page({}: Props) {
         .collection(`users`)
         .authWithPassword(data.email, data.password);
       console.log(pb.authStore);
+      useStore.setState({ count: Math.random() });
     } catch (error: any) {
       console.log(error.data);
     }

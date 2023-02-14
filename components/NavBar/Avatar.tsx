@@ -1,24 +1,32 @@
 "use client";
-import React from "react";
+import React, { use, useEffect, useState } from "react";
 
 import { Avatar as Pic, Button } from "flowbite-react";
 import { Dropdown } from "flowbite-react";
 import pb from "@/lib/pocketbase";
+import { create } from "zustand";
+import { useStore } from "../useStore";
 
-type Props = {
-  data: any;
-};
+type Props = {};
 
-export default function Avatar({ data }: Props) {
+export default function Avatar({}: Props) {
+  // const [dummy, setDummy] = useState(1);
   let user = true;
+  const data = pb.authStore.model;
+  // const useStore = create((set) => ({
+  //   count: 1,
+  // }));
+  // const { count } = useStore();
+  const { count } = useStore();
+  // const dummy = useStore((state) => state.dummy);
   return (
     <>
-      {/* {data ? (
+      {data ? (
         <Dropdown
           label={
             <Pic size="md" rounded={true} img="/chloe.png">
               <div className="space-y-1 font-medium dark:text-white">
-                <div>Chloe Pratas</div>
+                <div>Chloe Pratas </div>
               </div>
             </Pic>
           }
@@ -38,6 +46,7 @@ export default function Avatar({ data }: Props) {
           <Dropdown.Item
             onClick={() => {
               pb.authStore.clear();
+              useStore.setState({ count: Math.random() });
             }}
           >
             Sign out
@@ -52,8 +61,8 @@ export default function Avatar({ data }: Props) {
             Login
           </Button>
         </Button.Group>
-      )} */}
-      {data ? (
+      )}
+      {/* {data ? (
         <div>{data.name}</div>
       ) : (
         <Button.Group>
@@ -64,7 +73,7 @@ export default function Avatar({ data }: Props) {
             Login
           </Button>
         </Button.Group>
-      )}
+      )} */}
     </>
   );
 }

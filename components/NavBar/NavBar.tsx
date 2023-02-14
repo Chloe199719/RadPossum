@@ -1,16 +1,17 @@
 "use client";
-import Avatar from "./Avatar";
+// import Avatar from "./Avatar";
 import React, { useState } from "react";
 import NavBarList from "./NavBarList";
 import Modal from "../../app/Portal";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import pb from "@/lib/pocketbase";
+import dynamic from "next/dynamic";
+const Avatar = dynamic(() => import(`./Avatar`), { ssr: false });
 
 type Props = {};
 
 function NavBar({}: Props) {
-  const store = pb.authStore.model;
   const [open, setOpen] = useState(false);
   return (
     <motion.nav
@@ -86,7 +87,7 @@ function NavBar({}: Props) {
           className="hidden md:flex"
         >
           {" "}
-          <Avatar data={store} />
+          <Avatar />
         </motion.div>
         {/* </div> */}
         {/* Mobile Nav Bar */}
@@ -95,7 +96,7 @@ function NavBar({}: Props) {
             <hr className=" border-t-2 border-black " />
             <NavBarList />
             <hr className=" border-t-2 border-black " />
-            <Avatar data={store} />
+            <Avatar />
             {/* <div className=" absolute inset-0 z-10 bg-black "></div> */}
             {open ? <Modal fun={setOpen} /> : null}
           </ul>

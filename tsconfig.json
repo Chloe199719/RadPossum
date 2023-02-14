@@ -29,7 +29,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/Portal.tsx"
+    "app/Portal.tsx",
+    "components/NavBar/Context.js"
   ],
   "exclude": ["node_modules", "db"]
 }
