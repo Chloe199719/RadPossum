@@ -6,6 +6,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Alert from "../contact/alert";
+import { useRouter } from "next/navigation";
 
 interface formData {
   email: string;
@@ -15,6 +16,7 @@ interface formData {
 type Props = {};
 function Page({}: Props) {
   const [errorEmail, setErrorEmail] = useState(``);
+  const router = useRouter();
   const { count } = useStore();
   const [passwordError, setPasswordError] = useState(``);
   const [error, setError] = useState(``);
@@ -38,10 +40,11 @@ function Page({}: Props) {
       const request = await pb
         .collection(`users`)
         .authWithPassword(data.email, data.password);
-      console.log(pb.authStore);
+
       useStore.setState({ count: Math.random() });
+      router.push(`/`);
     } catch (error: any) {
-      console.log(error.data);
+      setError(`Wrong Password Or Email`);
     }
     setLoading(false);
   };

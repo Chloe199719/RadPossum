@@ -4,7 +4,7 @@ import { Spinner, Toast } from "flowbite-react";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Alert from "./alert";
-
+// Type For form data
 interface formData {
   HeHim: Boolean;
   SheHer: boolean;
@@ -18,12 +18,16 @@ interface formData {
 }
 
 type Props = {};
-
+{
+  /* TODO ADDED USER INPUT ERROR */
+}
 function Page({}: Props) {
   const [error, setError] = useState(``);
   const [success, setSuccess] = useState(``);
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, reset } = useForm<formData>();
+
+  // Submits Data to the Server
   const onSubmit: SubmitHandler<formData> = async function (data) {
     setLoading(true);
     setError(``);
@@ -46,6 +50,7 @@ function Page({}: Props) {
     setLoading(false);
   };
 
+  // Checks Pronouns selected and makes a String
   const checkPronouns = function (data: formData) {
     let pronouns = "";
     if (data.SheHer) {

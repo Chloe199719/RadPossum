@@ -4,22 +4,16 @@ import React, { use, useEffect, useState } from "react";
 import { Avatar as Pic, Button } from "flowbite-react";
 import { Dropdown } from "flowbite-react";
 import pb from "@/lib/pocketbase";
-import { create } from "zustand";
 import { useStore } from "../useStore";
 import Link from "next/link";
 
 type Props = {};
 
 export default function Avatar({}: Props) {
-  // const [dummy, setDummy] = useState(1);
-  let user = true;
   const data = pb.authStore.model;
-  // const useStore = create((set) => ({
-  //   count: 1,
-  // }));
-  // const { count } = useStore();
+
   const { count } = useStore();
-  // const dummy = useStore((state) => state.dummy);
+
   return (
     <>
       {data ? (
