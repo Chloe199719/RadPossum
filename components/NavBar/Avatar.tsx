@@ -6,12 +6,13 @@ import { Dropdown } from "flowbite-react";
 import pb from "@/lib/pocketbase";
 import { useStore } from "../useStore";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 export default function Avatar({}: Props) {
   const data = pb.authStore.model;
-
+  const router = useRouter();
   const { count } = useStore();
 
   return (
@@ -42,6 +43,7 @@ export default function Avatar({}: Props) {
             onClick={() => {
               pb.authStore.clear();
               useStore.setState({ count: Math.random() });
+              router.push(`/`);
             }}
           >
             Sign out

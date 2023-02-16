@@ -1,3 +1,4 @@
+import QueryWrapper from "@/components/QueryWrapper";
 import pb from "@/lib/pocketbase";
 import NavBar from "../components/NavBar/NavBar";
 
@@ -16,9 +17,12 @@ export default async function RootLayout({
       */}
       <head />
       <body className=" bg-slate-50 		 ">
-        <NavBar />
-        {children}
-        <div id="modal"></div>
+        <QueryWrapper>
+          {" "}
+          <NavBar />
+          {children}
+          <div id="modal"></div>
+        </QueryWrapper>
       </body>
     </html>
   );

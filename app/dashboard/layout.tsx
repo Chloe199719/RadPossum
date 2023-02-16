@@ -11,6 +11,9 @@ export default function DashboardLayout({
             <nav>
               <ul className="text-2xl flex flex-col gap-1">
                 <li className="border border-black py-2 px-10 rounded-lg">
+                  DashBoard
+                </li>
+                <li className="border border-black py-2 px-10 rounded-lg">
                   Settings
                 </li>
                 <li className="border border-black py-2 px-10 rounded-lg">
