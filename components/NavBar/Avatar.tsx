@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React from "react";
 
 import { Avatar as Pic, Button } from "flowbite-react";
 import { Dropdown } from "flowbite-react";
@@ -35,9 +35,15 @@ export default function Avatar({}: Props) {
               {data.email}
             </span>
           </Dropdown.Header>
-          <Dropdown.Item>Dashboard</Dropdown.Item>
+          <Link href="/dashboard">
+            {" "}
+            <Dropdown.Item>Dashboard</Dropdown.Item>
+          </Link>
           <Dropdown.Item>Settings</Dropdown.Item>
-          <Dropdown.Item>Earnings</Dropdown.Item>
+          <Link href="/dashboard/lessons">
+            {" "}
+            <Dropdown.Item>Lessons</Dropdown.Item>{" "}
+          </Link>
           <Dropdown.Divider />
           <Dropdown.Item
             onClick={() => {

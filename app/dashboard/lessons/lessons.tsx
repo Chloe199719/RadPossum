@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 import React from "react";
-import Lesson from "./Lesson";
+import Lesson from "../Lesson";
 type Props = {};
 function Dashboard({}: Props) {
   const userInfo = pb.authStore.model;
@@ -13,7 +13,7 @@ function Dashboard({}: Props) {
   const lessonQuery = useQuery({
     queryKey: [`lessons`],
     queryFn: () =>
-      pb.collection(`lessons`).getList(1, 1, {
+      pb.collection(`lessons`).getList(1, 50, {
         sort: `-date`,
         $autoCancel: false,
       }),
@@ -24,15 +24,21 @@ function Dashboard({}: Props) {
       return <p className=" text-center">No Lesson Taken yet </p>;
     if (lessonQuery.data?.totalItems === 0)
       return <p className=" text-center">No Lesson Taken yet </p>;
-    return <Lesson lessonData={lessonQuery.data?.items[0]} />;
+    return (
+      <>
+        {lessonQuery.data.items.map((data) => {
+          return <Lesson key={data.id} lessonData={data} />;
+        })}
+      </>
+    );
   };
   return (
     <div className="flex flex-col justify-center items-center gap-6 flex-1 px-10">
       <div className="  flex justify-center">
-        <h2 className="text-5xl">Dashboard {userInfo?.name}</h2>
+        <h2 className="text-5xl">{userInfo?.name} Lessons</h2>
       </div>
-      <div className="flex flex-col items-center justify-center gap-6 w-full">
-        <h3 className=" text-3xl">Your Last Lesson was:</h3>
+      <div className="flex flex-col items-center justify-center gap-4 w-full">
+        <h3 className=" text-3xl">Lessons History</h3>
 
         <Test />
 

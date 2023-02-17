@@ -48,7 +48,7 @@ function Page({}: Props) {
     }
     setLoading(false);
   };
-  console.log(pb.authStore.model?.name);
+
   return (
     <section className="min-h-screen flex flex-col py-24  mx-auto items-center justify-center z-[5] snap-start md:snap-center bg-gradient-to-b from-[#30bead]/30 to-[#ff7e84]/40 ">
       <div className="font-mono max-w-6xl  flex flex-col items-center justify-center mx-auto  border-black rounded-xl p-12 bg-zinc-200 md:w-1/2 ">
