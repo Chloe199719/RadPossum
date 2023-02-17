@@ -13,18 +13,18 @@ export default function DashboardLayout({
             <nav>
               <ul className="text-2xl flex flex-col gap-1">
                 <Link href={"/dashboard"}>
-                  <li className="border border-black py-2 px-10 rounded-lg">
+                  <li className="border border-sky-300 py-2 px-10 rounded-lg hover:bg-sky-600">
                     DashBoard
                   </li>
                 </Link>
                 <Link href={"/dashboard/settings"}>
-                  <li className="border border-black py-2 px-10 rounded-lg">
+                  <li className="border border-sky-300 py-2 px-10 rounded-lg  hover:bg-sky-600">
                     Settings
                   </li>
                 </Link>
                 <Link href={"/dashboard/lessons"}>
                   {" "}
-                  <li className="border border-black py-2 px-10 rounded-lg">
+                  <li className="border border-sky-300 py-2 px-10 rounded-lg  hover:bg-sky-600">
                     Lessons
                   </li>
                 </Link>

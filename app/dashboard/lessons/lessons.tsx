@@ -13,7 +13,7 @@ function Dashboard({}: Props) {
   const lessonQuery = useQuery({
     queryKey: [`lessons`],
     queryFn: () =>
-      pb.collection(`lessons`).getList(1, 50, {
+      pb.collection(`lessons`).getList(1, 250, {
         sort: `-date`,
         $autoCancel: false,
       }),
@@ -37,7 +37,7 @@ function Dashboard({}: Props) {
       <div className="  flex justify-center">
         <h2 className="text-5xl">{userInfo?.name} Lessons</h2>
       </div>
-      <div className="flex flex-col items-center justify-center gap-4 w-full">
+      <div className="flex flex-col items-center justify-center gap-4 w-full overflow-y-auto ">
         <h3 className=" text-3xl">Lessons History</h3>
 
         <Test />

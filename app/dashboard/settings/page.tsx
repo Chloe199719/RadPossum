@@ -1,14 +1,9 @@
+import dynamic from "next/dynamic";
 import React from "react";
+const Settings = dynamic(() => import(`./settings`), { ssr: false });
 type Props = {};
 
 function page({}: Props) {
-  return (
-    <>
-      <div className="col-span-2  flex justify-center">
-        <h2 className="text-5xl">Test Tittle Settings</h2>
-      </div>
-      <div className="row-span-2 col-span-2 flex justify-center">03</div>
-    </>
-  );
+  return <Settings />;
 }
 export default page;

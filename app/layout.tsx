@@ -1,6 +1,7 @@
 import QueryWrapper from "@/components/QueryWrapper";
 import pb from "@/lib/pocketbase";
 import NavBar from "../components/NavBar/NavBar";
+import { Toaster } from "react-hot-toast";
 
 import "./globals.css";
 
