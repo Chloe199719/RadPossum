@@ -33,10 +33,10 @@ async function Page({ params }: Props) {
     <div className="flex flex-col justify-center items-center gap-6 flex-1 px-10">
       Page SLUG
       <div>
-        {data.body.map((e: any, i: string) => {
+        {data.body?.map((e: any, i: string) => {
           return <p dangerouslySetInnerHTML={{ __html: e }} key={i}></p>;
         })}
-        {data.expand?.urls.map((e: any) => {
+        {data?.expand?.urls.map((e: any) => {
           return (
             <a className="text-red-800" key={e.id} href={e.url}>
               {e.link_Description}

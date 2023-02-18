@@ -23,7 +23,7 @@ function Search({ data }: Props) {
   };
 
   return (
-    <nav className="flex flex-col  border border-black rounded-xl px-3 py-3 gap-2 ">
+    <nav className="flex flex-col  border border-black rounded-xl px-3 py-3 gap-2 w-1/4 ">
       <input
         value={query}
         onChange={(e) => {
@@ -36,17 +36,8 @@ function Search({ data }: Props) {
         {search(data.items).map((e: any) => {
           return (
             <Link key={e.id} href={`/resources/${e.id}`}>
-              <li className=" py-2 px-10 rounded-lg hover:bg-sky-600">
-                {e.title}
-              </li>
-            </Link>
-          );
-        })}
-        {search(data.items).map((e: any) => {
-          return (
-            <Link key={e.id} href={`/resources/${e.id}`}>
-              <li className=" py-2 px-10 rounded-lg hover:bg-sky-600">
-                {e.title}
+              <li className=" py-2 px-1 rounded-lg hover:bg-sky-600">
+                <p className="truncate"> {e.title}</p>
               </li>
             </Link>
           );
