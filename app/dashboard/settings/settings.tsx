@@ -1,10 +1,12 @@
 "use client";
+import { useStore } from "@/components/useStore";
 import pb from "@/lib/pocketbase";
 import ChangeDisplayName from "./ChangeDisplayName";
 import ChangePassword from "./ChangePassword";
 
 type Props = {};
 function Settings({}: Props) {
+  const { count } = useStore();
   const userInfo = pb.authStore.model;
   return (
     <div className="flex flex-col justify-center items-center gap-6 flex-1 px-10">

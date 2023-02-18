@@ -26,7 +26,7 @@ const fetchAboutMe = async function () {
   try {
     const res = await fetch(
       `${process.env.DB_URL}api/collections/aboutme/records/`,
-      { next: { revalidate: 0 } }
+      { next: { revalidate: 100 } }
     );
     const data = await res.json();
 
@@ -39,7 +39,8 @@ const fetchAboutMe = async function () {
 const fetchSocialMedia = async function () {
   try {
     const res = await fetch(
-      `${process.env.DB_URL}api/collections/social_media/records`
+      `${process.env.DB_URL}api/collections/social_media/records`,
+      { next: { revalidate: 100 } }
     );
     const data = await res.json();
     return data;

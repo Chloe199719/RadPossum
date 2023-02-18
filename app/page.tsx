@@ -7,6 +7,7 @@ const fetchQA = async function () {
       `${process.env.DB_URL}api/collections/questions/records/`,
       {
         method: `get`,
+        next: { revalidate: 100 },
       }
     );
     if (!res.ok) {

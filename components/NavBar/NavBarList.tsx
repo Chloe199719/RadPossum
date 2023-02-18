@@ -6,13 +6,14 @@ type Props = {};
 function NavBarList({}: Props) {
   return (
     <>
-      <li>
-        <Link href="#"> RESOURCES</Link>
-      </li>
-      <li>BOOKING</li>
-      <li>
-        <Link href="/contact"> CONTACT ME </Link>
-      </li>
+      <Link href="#">
+        {" "}
+        <li>RESOURCES</li>
+      </Link>
+      <Link href="/contact">
+        {" "}
+        <li>CONTACT ME</li>
+      </Link>
       {/* <li>ABC</li> */}
     </>
   );
