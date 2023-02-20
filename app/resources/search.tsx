@@ -32,7 +32,7 @@ function Search({ data }: Props) {
         placeholder="search"
         className="px-2 py-1 rounded-md"
       />
-      <ul className="text-xl flex flex-col gap-1 overflow-y-scroll h-[500px] ">
+      <ul className="text-xl flex flex-col gap-1 overflow-y-scroll max-h-[500px] ">
         {search(data.items).map((e: any) => {
           return (
             <Link key={e.id} href={`/resources/${e.id}`}>

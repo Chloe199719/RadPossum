@@ -95,7 +95,7 @@ function Page({}: Props) {
         <div className="flex flex-1 w-full px-10">
           <Link className="w-full" href="/signup">
             <button className="bg-[#30bead] mt-2 p-4 w-full  rounded-lg">
-              Dont have an account already? Signup Instead!
+              Don`t have an account already? Signup Instead!
             </button>
           </Link>
         </div>

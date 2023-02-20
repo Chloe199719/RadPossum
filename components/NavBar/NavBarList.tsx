@@ -6,7 +6,7 @@ type Props = {};
 function NavBarList({}: Props) {
   return (
     <>
-      <Link href="#">
+      <Link href="/resources">
         {" "}
         <li>RESOURCES</li>
       </Link>

@@ -1,5 +1,5 @@
-import pb from "@/lib/pocketbase";
-import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import Link from "next/link";
 
 type Props = {
   params: {
@@ -10,9 +10,9 @@ type Props = {
 const fetchPost = async (id: string) => {
   try {
     const res = await fetch(
-      `${process.env.DB_URL}api/collections/resources/records/${id}?expand=urls,audio`,
+      `${process.env.DB_URL}api/collections/resources/records/${id}?expand=urls,audio,images`,
       {
-        next: { revalidate: 100 },
+        next: { revalidate: parseInt(process.env.REVALIDATE!) },
       }
     );
     if (!res.ok) {
@@ -25,30 +25,49 @@ const fetchPost = async (id: string) => {
     console.log(e, "Error");
   }
 };
-
+[
+  `this is a great exercise for maintaining vocal fold closure while also breaking into higher pitches and maintaining stabilized vocal folds here's a clip of me doing the whimpers and progressively using lower airflow to get even lower on vocal weight`,
+];
 async function Page({ params }: Props) {
   const data = await fetchPost(params.id);
-
   return (
     <div className="flex flex-col justify-center items-center gap-6 flex-1 px-10">
-      Page SLUG
-      <div>
-        {data.body?.map((e: any, i: string) => {
-          return <p dangerouslySetInnerHTML={{ __html: e }} key={i}></p>;
-        })}
-        {data?.expand?.urls.map((e: any) => {
+      <h2 className=" text-4xl">{data?.title}</h2>
+      <div className="flex flex-col gap-4">
+        {data.body?.map((e: string, i: string) => {
           return (
-            <a className="text-red-800" key={e.id} href={e.url}>
-              {e.link_Description}
-            </a>
+            <p className=" text-lg tracking-wide" key={i}>
+              {e}
+            </p>
           );
         })}
-        {data.expand?.audio.map((e: any) => {
+        {data?.expand?.urls?.map((e: any) => {
           return (
-            <audio controls key={e.id}>
-              <source src={e.soundurl} type="audio/mpeg" />
-              Your browser does not support the audio element.
-            </audio>
+            <Link className="text-red-800" key={e.id} href={e.url}>
+              {e.link_Description}
+            </Link>
+          );
+        })}
+        {data.expand?.audio?.map((e: any) => {
+          return (
+            <figure className="flex flex-col gap-1" key={e.id}>
+              <figcaption>{e.title}</figcaption>
+              <audio controls>
+                <source src={e.soundurl} type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
+            </figure>
+          );
+        })}
+        {data.expand?.images?.map((e: any) => {
+          return (
+            <Image
+              key={e.id}
+              src={e.image_url}
+              alt={e.alt_text}
+              width={500}
+              height={500}
+            />
           );
         })}
       </div>
