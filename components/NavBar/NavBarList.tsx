@@ -10,6 +10,10 @@ function NavBarList({}: Props) {
         {" "}
         <li>RESOURCES</li>
       </Link>
+      <Link href="/booking">
+        {" "}
+        <li className="text-red-800 uppercase">Booking</li>
+      </Link>
       <Link href="/contact">
         {" "}
         <li>CONTACT ME</li>

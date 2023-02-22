@@ -3,6 +3,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import React from "react";
 import { useRouter } from "next/navigation";
 import pb from "@/lib/pocketbase";
+import dynamic from "next/dynamic";
+const CheckoutBtn = dynamic(() => import(`./CheckoutBtn`), { ssr: false });
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -27,7 +29,7 @@ function Page({}: Props) {
     <main className="min-h-screen  flex flex-col py-24  mx-auto items-center justify-center z-[5] snap-start md:snap-center bg-gradient-to-b from-[#30bead]/30 to-[#ff7e84]/40">
       <div className="font-mono max-w-7xl gap-8 flex flex-col items-center justify-center mx-auto  border-black rounded-xl p-12 bg-zinc-200 w-screen">
         <div className="flex gap-4 w-full ">
-          <button onClick={onClick}>TEST</button>
+          <CheckoutBtn />
         </div>
       </div>
     </main>
