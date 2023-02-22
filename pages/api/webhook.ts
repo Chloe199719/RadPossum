@@ -16,7 +16,6 @@ export default async function handler(
 ) {
   const buf = await buffer(req);
   const sig = req.headers["stripe-signature"];
-  console.log(buf);
   let event;
   try {
     event = stripe.webhooks.constructEvent(buf, sig, endpointSecret);
@@ -25,12 +24,17 @@ export default async function handler(
   }
   if (event.type === "checkout.session.completed") {
     try {
-      await pb.collection(`codes`).create({
-        code: event.id,
-        used: false,
-        userID: event.data.object.metadata.client,
-      });
-    } catch (error) {}
+      await pb.collection(`codes`).create(
+        {
+          code: event.id,
+          used: false,
+          userID: event.data.object.metadata.client,
+        },
+        { APIKEY: "412312312" }
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
   res.status(200).end();
 }
