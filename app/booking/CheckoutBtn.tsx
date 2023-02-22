@@ -6,7 +6,10 @@ function CheckoutBtn({}: Props) {
     try {
       const test = await fetch("/api/checkout_sessions", {
         method: `POST`,
-        body: JSON.stringify({ clientID: pb.authStore.model?.id }),
+        body: JSON.stringify({
+          clientID: pb.authStore.model?.id,
+          clientEmail: pb.authStore.model?.email,
+        }),
       });
       const data = await test.json();
       window.location = data.url;

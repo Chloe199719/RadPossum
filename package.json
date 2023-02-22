@@ -25,7 +25,9 @@
     "micro": "^10.0.1",
     "next": "^13.1.6",
     "nextjs-cors": "^2.1.2",
+    "nodemailer": "^6.9.1",
     "pocketbase": "^0.10.1",
+    "random-hash": "^4.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.1",
@@ -37,6 +39,7 @@
     "zustand": "^4.3.3"
   },
   "devDependencies": {
+    "@types/nodemailer": "^6.4.7",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4"

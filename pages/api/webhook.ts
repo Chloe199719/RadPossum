@@ -1,12 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+
+/* @ts-expect-error */
+import { RandomHash } from "random-hash";
 import { buffer } from "micro";
 import pb from "@/lib/pocketbase";
+import { transporter } from "@/pages/api/nodemailer";
+import { randomBytes } from "crypto";
 export const config = {
   api: {
     bodyParser: false,
   },
 };
-
+const Hash = new RandomHash({
+  length: 30,
+  charset: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_",
+  rng: randomBytes,
+});
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const endpointSecret = process.env.STRIPE_WEBHOOK;
@@ -25,15 +34,24 @@ export default async function handler(
   }
   //   Sucesss Create a Lesson code on the DB
   if (event.type === "checkout.session.completed") {
+    const newHash = Hash();
     try {
       await pb.collection(`codes`).create(
         {
-          code: event.id,
+          code: newHash,
+          transactionID: event.id,
           used: false,
           userID: event.data.object.metadata.client,
         },
         { APIKEY: "412312312" } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
       );
+      await transporter.sendMail({
+        from: process.env.SMTP_USER,
+        to: event.data.object.customer_details.email,
+        subject: "Test Message",
+        text: `Your code is ${newHash}`,
+        html: `<p>Your code is ${newHash}</p>`,
+      });
     } catch (error) {
       console.log(error);
     }
