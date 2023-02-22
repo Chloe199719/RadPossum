@@ -8,13 +8,12 @@ export const config = {
 };
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const bodyParser = require("body-parser");
+
 const endpointSecret = process.env.STRIPE_WEBHOOK;
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const payload = req.body;
   const buf = await buffer(req);
   const sig = req.headers["stripe-signature"];
   console.log(buf);
