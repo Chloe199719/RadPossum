@@ -25,6 +25,11 @@ function Page({}: Props) {
     console.log(`done`);
   };
 
+  const daysDate = function () {
+    const curDate = new Date();
+    curDate.setDate(curDate.getDate() + 3);
+    return curDate;
+  };
   const fetch = async function (e: Date) {
     setAvailableHours([]);
     setSelectedHour(``);
@@ -47,7 +52,15 @@ function Page({}: Props) {
       <div className="font-mono max-w-7xl gap-8 flex flex-col items-center justify-center mx-auto  border-black rounded-xl p-12 bg-zinc-200 w-screen">
         <div className="flex gap-4 w-full ">
           <CheckoutBtn date={data} selHour={selectedHour} />
-          <Calendar onChange={setDate} value={data} onClickDay={fetch} />
+          <Calendar
+            onChange={setDate}
+            value={data}
+            onClickDay={fetch}
+            minDate={daysDate()}
+            tileDisabled={({ activeStartDate, date, view }) =>
+              date.getDay() === 0
+            }
+          />
           <div className="flex flex-col">
             {availableHours?.length !== 0 ? (
               availableHours?.map((e, i) => {
@@ -71,6 +84,11 @@ function Page({}: Props) {
               {`${data.getFullYear()}-${
                 data.getMonth() + 1
               }-${data.getDate()} at ${selectedHour}`}{" "}
+              {data.getDay() === 6 ? (
+                <span>70$ for this lesson</span>
+              ) : (
+                <span>50$ for this lesson</span>
+              )}
             </p>
           ) : null}
         </div>
