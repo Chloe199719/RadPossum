@@ -1,7 +1,10 @@
 import pb from "@/lib/pocketbase";
 
-type Props = {};
-function CheckoutBtn({}: Props) {
+type Props = {
+  date: Date;
+  selHour: string;
+};
+function CheckoutBtn({ date, selHour }: Props) {
   const onClick = async function () {
     try {
       const test = await fetch("/api/checkout_sessions", {
@@ -9,6 +12,10 @@ function CheckoutBtn({}: Props) {
         body: JSON.stringify({
           clientID: pb.authStore.model?.id,
           clientEmail: pb.authStore.model?.email,
+          bookedDate: `${date.getFullYear()}-${
+            date.getMonth() + 1
+          }-${date.getDate()}`,
+          bookedHour: selHour,
         }),
       });
       const data = await test.json();
@@ -22,10 +29,11 @@ function CheckoutBtn({}: Props) {
       {" "}
       {pb.authStore.isValid ? (
         <button
-          className="py-4 px-10 rounded-xl bg-slate-400"
+          disabled={selHour === ""}
+          className="py-4 px-10 rounded-xl bg-slate-400 disabled:bg-red-200"
           onClick={onClick}
         >
-          TEST
+          TEST {date.getDate()}
         </button>
       ) : (
         <p className="text-red-400">Login</p>

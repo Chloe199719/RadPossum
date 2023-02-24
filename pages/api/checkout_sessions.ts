@@ -18,7 +18,12 @@ export default async function handler(req: any, res: any) {
         mode: "payment",
         success_url: `${req.headers.origin}/?success=true`,
         cancel_url: `${req.headers.origin}/?canceled=true`,
-        metadata: { client: test.clientID, email: test.clientEmail },
+        metadata: {
+          client: test.clientID,
+          email: test.clientEmail,
+          date: test.bookedDate,
+          hour: test.bookedHour,
+        },
       });
       res.json({ url: session.url });
     } catch (err: any) {

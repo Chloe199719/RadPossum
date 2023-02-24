@@ -1,6 +1,6 @@
 "use client";
 import { loadStripe } from "@stripe/stripe-js";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import pb from "@/lib/pocketbase";
 import dynamic from "next/dynamic";
@@ -17,7 +17,6 @@ function Page({}: Props) {
   const [availableHours, setAvailableHours] = useState<string[]>();
   const [selectedHour, setSelectedHour] = useState(``);
   const [data, setDate] = useState(new Date());
-
   const Submit = async function () {
     await pb.collection("booking").create({
       date: `${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}`,
@@ -26,16 +25,13 @@ function Page({}: Props) {
     console.log(`done`);
   };
 
-  const fetch = async function () {
+  const fetch = async function (e: Date) {
     setAvailableHours([]);
     setSelectedHour(``);
     try {
       const date = await pb.collection(`booking`).getList(1, 20, {
-        filter: `date= "${data.getFullYear()}-${
-          data.getMonth() + 1
-        }-${data.getDate()}"`,
+        filter: `date= "${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}"`,
       });
-      console.log(date);
       const hoursav = hours.filter((hour) => {
         return !date.items.some((e) => {
           return e.hour.includes(hour);
@@ -50,21 +46,25 @@ function Page({}: Props) {
     <main className="min-h-screen  flex flex-col py-24  mx-auto items-center justify-center z-[5] snap-start md:snap-center bg-gradient-to-b from-[#30bead]/30 to-[#ff7e84]/40">
       <div className="font-mono max-w-7xl gap-8 flex flex-col items-center justify-center mx-auto  border-black rounded-xl p-12 bg-zinc-200 w-screen">
         <div className="flex gap-4 w-full ">
-          <CheckoutBtn />
+          <CheckoutBtn date={data} selHour={selectedHour} />
           <Calendar onChange={setDate} value={data} onClickDay={fetch} />
           <div className="flex flex-col">
-            {availableHours?.map((e, i) => {
-              return (
-                <button
-                  onClick={() => {
-                    setSelectedHour(e);
-                  }}
-                  key={i}
-                >
-                  {e}
-                </button>
-              );
-            })}
+            {availableHours?.length !== 0 ? (
+              availableHours?.map((e, i) => {
+                return (
+                  <button
+                    onClick={() => {
+                      setSelectedHour(e);
+                    }}
+                    key={i}
+                  >
+                    {e}
+                  </button>
+                );
+              })
+            ) : (
+              <p>No Avaiable dates in this day</p>
+            )}
           </div>
           {selectedHour ? (
             <p>
@@ -73,8 +73,6 @@ function Page({}: Props) {
               }-${data.getDate()} at ${selectedHour}`}{" "}
             </p>
           ) : null}
-          <button onClick={Submit}>Test Book</button>
-          <button onClick={fetch}>Test Fetch</button>
         </div>
       </div>
     </main>
