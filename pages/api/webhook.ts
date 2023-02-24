@@ -1,21 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-/* @ts-expect-error */
-import { RandomHash } from "random-hash";
 import { buffer } from "micro";
 import pb from "@/lib/pocketbase";
 import { transporter } from "@/pages/api/nodemailer";
-import { randomBytes } from "crypto";
+import Hash from "@/lib/hashgenerator";
+
 export const config = {
   api: {
     bodyParser: false,
   },
 };
-const Hash = new RandomHash({
-  length: 30,
-  charset: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_",
-  rng: randomBytes,
-});
+
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const endpointSecret = process.env.STRIPE_WEBHOOK;

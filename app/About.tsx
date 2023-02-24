@@ -22,6 +22,9 @@ interface Social {
 }
 
 type Props = {};
+
+// Fetchs About me Data
+
 const fetchAboutMe = async function () {
   try {
     const res = await fetch(
@@ -36,6 +39,7 @@ const fetchAboutMe = async function () {
   }
 };
 
+// Fetches Social Media Links
 const fetchSocialMedia = async function () {
   try {
     const res = await fetch(
@@ -50,6 +54,8 @@ const fetchSocialMedia = async function () {
 };
 
 async function About({}: Props) {
+
+  // Calls the fetch funtions
   const aboutMeData = await fetchAboutMe();
   const socialMediaData = await fetchSocialMedia();
   return (
@@ -71,10 +77,7 @@ async function About({}: Props) {
           {aboutMeData?.items.map((e: About) => {
             return (
               <p key={e.id} className=" text-lg">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa,
-                quisquam! Assumenda nulla eos rerum a fugiat, magni obcaecati
-                molestias necessitatibus corrupti dolorem laborum est qui
-                tempore voluptatem magnam suscipit voluptates.
+               {e.desc}
               </p>
             );
           })}
