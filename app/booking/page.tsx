@@ -66,6 +66,7 @@ function Page({}: Props) {
               availableHours?.map((e, i) => {
                 return (
                   <button
+                    className="px-2"
                     onClick={() => {
                       setSelectedHour(e);
                     }}
@@ -76,7 +77,7 @@ function Page({}: Props) {
                 );
               })
             ) : (
-              <p>No Avaiable dates in this day</p>
+              <p>No Available dates in this day</p>
             )}
           </div>
           {selectedHour ? (
