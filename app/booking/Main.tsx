@@ -56,6 +56,7 @@ function Main({ btnData, hours }: Props) {
   const fetch1 = async function (e: Date) {
     setAvailableHours([]);
     setSelectedHour(``);
+    console.log(`${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}`);
     try {
       const res = await fetch(
         `${
@@ -63,7 +64,7 @@ function Main({ btnData, hours }: Props) {
         }api/collections/booking/records/?filter=(date= "${e.getFullYear()}-${
           e.getMonth() + 1
         }-${e.getDate()}")`,
-        { cache: "force-cache" }
+        { cache: "default" }
       );
       const date = await res.json();
       const hoursav = hours.filter((hour) => {

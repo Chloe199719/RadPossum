@@ -5,6 +5,7 @@ import { transporter } from "./nodemailer";
 /* @ts-expect-error */
 import { RandomHash } from "random-hash";
 import fetchProdId from "@/lib/fetchProdID";
+import test from "@/lib/testLog";
 
 type Data = {
   name: string;
@@ -14,6 +15,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  console.log(await fetchProdId());
+  test();
   res.status(200).json({ name: "John Doe" });
 }

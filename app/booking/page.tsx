@@ -1,9 +1,7 @@
 import { loadStripe } from "@stripe/stripe-js";
 import React from "react";
-import { useRouter } from "next/navigation";
-import pb from "@/lib/pocketbase";
+
 import dynamic from "next/dynamic";
-import Calendar from "react-calendar";
 
 const Main = dynamic(() => import(`./Main`), { ssr: false });
 
