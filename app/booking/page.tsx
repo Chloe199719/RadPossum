@@ -17,25 +17,27 @@ function Page({}: Props) {
   const [availableHours, setAvailableHours] = useState<string[]>();
   const [selectedHour, setSelectedHour] = useState(``);
   const [data, setDate] = useState(new Date());
-  const Submit = async function () {
-    await pb.collection("booking").create({
-      date: `${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}`,
-      hour: selectedHour,
-    });
-    console.log(`done`);
-  };
 
-  const daysDate = function () {
+  // Sets How many Days In Advance You can Book // Also Probably Change 3 for ENV Variable
+  const minDaysDate = function () {
     const curDate = new Date();
     curDate.setDate(curDate.getDate() + 3);
     return curDate;
   };
+  const maxDaysDate = function () {
+    const curDate = new Date();
+    curDate.setDate(curDate.getDate() + 34);
+    return curDate;
+  };
+
   const fetch = async function (e: Date) {
     setAvailableHours([]);
     setSelectedHour(``);
     try {
       const date = await pb.collection(`booking`).getList(1, 20, {
-        filter: `date= "${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}"`,
+        filter: `date= "${e.getUTCFullYear()}-${
+          e.getUTCMonth() + 1
+        }-${e.getUTCDate()}"`,
       });
       const hoursav = hours.filter((hour) => {
         return !date.items.some((e) => {
@@ -56,7 +58,8 @@ function Page({}: Props) {
             onChange={setDate}
             value={data}
             onClickDay={fetch}
-            minDate={daysDate()}
+            minDate={minDaysDate()}
+            maxDate={maxDaysDate()}
             tileDisabled={({ activeStartDate, date, view }) =>
               date.getDay() === 0
             }

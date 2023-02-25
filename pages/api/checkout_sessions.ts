@@ -4,14 +4,18 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req: any, res: any) {
   if (req.method === "POST") {
-    const test = JSON.parse(req.body);
+    const body = JSON.parse(req.body);
+    const time = new Date(body.time);
     try {
       // Create Checkout Sessions from body params
       const session = await stripe.checkout.sessions.create({
         line_items: [
           {
-            // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-            price: "price_1MeICTJRJ10jxOmIUD3PoSVG",
+            // TODO  Might Need to Add Prices  as ENV Variables for Reliability
+            price:
+              time.getDay() !== 6
+                ? `price_1MeICTJRJ10jxOmIUD3PoSVG` // 60 min Weekday Price
+                : `price_1MfEXsJRJ10jxOmIOkHYqZhd`, // 60 min  Saturday Price
             quantity: 1,
           },
         ],
@@ -19,13 +23,15 @@ export default async function handler(req: any, res: any) {
         success_url: `${req.headers.origin}/?success=true`,
         cancel_url: `${req.headers.origin}/?canceled=true`,
         metadata: {
-          client: test.clientID,
-          email: test.clientEmail,
-          date: test.bookedDate,
-          hour: test.bookedHour,
+          client: body.clientID,
+          email: body.clientEmail,
+          date: `${time.getFullYear()}-${
+            time.getMonth() + 1
+          }-${time.getDate()}`,
+          hour: body.bookedHour,
         },
       });
-      res.json({ url: session.url });
+      res.status(200).json({ url: session.url });
     } catch (err: any) {
       console.log(err);
       res.status(err.statusCode || 500).json(err.message);

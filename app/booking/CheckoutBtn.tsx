@@ -12,10 +12,11 @@ function CheckoutBtn({ date, selHour }: Props) {
         body: JSON.stringify({
           clientID: pb.authStore.model?.id,
           clientEmail: pb.authStore.model?.email,
-          bookedDate: `${date.getFullYear()}-${
-            date.getMonth() + 1
-          }-${date.getDate()}`,
+          // bookedDate: `${date.getFullYear()}-${
+          //   date.getMonth() + 1
+          // }-${date.getDate()}`,
           bookedHour: selHour,
+          time: date,
         }),
       });
       const data = await test.json();
