@@ -1,10 +1,8 @@
+import checkTimeExist from "@/lib/checkTimeExist";
 import generateSession from "@/lib/createStripeSession";
 import deleteTempTime from "@/lib/deleteTempTime";
 import fetchItem from "@/lib/fetchItem";
 import createTempDate from "@/lib/generateTempTime";
-import pb from "@/lib/pocketbase";
-
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
@@ -19,6 +17,10 @@ export default async function handler(req: any, res: any) {
     return;
   }
   try {
+    if (await checkTimeExist(body.bookedHour, time)) {
+      res.status(400).json({ message: `Bad Request` });
+      return;
+    }
     const itemData = await fetchItem(body.productID, time.getDay());
     // Create a Temp Time
     const temptime = await createTempDate(time, body);

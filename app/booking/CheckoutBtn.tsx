@@ -1,4 +1,5 @@
 import pb from "@/lib/pocketbase";
+import toast from "react-hot-toast";
 
 type Props = {
   date: Date;
@@ -19,6 +20,10 @@ function CheckoutBtn({ date, selHour, productID, button_text }: Props) {
           time: date,
         }),
       });
+      if (!test.ok) {
+        toast.error(`Error Try Again in a Few Minutes`);
+        throw new Error(`Bad Request`);
+      }
       const data = await test.json();
       window.location = data.url;
     } catch (error) {
