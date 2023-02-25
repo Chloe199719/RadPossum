@@ -4,7 +4,7 @@ type Props = {
   date: Date;
   selHour: string;
 };
-function CheckoutBtn({ date, selHour }: Props) {
+function CheckoutBtnPublic({ date, selHour }: Props) {
   const onClick = async function () {
     try {
       const test = await fetch("/api/checkout_sessions", {
@@ -12,7 +12,7 @@ function CheckoutBtn({ date, selHour }: Props) {
         body: JSON.stringify({
           clientID: pb.authStore.model?.id,
           clientEmail: pb.authStore.model?.email,
-          productID: `ynd2yl24qv7jnze`,
+          productID: `c1vddde2nsg4btp`,
           bookedHour: selHour,
           time: date,
         }),
@@ -32,7 +32,7 @@ function CheckoutBtn({ date, selHour }: Props) {
           className="py-4 px-10 rounded-xl bg-slate-400 disabled:bg-red-200"
           onClick={onClick}
         >
-          Private Book
+          Public Book
         </button>
       ) : (
         <p className="text-red-400">Login</p>
@@ -40,4 +40,4 @@ function CheckoutBtn({ date, selHour }: Props) {
     </>
   );
 }
-export default CheckoutBtn;
+export default CheckoutBtnPublic;

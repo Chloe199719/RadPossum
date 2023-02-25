@@ -37,7 +37,10 @@ export default async function handler(
     );
     // BOOKING WITH PAYMENT
     // Replace those Products with Api Fetches
-    if (product.data[0].price.product === `prod_NP6Pys7GgwTY4D`) {
+    if (
+      product.data[0].price.product === `prod_NP6Pys7GgwTY4D` ||
+      product.data[0].price.product === `prod_NPwfd6rUI4hvJb`
+    ) {
       try {
         await pb.collection(`booking`).create(
           {
@@ -52,7 +55,7 @@ export default async function handler(
             date: event.data.object.metadata.date,
             hour: event.data.object.metadata.hour,
             user: event.data.object.metadata.client,
-            public_or_private: `Private`,
+            public_or_private: event.data.object.metadata.locale,
             canceled: false,
           },
           { APIKEY: "412312312" } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT

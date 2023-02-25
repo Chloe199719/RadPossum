@@ -1,4 +1,4 @@
-import NextCors from "nextjs-cors";
+import fetchItem from "@/lib/fetchItem";
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
@@ -7,15 +7,13 @@ export default async function handler(req: any, res: any) {
     const body = JSON.parse(req.body);
     const time = new Date(body.time);
     try {
+      const itemData = await fetchItem(body.productID, time.getDay());
       // Create Checkout Sessions from body params
       const session = await stripe.checkout.sessions.create({
         line_items: [
           {
             // TODO  Might Need to Add Prices  as ENV Variables for Reliability
-            price:
-              time.getDay() !== 6
-                ? `price_1MeICTJRJ10jxOmIUD3PoSVG` // 60 min Weekday Price
-                : `price_1MfEXsJRJ10jxOmIOkHYqZhd`, // 60 min  Saturday Price
+            price: itemData.priceID,
             quantity: 1,
           },
         ],
@@ -23,6 +21,7 @@ export default async function handler(req: any, res: any) {
         success_url: `${req.headers.origin}/?success=true`,
         cancel_url: `${req.headers.origin}/?canceled=true`,
         metadata: {
+          locale: itemData.locale,
           client: body.clientID,
           email: body.clientEmail,
           date: `${time.getFullYear()}-${

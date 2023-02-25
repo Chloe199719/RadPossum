@@ -7,6 +7,9 @@ import dynamic from "next/dynamic";
 import Calendar from "react-calendar";
 
 const CheckoutBtn = dynamic(() => import(`./CheckoutBtn`), { ssr: false });
+const CheckoutBtnPublic = dynamic(() => import(`./CheckoutBtnPublic`), {
+  ssr: false,
+});
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -95,6 +98,7 @@ function Page({}: Props) {
               )}
             </p>
           ) : null}
+          <CheckoutBtnPublic date={data} selHour={selectedHour} />
         </div>
       </div>
     </main>
