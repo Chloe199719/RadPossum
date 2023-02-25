@@ -31,7 +31,7 @@ function CheckoutBtn({ date, selHour, productID, button_text }: Props) {
       {pb.authStore.isValid ? (
         <button
           disabled={selHour === ""}
-          className="py-4 px-10 rounded-xl bg-slate-400 disabled:bg-red-200"
+          className="py-4 px-10 rounded-xl bg-blue-400 hover:bg-blue-600 disabled:bg-red-200 flex-1"
           onClick={onClick}
         >
           {button_text}

@@ -52,7 +52,7 @@ function Main({ btnData, hours }: Props) {
   //       console.log(error);
   //     }
   //   };
-
+  const userExist = pb.authStore.isValid;
   const fetch1 = async function (e: Date) {
     setAvailableHours([]);
     setSelectedHour(``);
@@ -77,22 +77,32 @@ function Main({ btnData, hours }: Props) {
       console.log(error);
     }
   };
+  if (!userExist) {
+    return <p>Login First </p>;
+  }
   return (
-    <div className="flex gap-4 w-full ">
-      <Calendar
-        onChange={setDate}
-        value={data}
-        onClickDay={fetch1}
-        minDate={minDaysDate()}
-        maxDate={maxDaysDate()}
-        tileDisabled={({ activeStartDate, date, view }) => date.getDay() === 0}
-      />
-      <div className="flex flex-col">
+    <div className="flex gap-4 w-full flex-col items-center ">
+      <div className="flex gap-4 w-full justify-center relative">
+        {" "}
+        <Calendar
+          onChange={setDate}
+          value={data}
+          minDetail="month"
+          onClickDay={fetch1}
+          minDate={minDaysDate()}
+          maxDate={maxDaysDate()}
+          tileDisabled={({ activeStartDate, date, view }) =>
+            date.getDay() === 0
+          }
+        />
+      </div>{" "}
+      <p>All times are in UTC(Coordinated universal time)</p>
+      <div className="flex gap-2 flex-wrap">
         {availableHours?.length !== 0 ? (
           availableHours?.map((e, i) => {
             return (
               <button
-                className="px-2"
+                className="px-6 py-2 bg-[#30bead]/30 hover:bg-[#30bead]/80 my-3 border border-black"
                 onClick={() => {
                   setSelectedHour(e);
                 }}
@@ -106,31 +116,32 @@ function Main({ btnData, hours }: Props) {
           <p>No Available dates in this day</p>
         )}
       </div>
-      {selectedHour ? (
-        <p>
-          {`${data.getFullYear()}-${
-            data.getMonth() + 1
-          }-${data.getDate()} at ${selectedHour}`}{" "}
-          {data.getDay() === 6 ? (
-            <span>70$ for this lesson</span>
-          ) : (
-            <span>50$ for this lesson</span>
-          )}
-        </p>
-      ) : null}
       <div>
-        {btnData.map((e) => {
-          return (
-            <CheckoutBtn
-              key={e.id}
-              productID={e.productID}
-              button_text={e.button_text}
-              date={data}
-              selHour={selectedHour}
-            />
-          );
-        })}
+        {" "}
+        {selectedHour ? (
+          <h3 className=" text-2xl md:text-4xl underline">
+            You Selected:{" "}
+            {`${data.getFullYear()}-${
+              data.getMonth() + 1
+            }-${data.getDate()} at ${selectedHour} UTC`}{" "}
+          </h3>
+        ) : null}
       </div>
+      {selectedHour ? (
+        <div>
+          {btnData.map((e) => {
+            return (
+              <CheckoutBtn
+                key={e.id}
+                productID={e.productID}
+                button_text={e.button_text}
+                date={data}
+                selHour={selectedHour}
+              />
+            );
+          })}
+        </div>
+      ) : null}
     </div>
   );
 }
