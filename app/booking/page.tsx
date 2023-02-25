@@ -1,105 +1,70 @@
-"use client";
 import { loadStripe } from "@stripe/stripe-js";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import pb from "@/lib/pocketbase";
 import dynamic from "next/dynamic";
 import Calendar from "react-calendar";
 
-const CheckoutBtn = dynamic(() => import(`./CheckoutBtn`), { ssr: false });
-const CheckoutBtnPublic = dynamic(() => import(`./CheckoutBtnPublic`), {
-  ssr: false,
-});
+const Main = dynamic(() => import(`./Main`), { ssr: false });
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 );
 type Props = {};
-function Page({}: Props) {
-  const hours = ["14:00", "15:00", "16:00", "17:00"];
-  const [availableHours, setAvailableHours] = useState<string[]>();
-  const [selectedHour, setSelectedHour] = useState(``);
-  const [data, setDate] = useState(new Date());
 
-  // Sets How many Days In Advance You can Book // Also Probably Change 3 for ENV Variable
-  const minDaysDate = function () {
-    const curDate = new Date();
-    curDate.setDate(curDate.getDate() + 3);
-    return curDate;
-  };
-  const maxDaysDate = function () {
-    const curDate = new Date();
-    curDate.setDate(curDate.getDate() + 34);
-    return curDate;
-  };
-
-  const fetch = async function (e: Date) {
-    setAvailableHours([]);
-    setSelectedHour(``);
-    try {
-      const date = await pb.collection(`booking`).getList(1, 20, {
-        filter: `date= "${e.getUTCFullYear()}-${
-          e.getUTCMonth() + 1
-        }-${e.getUTCDate()}"`,
-      });
-      const hoursav = hours.filter((hour) => {
-        return !date.items.some((e) => {
-          return e.hour.includes(hour);
-        });
-      });
-      setAvailableHours(hoursav);
-    } catch (error) {
-      console.log(error);
+const fetchBtnData = async function () {
+  try {
+    const res = await fetch(
+      `${process.env.DB_URL}api/collections/shop_buttons/records/`,
+      {
+        method: `GET`,
+        next: { revalidate: parseInt(process.env.REVALIDATE!) },
+      }
+    );
+    if (!res.ok) {
+      console.log(res);
     }
+    const data = await res.json();
+
+    return data;
+  } catch (e) {
+    console.log(e, "Error");
+  }
+};
+const fetchHours = async function () {
+  try {
+    const res = await fetch(
+      `${process.env.DB_URL}api/collections/available_Hours/records/?sort=+hour`,
+      {
+        method: `GET`,
+        next: { revalidate: parseInt(process.env.REVALIDATE!) },
+      }
+    );
+    if (!res.ok) {
+      console.log(res);
+    }
+    const data = await res.json();
+
+    return data;
+  } catch (e) {
+    console.log(e, "Error");
+  }
+};
+async function Page({}: Props) {
+  const btnData = await fetchBtnData();
+  const hours = async function () {
+    const data = await fetchHours();
+    const array: Array<string> = [];
+    data.items.forEach((e: any) => {
+      array.push(e.hour);
+    });
+    return array;
   };
+
   return (
     <main className="min-h-screen  flex flex-col py-24  mx-auto items-center justify-center z-[5] snap-start md:snap-center bg-gradient-to-b from-[#30bead]/30 to-[#ff7e84]/40">
       <div className="font-mono max-w-7xl gap-8 flex flex-col items-center justify-center mx-auto  border-black rounded-xl p-12 bg-zinc-200 w-screen">
-        <div className="flex gap-4 w-full ">
-          <CheckoutBtn date={data} selHour={selectedHour} />
-          <Calendar
-            onChange={setDate}
-            value={data}
-            onClickDay={fetch}
-            minDate={minDaysDate()}
-            maxDate={maxDaysDate()}
-            tileDisabled={({ activeStartDate, date, view }) =>
-              date.getDay() === 0
-            }
-          />
-          <div className="flex flex-col">
-            {availableHours?.length !== 0 ? (
-              availableHours?.map((e, i) => {
-                return (
-                  <button
-                    className="px-2"
-                    onClick={() => {
-                      setSelectedHour(e);
-                    }}
-                    key={i}
-                  >
-                    {e}
-                  </button>
-                );
-              })
-            ) : (
-              <p>No Available dates in this day</p>
-            )}
-          </div>
-          {selectedHour ? (
-            <p>
-              {`${data.getFullYear()}-${
-                data.getMonth() + 1
-              }-${data.getDate()} at ${selectedHour}`}{" "}
-              {data.getDay() === 6 ? (
-                <span>70$ for this lesson</span>
-              ) : (
-                <span>50$ for this lesson</span>
-              )}
-            </p>
-          ) : null}
-          <CheckoutBtnPublic date={data} selHour={selectedHour} />
-        </div>
+        <Main btnData={btnData.items} hours={await hours()} />
       </div>
     </main>
   );

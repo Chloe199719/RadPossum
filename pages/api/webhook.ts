@@ -4,6 +4,7 @@ import { buffer } from "micro";
 import pb from "@/lib/pocketbase";
 import { transporter } from "@/pages/api/nodemailer";
 import Hash from "@/lib/hashgenerator";
+import fetchProdId from "@/lib/fetchProdID";
 
 export const config = {
   api: {
@@ -35,12 +36,10 @@ export default async function handler(
       `${event.data.object.id}`,
       { limit: 5 }
     );
+    const prodIDs = await fetchProdId();
     // BOOKING WITH PAYMENT
     // Replace those Products with Api Fetches
-    if (
-      product.data[0].price.product === `prod_NP6Pys7GgwTY4D` ||
-      product.data[0].price.product === `prod_NPwfd6rUI4hvJb`
-    ) {
+    if (prodIDs.some((e) => e === product.data[0].price.product)) {
       try {
         await pb.collection(`booking`).create(
           {
@@ -56,6 +55,9 @@ export default async function handler(
             hour: event.data.object.metadata.hour,
             user: event.data.object.metadata.client,
             public_or_private: event.data.object.metadata.locale,
+            discordID: event.data.object.custom_fields[0].text.value,
+            message: event.data.object.custom_fields[1].text.value,
+            bookedtime: event.data.object.metadata.time,
             canceled: false,
           },
           { APIKEY: "412312312" } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
@@ -71,6 +73,7 @@ export default async function handler(
         console.log(error);
       }
     }
+
     // Code Creation
     // Replace those Products with Api Fetches
     if (product.data[0].price.product === `prod_NPwfd6rUI4hvJb`) {

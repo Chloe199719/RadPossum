@@ -5,9 +5,13 @@ const fetchItem = async function (req: string, day: number) {
     .collection(`shop_items`)
     .getOne(req, { APIKEY: "412312312" });
   if (day === 6) {
-    return { priceID: data.saturdayPriceID, locale: data.locale };
+    return {
+      priceID: data.saturdayPriceID,
+      locale: data.locale,
+      time: data.time,
+    };
   }
-  return { priceID: data.normalPriceID, locale: data.locale };
+  return { priceID: data.normalPriceID, locale: data.locale, time: data.time };
 };
 
 export default fetchItem;
