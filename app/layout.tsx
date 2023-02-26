@@ -1,9 +1,14 @@
 import QueryWrapper from "@/components/QueryWrapper";
-import pb from "@/lib/pocketbase";
+import type { Metadata } from "next";
 import NavBar from "../components/NavBar/NavBar";
-import { Toaster } from "react-hot-toast";
 
 import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "RadPOSSUM",
+  description: "RadPOSSUM take Control of your Voice",
+  icons: { icon: `/favicon.ico` },
+};
 
 export default async function RootLayout({
   children,
