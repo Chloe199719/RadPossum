@@ -27,6 +27,18 @@ export default function DashboardLayout({
                   <li className="border border-sky-300 py-2 px-10 rounded-lg  hover:bg-sky-600">
                     Lessons
                   </li>
+                </Link>{" "}
+                <Link href="/dashboard/bookings">
+                  {" "}
+                  <li className="border border-sky-300 py-2 px-10 rounded-lg  hover:bg-sky-600">
+                    Bookings
+                  </li>
+                </Link>
+                <Link href="/dashboard/bookings">
+                  {" "}
+                  <li className="border border-sky-300 py-2 px-10 rounded-lg  hover:bg-sky-600">
+                    Code Redeem
+                  </li>
                 </Link>
               </ul>
             </nav>

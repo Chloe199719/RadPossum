@@ -38,7 +38,6 @@ function Booking({ bookingData }: Props) {
           </div>
         </div>
       ) : null}
-      {/* <p className=" text-center">{`${lessonData.lesson}, On the ${lessonData.date} , and notes ${lessonData.notes}, Link of Recoding ${lessonData.recoding} and your Home work is ${lessonData.homework} `}</p> */}
     </div>
   );
 }

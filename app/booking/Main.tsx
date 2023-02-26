@@ -1,9 +1,8 @@
 "use client";
 
 import pb from "@/lib/pocketbase";
-import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dist/shared/lib/dynamic";
-import { ListResult } from "pocketbase";
+
 import { useState } from "react";
 import { Calendar } from "react-calendar";
 const CheckoutBtn = dynamic(() => import(`./CheckoutBtn`), { ssr: false });
@@ -35,23 +34,6 @@ function Main({ btnData, hours }: Props) {
     return curDate;
   };
 
-  //   const fetch = async function (e: Date) {
-  //     setAvailableHours([]);
-  //     setSelectedHour(``);
-  //     try {
-  //       const date = await pb.collection(`booking`).getList(1, 20, {
-  //         filter: `date= "${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}"`,
-  //       });
-  //       const hoursav = hours.filter((hour) => {
-  //         return !date.items.some((e) => {
-  //           return e.hour.includes(hour);
-  //         });
-  //       });
-  //       setAvailableHours(hoursav);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
   const userExist = pb.authStore.isValid;
   const fetch1 = async function (e: Date) {
     setAvailableHours([]);
