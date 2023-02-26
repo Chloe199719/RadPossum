@@ -54,7 +54,6 @@ const generateSession = async function (
     },
     expires_at: generateTime(),
   });
-  console.log(session);
   return session;
 };
 
