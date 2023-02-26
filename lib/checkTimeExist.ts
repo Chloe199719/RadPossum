@@ -4,8 +4,7 @@ const checkTimeExist = async function (hour: string, time: Date) {
       process.env.NEXT_PUBLIC_DB_URL
     }api/collections/booking/records/?filter=(date= "${time.getFullYear()}-${
       time.getMonth() + 1
-    }-${time.getDate()}")`,
-    { cache: "default" }
+    }-${time.getDate()}")`
   );
   const date = await res.json();
   const check = date.items.some((item: any) => {
