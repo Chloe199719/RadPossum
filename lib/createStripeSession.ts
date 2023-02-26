@@ -7,6 +7,13 @@ interface itemData {
   time: string;
 }
 
+const generateTime = function () {
+  const cur = new Date().getTime();
+  const divided = Math.round(cur / 1000);
+  const min5 = divided + 30 * 60;
+  return min5;
+};
+
 const generateSession = async function (
   itemData: itemData,
   req: NextApiRequest,
@@ -45,7 +52,9 @@ const generateSession = async function (
       hour: body.bookedHour,
       time: itemData.time,
     },
+    expires_at: generateTime(),
   });
+  console.log(session);
   return session;
 };
 

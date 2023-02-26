@@ -12,7 +12,7 @@ function Lesson({ lessonData }: Props) {
       onClick={() => {
         setIsOpen(!isOpen);
       }}
-      className="flex flex-col gap-3 border border-black rounded-lg bg-[#30bead]/30 w-full  px-4 py-2 hover:bg-[#30bead]"
+      className="flex flex-col gap-3 border border-black rounded-lg bg-[#30bead]/30 w-full  px-4 py-2 hover:bg-[#30bead]  hover:cursor-pointer"
     >
       <div className="flex gap-3 justify-between ">
         <h4 className=" text-lg uppercase">{lessonData.lesson}</h4>

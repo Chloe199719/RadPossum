@@ -56,7 +56,6 @@ function Main({ btnData, hours }: Props) {
   const fetch1 = async function (e: Date) {
     setAvailableHours([]);
     setSelectedHour(``);
-    console.log(`${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}`);
     try {
       const res = await fetch(
         `${

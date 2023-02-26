@@ -117,7 +117,7 @@ function Page({}: Props) {
               id="password"
               type="password"
               required
-              {...register(`password`)}
+              {...(register(`password`), { minLength: 8 })}
             />{" "}
           </div>{" "}
           <div className="flex flex-col gap-2">
@@ -131,7 +131,7 @@ function Page({}: Props) {
               id="confirmPassword"
               type="password"
               required
-              {...register(`confirmPassword`)}
+              {...(register(`confirmPassword`), { minLength: 8 })}
             />{" "}
           </div>{" "}
           {error ? <Alert color="red" message={error} func={setError} /> : null}

@@ -29,7 +29,6 @@ function Dashboard({}: Props) {
       }),
   });
 
-  console.log(BookingQuery.data);
   const Test = function () {
     if (lessonQuery.data === undefined)
       return <p className=" text-center">No Lesson Taken yet </p>;
