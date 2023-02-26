@@ -23,7 +23,8 @@ function Dashboard({}: Props) {
     queryKey: [`bookingUSER`],
     queryFn: () =>
       pb.collection(`bookingUSER`).getList(1, 20, {
-        filter: `completed = false`,
+        filter: `completed = false && canceled = false`,
+        sort: `+date,hour`,
         $autoCancel: false,
       }),
   });
