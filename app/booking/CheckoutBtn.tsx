@@ -9,6 +9,7 @@ type Props = {
 };
 function CheckoutBtn({ date, selHour, productID, button_text }: Props) {
   const onClick = async function () {
+    console.log(date.toUTCString());
     try {
       const test = await fetch("/api/checkout_sessions", {
         method: `POST`,

@@ -85,7 +85,9 @@ function Main({ btnData, hours }: Props) {
       <div className="flex gap-4 w-full justify-center relative">
         {" "}
         <Calendar
-          onChange={setDate}
+          onChange={(e: Date) => {
+            setDate(new Date(e.setHours(2)));
+          }}
           value={data}
           minDetail="month"
           onClickDay={fetch1}
