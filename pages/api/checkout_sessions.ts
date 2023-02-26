@@ -11,7 +11,6 @@ export default async function handler(req: any, res: any) {
     return;
   }
   const body = JSON.parse(req.body);
-  console.log(body);
   // If Any Required Body value missing Throw an 400 Error
   if (!body.clientEmail || !body.time || !body.bookedHour || !body.productID) {
     res.status(400).json({ message: `Bad Request1` });

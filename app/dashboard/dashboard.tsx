@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 import React from "react";
+import Booking from "./Booking";
 import Lesson from "./Lesson";
 type Props = {};
 function Dashboard({}: Props) {
@@ -18,13 +19,35 @@ function Dashboard({}: Props) {
         $autoCancel: false,
       }),
   });
+  const BookingQuery = useQuery({
+    queryKey: [`bookingUSER`],
+    queryFn: () =>
+      pb.collection(`bookingUSER`).getList(1, 20, {
+        filter: `completed = false`,
+        $autoCancel: false,
+      }),
+  });
 
+  console.log(BookingQuery.data);
   const Test = function () {
     if (lessonQuery.data === undefined)
       return <p className=" text-center">No Lesson Taken yet </p>;
     if (lessonQuery.data?.totalItems === 0)
       return <p className=" text-center">No Lesson Taken yet </p>;
     return <Lesson lessonData={lessonQuery.data?.items[0]} />;
+  };
+  const UpcomingBooking = function () {
+    if (BookingQuery.data === undefined)
+      return <p className=" text-center">No Lesson Taken yet </p>;
+    if (BookingQuery.data?.totalItems === 0)
+      return <p className=" text-center">No Lesson Taken yet </p>;
+    return (
+      <div className="flex flex-col w-full gap-1">
+        {BookingQuery.data?.items?.map((e) => {
+          return <Booking key={e.id} bookingData={e} />;
+        })}
+      </div>
+    );
   };
   return (
     <div className="flex flex-col justify-center items-center gap-6 flex-1 px-10 ">
@@ -33,12 +56,10 @@ function Dashboard({}: Props) {
       </div>
       <div className="flex flex-col items-center justify-center gap-6 w-full">
         <h3 className=" text-3xl">Your Last Lesson was:</h3>
-
         <Test />
-
-        {/* <h3>UpComing Bookings</h3> */}
+        <h3 className=" text-3xl">UpComing Bookings:</h3>
+        <UpcomingBooking />
       </div>{" "}
-      {/* {userInfo ? null : router.push(`/`)} */}
     </div>
   );
 }

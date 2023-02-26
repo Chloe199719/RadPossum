@@ -59,6 +59,7 @@ export default async function handler(
             message: event.data.object.custom_fields[1].text.value,
             bookedtime: event.data.object.metadata.time,
             canceled: false,
+            completed: false,
           },
           { APIKEY: "412312312" } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
         );
