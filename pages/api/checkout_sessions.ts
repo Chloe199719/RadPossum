@@ -11,11 +11,16 @@ export default async function handler(req: any, res: any) {
     return;
   }
   const body = JSON.parse(req.body);
+  if (!body.discordID || !body.clientEmail || !body.time || !body.bookedHour) {
+    res.status(400).json({ message: `Bad Request` });
+    return;
+  }
   const time = new Date(body.time);
   if (time.getDay() === 0) {
     res.status(400).json({ message: `Bad Request` });
     return;
   }
+
   try {
     if (await checkTimeExist(body.bookedHour, time)) {
       res.status(400).json({ message: `Bad Request` });
