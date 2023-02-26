@@ -11,7 +11,7 @@ const deleteTempTime = function (id: string, sessionID: string) {
         return e;
       });
     console.log(`Deleted`);
-  }, 20000);
+  }, 300000);
 };
 
 export default deleteTempTime;

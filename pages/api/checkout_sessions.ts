@@ -11,10 +11,14 @@ export default async function handler(req: any, res: any) {
     return;
   }
   const body = JSON.parse(req.body);
-  if (!body.discordID || !body.clientEmail || !body.time || !body.bookedHour) {
-    res.status(400).json({ message: `Bad Request` });
+  console.log(body);
+  // If Any Required Body value missing Throw an 400 Error
+  if (!body.clientEmail || !body.time || !body.bookedHour || !body.productID) {
+    res.status(400).json({ message: `Bad Request1` });
     return;
   }
+
+  // If The Selected Time is a Sunday Throw an Error
   const time = new Date(body.time);
   if (time.getDay() === 0) {
     res.status(400).json({ message: `Bad Request` });
@@ -22,6 +26,7 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
+    // Check if time Exist in Database if return True throw an error
     if (await checkTimeExist(body.bookedHour, time)) {
       res.status(400).json({ message: `Bad Request` });
       return;
