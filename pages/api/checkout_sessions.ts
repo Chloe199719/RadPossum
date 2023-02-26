@@ -27,7 +27,7 @@ export default async function handler(req: any, res: any) {
   try {
     // Check if time Exist in Database if return True throw an error
     if (await checkTimeExist(body.bookedHour, time)) {
-      res.status(400).json({ message: `Bad Request` });
+      res.status(400).json({ message: `Bad Request 2` });
       return;
     }
     const itemData = await fetchItem(body.productID, time.getDay());
