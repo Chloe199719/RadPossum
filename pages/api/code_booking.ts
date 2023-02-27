@@ -1,7 +1,8 @@
 import bookingLesson from "@/lib/bookinglesson/bookinglesson";
 import generateTime from "@/lib/bookinglesson/generatetime";
+import checkTimeExist from "@/lib/bookinglesson/timeValidation";
 import checkCode from "@/lib/codesProcesss/checkcode";
-import pb from "@/lib/pocketbase";
+import setCodeUsed from "@/lib/codesProcesss/setCodeUsed";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 interface body {
@@ -29,9 +30,27 @@ export default async function handler(
     return;
   }
   const body: body = JSON.parse(req.body);
+  // Checks if all Required Information Got Passed in the Request
+  if (
+    !body.clientEmail ||
+    !body.time ||
+    !body.bookedHour ||
+    !body.code ||
+    !body.discordID ||
+    !body.clientID
+  ) {
+    res
+      .status(400)
+      .json({ message: `Bad Request a Required Parameter is missing` });
+    return;
+  }
   try {
+    // Return a Resolved Promise if code is valid else throws a Rejected Promise
     const codeRes: codeRes = await checkCode(body.code);
-    // Check if Time is not already assigned TODO
+    // Return a Resolved Promise if time doesn't exist yet else throws a Rejected Promise // Server Check if time Exists
+    const checkTime = await checkTimeExist(body.bookedHour, body.time);
+
+    //Books Lesson
     bookingLesson({
       date: generateTime(body.time),
       hour: body.bookedHour,
@@ -42,9 +61,12 @@ export default async function handler(
       message: body.message,
       email: body.clientEmail,
     });
-    console.log(codeRes);
+
+    // Invalidates Code
+    setCodeUsed(codeRes.id);
   } catch (error: any) {
     console.log(error);
+    // If no status or message are Present throw a Default Bad Request
     if (!error.status) {
       res.status(400).json({ message: ` Bad Request` });
       return;
@@ -53,56 +75,5 @@ export default async function handler(
     return;
   }
 
-  //   try {
-  //     const checkCode = await pb.collection("codes").getList(1, 50, {
-  //       filter: `code = "${body.code}" && isValid = true`,
-  //       APIKEY: "412312312",
-  //     });
-
-  //     if (checkCode.totalItems === 0) {
-  //       throw new Error(`Code Not valid`);
-  //     }
-  //     if (checkCode.items[0]?.used) {
-  //       throw new Error(`Code Already Used`);
-  //     }
-  //   } catch (error: any) {
-  //     res.status(400).json(error.message);
-  //     return;
-  //   }
-
-  //  try {
-  //       await pb.collection(`booking`).create(
-  //         {
-  //           date: event.data.object.metadata.date,
-  //           hour: event.data.object.metadata.hour,
-  //           clientId: event.data.object.metadata.client,
-  //         },
-  //         { APIKEY: "412312312" } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
-  //       );
-  //       await pb.collection(`bookingUSER`).create(
-  //         {
-  //           date: event.data.object.metadata.date,
-  //           hour: event.data.object.metadata.hour,
-  //           user: event.data.object.metadata.client,
-  //           public_or_private: event.data.object.metadata.locale,
-  //           discordID: event.data.object.custom_fields[0].text.value,
-  //           message: event.data.object.custom_fields[1].text.value,
-  //           bookedtime: event.data.object.metadata.time,
-  //           canceled: false,
-  //           completed: false,
-  //         },
-  //         { APIKEY: "412312312" } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
-  //       );
-  //       await transporter.sendMail({
-  //         from: process.env.SMTP_USER,
-  //         to: event.data.object.customer_details.email,
-  //         subject: "Test Message",
-  //         text: `Your Lesson is Booked for ${event.data.object.metadata.date} at ${event.data.object.metadata.hour} `,
-  //         html: `<p>Your Lesson is Booked for ${event.data.object.metadata.date} at ${event.data.object.metadata.hour}</p>`,
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  console.log(body.code);
-  res.status(200).json({ name: "John Doe" });
+  res.status(200).json({ message: `Your Lesson was Booked Successfully` });
 }
