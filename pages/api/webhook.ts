@@ -2,9 +2,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { buffer } from "micro";
 import pb from "@/lib/pocketbase";
-import { transporter } from "@/pages/api/nodemailer";
+import { transporter } from "@/lib/email/nodemailer";
 import Hash from "@/lib/hashgenerator";
 import fetchProdId from "@/lib/fetchProdID";
+import bookingLesson from "@/lib/bookinglesson/bookinglesson";
 
 export const config = {
   api: {

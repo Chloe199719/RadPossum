@@ -10,7 +10,7 @@ type searchParam = {
   };
 };
 export default async function Page({ searchParams }: any, props: Props) {
-  await deleteTempTimeLive(searchParams.temp_time, searchParams.session_id);
+  // await deleteTempTimeLive(searchParams.temp_time, searchParams.session_id);
   setTimeout(redirect(`/booking`), 20000); // Maybe Redirect Maybe make Cancel Page
   return <div>more test</div>;
 }

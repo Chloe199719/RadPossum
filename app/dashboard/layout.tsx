@@ -34,7 +34,7 @@ export default function DashboardLayout({
                     Bookings
                   </li>
                 </Link>
-                <Link href="/dashboard/bookings">
+                <Link href="/dashboard/codes">
                   {" "}
                   <li className="border border-sky-300 py-2 px-10 rounded-lg  hover:bg-sky-600">
                     Code Redeem
