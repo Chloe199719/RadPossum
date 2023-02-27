@@ -1,16 +1,28 @@
 import pb from "./pocketbase";
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+import stripe from "./stripe";
+
+async function work(id: string, sessionID: string) {
+  try {
+    await pb.collection("booking").delete(id, { APIKEY: "412312312" });
+  } catch (error) {}
+
+  try {
+    const checkif = await stripe.checkout.sessions.retrieve(sessionID);
+    if (checkif.status === "expired") return console.log(`Worked`);
+    await stripe.checkout.sessions.expire(sessionID);
+  } catch (error) {}
+  // stripe.checkout.sessions
+  //   .expire(sessionID)
+  //   .then()
+  //   .catch((e: any) => {
+  //     return e;
+  //   });
+  console.log(`Deleted1`);
+}
 
 const deleteTempTime = function (id: string, sessionID: string) {
   setTimeout(() => {
-    pb.collection("booking").delete(id, { APIKEY: "412312312" });
-    // stripe.checkout.sessions
-    //   .expire(sessionID)
-    //   .then()
-    //   .catch((e: any) => {
-    //     return e;
-    //   });
-    console.log(`Deleted`);
+    work(id, sessionID);
   }, 1800000);
 };
 

@@ -35,7 +35,13 @@ export default async function handler(req: any, res: any) {
     const temptime = await createTempDate(time, body);
 
     // Create Checkout Sessions from body params
-    const session = await generateSession(itemData, req, body, time);
+    const session = await generateSession(
+      itemData,
+      req,
+      body,
+      time,
+      temptime.id
+    );
 
     // Delete Temp Time and Invalidate session
     deleteTempTime(temptime.id, session.id);

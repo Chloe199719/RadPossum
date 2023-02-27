@@ -18,7 +18,8 @@ const generateSession = async function (
   itemData: itemData,
   req: NextApiRequest,
   body: any,
-  time: Date
+  time: Date,
+  temptime: string
 ) {
   const session = await stripe.checkout.sessions.create({
     line_items: [
@@ -43,7 +44,7 @@ const generateSession = async function (
     ],
     mode: "payment",
     success_url: `${req.headers.origin}/?success=true`,
-    cancel_url: `${req.headers.origin}/?canceled=true`,
+    cancel_url: `${req.headers.origin}/canceled?session_id={CHECKOUT_SESSION_ID}&temp_time=${temptime}`,
     metadata: {
       locale: itemData.locale,
       client: body.clientID,
