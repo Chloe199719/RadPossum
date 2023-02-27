@@ -8,7 +8,6 @@ const checkTimeExist = async function (hour: string, time: Date) {
     { cache: "default" }
   );
   const date = await res.json();
-  console.log(date);
   const check = date.items.some((item: any) => {
     return item.hour.includes(hour);
   });

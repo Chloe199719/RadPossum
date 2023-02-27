@@ -1,5 +1,6 @@
 import pb from "@/lib/pocketbase";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { json } from "stream/consumers";
 
 interface formData {
@@ -29,6 +30,7 @@ function Form({ date, selHour }: Props) {
         }),
       });
       const res = await test.json();
+      toast.success(res.message);
       console.log(res);
     } catch (error) {
       console.log(error);
