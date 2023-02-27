@@ -51,7 +51,7 @@ export default async function handler(
     const checkTime = await checkTimeExist(body.bookedHour, body.time);
 
     //Books Lesson
-    bookingLesson({
+    await bookingLesson({
       date: generateTime(body.time),
       hour: body.bookedHour,
       client: body.clientID,
@@ -63,7 +63,7 @@ export default async function handler(
     });
 
     // Invalidates Code
-    setCodeUsed(codeRes.id);
+    await setCodeUsed(codeRes.id);
   } catch (error: any) {
     console.log(error);
     // If no status or message are Present throw a Default Bad Request
