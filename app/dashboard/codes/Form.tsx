@@ -29,10 +29,11 @@ function Form({ date, selHour }: Props) {
           code: data.code, // test date
         }),
       });
-      const res = await test.json();
-      if (!res.ok) {
+      if (!test.ok) {
+        const res = await test.json();
         throw new Error(res);
       }
+      const res = await test.json();
       toast.success(res.message, { duration: 6000 });
     } catch (error: any) {
       toast.error(error.message, { duration: 6000 });
