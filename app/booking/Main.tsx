@@ -5,6 +5,7 @@ import dynamic from "next/dist/shared/lib/dynamic";
 
 import { useState } from "react";
 import { Calendar } from "react-calendar";
+import PaypalBtn from "./PaypalBtn";
 const CheckoutBtn = dynamic(() => import(`./CheckoutBtn`), { ssr: false });
 
 type Props = {
@@ -12,15 +13,25 @@ type Props = {
     id: string;
     productID: string;
     button_text: string;
+    privacy: string;
+    duration: string;
+  }[];
+  paypalID: {
+    id: string;
+    private_id: string;
+    title: string;
+    privacy: string;
+    duration: string;
   }[];
   hours: Array<string>;
 };
-function Main({ btnData, hours }: Props) {
+function Main({ btnData, hours, paypalID }: Props) {
   //   const hours = ["14:00", "15:00", "16:00", "17:00"];
   const [availableHours, setAvailableHours] = useState<string[]>();
   const [selectedHour, setSelectedHour] = useState(``);
   const [data, setDate] = useState(new Date());
-
+  const [duration, setDuration] = useState(`50min`);
+  const [privacy, setPrivacy] = useState(`Private`);
   // Sets How many Days In Advance You can Book // Also Probably Change 3 for ENV Variable
   const minDaysDate = function () {
     const curDate = new Date();
@@ -101,6 +112,30 @@ function Main({ btnData, hours }: Props) {
         )}
       </div>
       <div>
+        <select
+          name="time"
+          id="time"
+          value={duration}
+          onChange={(e) => {
+            setDuration(e.target.value);
+          }}
+        >
+          <option value="50min">50min</option>
+          <option value="30min">30min</option>
+        </select>
+        <select
+          name="time"
+          id="time"
+          value={privacy}
+          onChange={(e) => {
+            setPrivacy(e.target.value);
+          }}
+        >
+          <option value="Private">Private</option>
+          <option value="Public">Public</option>
+        </select>
+      </div>
+      <div>
         {" "}
         {selectedHour ? (
           <h3 className=" text-2xl md:text-4xl underline">
@@ -112,18 +147,21 @@ function Main({ btnData, hours }: Props) {
         ) : null}
       </div>
       {selectedHour ? (
-        <div>
-          {btnData.map((e) => {
-            return (
-              <CheckoutBtn
-                key={e.id}
-                productID={e.productID}
-                button_text={e.button_text}
-                date={data}
-                selHour={selectedHour}
-              />
-            );
-          })}
+        <div className="flex gap-2 items-center">
+          <CheckoutBtn
+            btnData={btnData}
+            date={data}
+            selHour={selectedHour}
+            privacy={privacy}
+            duration={duration}
+          />
+          <PaypalBtn
+            paypalID={paypalID}
+            date={data}
+            selHour={selectedHour}
+            privacy={privacy}
+            duration={duration}
+          />
         </div>
       ) : null}
     </div>

@@ -4,19 +4,36 @@ import toast from "react-hot-toast";
 type Props = {
   date: Date;
   selHour: string;
-  productID: string;
-  button_text: string;
+  btnData: {
+    id: string;
+    productID: string;
+    button_text: string;
+    privacy: string;
+    duration: string;
+  }[];
+  privacy: string;
+  duration: string;
 };
-function CheckoutBtn({ date, selHour, productID, button_text }: Props) {
+
+function CheckoutBtn({ date, selHour, btnData, privacy, duration }: Props) {
+  const getProdID = function () {
+    let id = "";
+    btnData.forEach((e) => {
+      if (e.duration === duration && e.privacy === privacy) {
+        id = e.productID;
+      }
+    });
+
+    return id;
+  };
   const onClick = async function () {
-    console.log(date.toUTCString());
     try {
       const test = await fetch("/api/checkout_sessions", {
         method: `POST`,
         body: JSON.stringify({
           clientID: pb.authStore.model?.id,
           clientEmail: pb.authStore.model?.email,
-          productID: productID,
+          productID: getProdID(),
           bookedHour: selHour,
           time: date,
         }),
@@ -40,7 +57,7 @@ function CheckoutBtn({ date, selHour, productID, button_text }: Props) {
           className="py-4 px-10 rounded-xl bg-blue-400 hover:bg-blue-600 disabled:bg-red-200 flex-1"
           onClick={onClick}
         >
-          {button_text}
+          Stripes
         </button>
       ) : (
         <p className="text-red-400">Login</p>
