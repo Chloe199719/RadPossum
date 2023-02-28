@@ -49,9 +49,12 @@ function PaypalBtn({ date, selHour, paypalID, privacy, duration }: Props) {
       <PayPalButtons
         fundingSource="paypal"
         style={{ shape: `pill`, label: `buynow`, height: 55 }}
+        /* @ts-expect-error */
         createOrder={async () => {
           await createOrder().then((id) => {
+            /* @ts-expect-error */
             console.log(id.id);
+            /* @ts-expect-error */
             return id.id;
           });
         }}
