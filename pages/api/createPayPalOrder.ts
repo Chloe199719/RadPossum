@@ -3,10 +3,11 @@ import paypal from "@paypal/checkout-server-sdk";
 import fetchPaypal from "@/lib/paypal/fetchPaypalItems";
 import checkTimeExist from "@/lib/bookinglesson/timeValidation";
 
-const Environment =
-  process.env.NODE_ENV === "production"
-    ? paypal.core.LiveEnvironment
-    : paypal.core.SandboxEnvironment;
+// const Environment =
+//   process.env.NODE_ENV === "production"
+//     ? paypal.core.LiveEnvironment
+//     : paypal.core.SandboxEnvironment;
+const Environment = paypal.core.SandboxEnvironment;
 const paypalClient = new paypal.core.PayPalHttpClient(
   new Environment(
     process.env.NEXT_PUBLIC_PAYPAL_PUBLIC!,
@@ -30,10 +31,7 @@ export default async function handler(
 
   try {
     const itemData = await fetchPaypal(req.body.item);
-    console.log(
-      process.env.NEXT_PUBLIC_PAYPAL_PUBLIC!,
-      process.env.PAYPAL_SECRET!
-    );
+
     const timeValid = await checkTimeExist(req.body.selHour, req.body.date);
     const request = new paypal.orders.OrdersCreateRequest();
     console.log(
