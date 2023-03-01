@@ -31,6 +31,7 @@ export default async function handler(
     });
     const returnData = await paypalClient.execute(orderData);
     res.status(200).json({ message: `Completed` });
+    // Add Logging to Order to DB
     console.log(returnData.result.purchase_units);
     return;
   } catch (error: any) {

@@ -36,7 +36,7 @@ export default async function handler(
           reference_id: req.body.item,
           invoice_id: hash,
           amount: {
-            currency_code: `USD`,
+            currency_code: process.env.CURRENCY!,
             value:
               time.getDay() === 6
                 ? itemData.price_saturday
@@ -44,7 +44,7 @@ export default async function handler(
             /* @ts-expect-error */
             breakdown: {
               item_total: {
-                currency_code: `USD`,
+                currency_code: process.env.CURRENCY!,
                 value:
                   time.getDay() === 6
                     ? itemData.price_saturday
@@ -57,7 +57,7 @@ export default async function handler(
               category: `DIGITAL_GOODS`,
               name: itemData.title,
               unit_amount: {
-                currency_code: `USD`,
+                currency_code: process.env.CURRENCY!,
                 value:
                   time.getDay() === 6
                     ? itemData.price_saturday
