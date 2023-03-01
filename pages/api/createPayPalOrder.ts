@@ -14,6 +14,15 @@ export default async function handler(
     res.status(405).end("Method Not Allowed");
     return;
   }
+  if (
+    !req.body.item ||
+    !req.body.date ||
+    !req.body.selHour ||
+    !req.body.discordID
+  ) {
+    res.status(400).json({ message: `Bad Request1` });
+    return;
+  }
   const time = new Date(req.body.date);
   if (time.getDay() === 0) {
     res.status(400).json({ message: `Bad Request` });

@@ -10,7 +10,21 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log(req.body.orderID);
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    res.status(405).end("Method Not Allowed");
+    return;
+  }
+  if (
+    !req.body.orderID ||
+    !req.body.date ||
+    !req.body.selHour ||
+    !req.body.discordID ||
+    !req.body.client
+  ) {
+    res.status(400).json({ message: `Bad Request` });
+    return;
+  }
   const orderData = new paypal.orders.OrdersCaptureRequest(req.body.orderID);
   const requestDetails = new paypal.orders.OrdersGetRequest(req.body.orderID);
   orderData.prefer("return=representation");

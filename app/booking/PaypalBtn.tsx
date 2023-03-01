@@ -29,9 +29,8 @@ function PaypalBtn({
   const discordIDRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-  console.log(privacyCur.current?.value);
+
   const getProdID = function () {
-    console.log(privacyCur.current?.value, durationCur.current?.value);
     let id = "";
     paypalID.forEach((e) => {
       if (
@@ -41,7 +40,6 @@ function PaypalBtn({
         id = e.private_id;
       }
     });
-    console.log(id);
     return id;
   };
   const createOrder = async function () {
