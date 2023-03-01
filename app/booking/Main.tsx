@@ -147,7 +147,7 @@ function Main({ btnData, hours, paypalID }: Props) {
         ) : null}
       </div>
       {selectedHour ? (
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-end">
           <CheckoutBtn
             btnData={btnData}
             date={data}
@@ -159,8 +159,8 @@ function Main({ btnData, hours, paypalID }: Props) {
             paypalID={paypalID}
             date={data}
             selHour={selectedHour}
-            privacy={privacy}
-            duration={duration}
+            privacyCur={privacy}
+            durationCur={duration}
           />
         </div>
       ) : null}

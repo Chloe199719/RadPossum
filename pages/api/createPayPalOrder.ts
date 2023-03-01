@@ -2,18 +2,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import paypal from "@paypal/checkout-server-sdk";
 import fetchPaypal from "@/lib/paypal/fetchPaypalItems";
 import checkTimeExist from "@/lib/bookinglesson/timeValidation";
+import paypalClient from "@/lib/paypal/paypalClient";
+import Hash from "@/lib/hashgenerator";
 
-// const Environment =
-//   process.env.NODE_ENV === "production"
-//     ? paypal.core.LiveEnvironment
-//     : paypal.core.SandboxEnvironment;
-const Environment = paypal.core.SandboxEnvironment;
-const paypalClient = new paypal.core.PayPalHttpClient(
-  new Environment(
-    process.env.NEXT_PUBLIC_PAYPAL_PUBLIC!,
-    process.env.PAYPAL_SECRET!
-  )
-);
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -23,25 +14,27 @@ export default async function handler(
     res.status(405).end("Method Not Allowed");
     return;
   }
-  const time = new Date(req.body.time);
+  const time = new Date(req.body.date);
   if (time.getDay() === 0) {
     res.status(400).json({ message: `Bad Request` });
     return;
   }
-
+  console.log(time.getDay());
   try {
     const itemData = await fetchPaypal(req.body.item);
-
     const timeValid = await checkTimeExist(req.body.selHour, req.body.date);
     const request = new paypal.orders.OrdersCreateRequest();
     console.log(
       time.getDay() === 6 ? itemData.price_saturday : itemData.price_standard
     );
+    const hash = Hash();
     request.prefer("return=representation");
     request.requestBody({
       intent: `CAPTURE`,
       purchase_units: [
         {
+          reference_id: req.body.item,
+          invoice_id: hash,
           amount: {
             currency_code: `USD`,
             value:
@@ -79,7 +72,6 @@ export default async function handler(
     const order = await paypalClient.execute(request);
     res.status(200).json({ id: order.result.id });
     return;
-    console.log(order);
   } catch (error: any) {
     console.log(error);
     // If no status or message are Present throw a Default Bad Request
