@@ -30,6 +30,10 @@ export default async function handler(
 
   try {
     const itemData = await fetchPaypal(req.body.item);
+    console.log(
+      process.env.NEXT_PUBLIC_PAYPAL_PUBLIC!,
+      process.env.PAYPAL_SECRET!
+    );
     const timeValid = await checkTimeExist(req.body.selHour, req.body.date);
     const request = new paypal.orders.OrdersCreateRequest();
     console.log(
