@@ -29,7 +29,7 @@ export default async function bookingLesson({
         hour: hour,
         clientId: client,
       },
-      { APIKEY: "412312312" } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
+      { API_KEY: process.env.API_KEY } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
     );
     const lessonBook = await pb.collection(`bookingUSER`).create(
       {
@@ -43,7 +43,7 @@ export default async function bookingLesson({
         canceled: false,
         completed: false,
       },
-      { APIKEY: "412312312" } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
+      { API_KEY: process.env.API_KEY } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
     );
     await transporter.sendMail({
       from: process.env.SMTP_USER,

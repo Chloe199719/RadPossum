@@ -4,7 +4,7 @@ const fetchPaypal = async function (id: string) {
   try {
     const data = pb
       .collection(`paypal_items`)
-      .getOne(id, { APIKEY: "412312312" });
+      .getOne(id, { API_KEY: process.env.API_KEY });
     return Promise.resolve(data);
   } catch (error) {
     return Promise.reject({

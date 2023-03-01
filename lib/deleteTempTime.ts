@@ -3,7 +3,7 @@ import stripe from "./stripe";
 
 async function work(id: string, sessionID: string) {
   try {
-    await pb.collection("booking").delete(id, { APIKEY: "412312312" });
+    await pb.collection("booking").delete(id, { API_KEY: process.env.API_KEY });
   } catch (error) {}
 
   try {

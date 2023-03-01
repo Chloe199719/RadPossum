@@ -1,6 +1,6 @@
 import pb from "@/lib/pocketbase";
 import { PayPalButtons } from "@paypal/react-paypal-js";
-import { InputHTMLAttributes, RefObject, useRef } from "react";
+import { RefObject, useRef } from "react";
 
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";

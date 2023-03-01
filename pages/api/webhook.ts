@@ -48,7 +48,7 @@ export default async function handler(
             hour: event.data.object.metadata.hour,
             clientId: event.data.object.metadata.client,
           },
-          { APIKEY: "412312312" } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
+          { API_KEY: process.env.API_KEY } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
         );
         await pb.collection(`bookingUSER`).create(
           {
@@ -62,7 +62,7 @@ export default async function handler(
             canceled: false,
             completed: false,
           },
-          { APIKEY: "412312312" } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
+          { API_KEY: process.env.API_KEY } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
         );
         await transporter.sendMail({
           from: process.env.SMTP_USER,
@@ -88,7 +88,7 @@ export default async function handler(
             used: false,
             userID: event.data.object.metadata.client,
           },
-          { APIKEY: "412312312" } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
+          { API_KEY: process.env.API_KEY } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
         );
 
         await transporter.sendMail({

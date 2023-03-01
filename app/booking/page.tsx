@@ -32,7 +32,7 @@ const fetchBtnData = async function () {
 const fetchPaypalPublic = async function () {
   try {
     const res = await fetch(
-      `${process.env.DB_URL}api/collections/paypal_public_id/records/?APIKEY=412312312`,
+      `${process.env.DB_URL}api/collections/paypal_public_id/records/?API_KEY=${process.env.API_KEY}`,
       {
         method: `GET`,
         next: { revalidate: parseInt(process.env.REVALIDATE!) },

@@ -7,7 +7,7 @@ const createTempDate = async function (time: Date, body: any) {
       hour: body.bookedHour,
       clientId: body.clientID,
     },
-    { APIKEY: "412312312" } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
+    { API_KEY: process.env.API_KEY } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
   );
   return data;
 };

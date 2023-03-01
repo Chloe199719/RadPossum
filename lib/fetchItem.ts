@@ -3,7 +3,7 @@ import pb from "./pocketbase";
 const fetchItem = async function (req: string, day: number) {
   const data = await pb
     .collection(`shop_items`)
-    .getOne(req, { APIKEY: "412312312" });
+    .getOne(req, { API_KEY: process.env.API_KEY });
   if (day === 6) {
     return {
       priceID: data.saturdayPriceID,

@@ -21,7 +21,7 @@ export default async function saveOrderLogPaypal({
         booking,
         item_bought,
       },
-      { APIKEY: "412312312" }
+      { API_KEY: process.env.API_KEY }
     );
     return log;
   } catch (error) {}

@@ -4,7 +4,7 @@ export default async function checkCode(code: string) {
   try {
     const checkCode = await pb.collection("codes").getList(1, 50, {
       filter: `code = "${code}" && isValid = true`,
-      APIKEY: "412312312",
+      API_KEY: process.env.API_KEY,
     });
 
     if (checkCode.totalItems === 0) {

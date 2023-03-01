@@ -3,7 +3,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const deleteTempTimeLive = async function (id: string, sessionID: string) {
   try {
-    await pb.collection("booking").delete(id, { APIKEY: "412312312" });
+    await pb.collection("booking").delete(id, { API_KEY: process.env.API_KEY });
   } catch (error) {} // Error Expected if  Already Deleted
 
   const checkif = await stripe.checkout.sessions.retrieve(sessionID);
