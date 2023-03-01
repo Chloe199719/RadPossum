@@ -49,6 +49,9 @@ function Page({}: Props) {
         passwordConfirm: data.confirmPassword,
         name: data.displayName,
       });
+      const emailVerf = await pb
+        .collection("users")
+        .requestVerification(data.email);
       setSuccess(`SuccessFully created your account`);
       reset();
     } catch (error: any) {
@@ -117,7 +120,7 @@ function Page({}: Props) {
               id="password"
               type="password"
               required
-              {...(register(`password`), { minLength: 8 })}
+              {...register(`password`)}
             />{" "}
           </div>{" "}
           <div className="flex flex-col gap-2">
@@ -131,7 +134,7 @@ function Page({}: Props) {
               id="confirmPassword"
               type="password"
               required
-              {...(register(`confirmPassword`), { minLength: 8 })}
+              {...register(`confirmPassword`)}
             />{" "}
           </div>{" "}
           {error ? <Alert color="red" message={error} func={setError} /> : null}

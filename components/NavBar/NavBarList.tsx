@@ -14,6 +14,10 @@ function NavBarList({}: Props) {
         {" "}
         <li className="text-red-800 uppercase">Booking</li>
       </Link>
+      <Link href="/shop">
+        {" "}
+        <li className="text-blue-800 uppercase">Shop</li>
+      </Link>
       <Link href="/contact">
         {" "}
         <li>CONTACT ME</li>

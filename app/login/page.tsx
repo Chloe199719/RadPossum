@@ -99,6 +99,13 @@ function Page({}: Props) {
             </button>
           </Link>
         </div>
+        <div className="flex flex-1 w-full px-10">
+          <Link className="w-full" href="/forgotpassword">
+            <button className="bg-[#30bead] mt-2 p-4 w-full  rounded-lg">
+              Forgot your Password?
+            </button>
+          </Link>
+        </div>
       </div>
     </section>
   );
