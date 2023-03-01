@@ -19,14 +19,11 @@ export default async function handler(
     res.status(400).json({ message: `Bad Request` });
     return;
   }
-  console.log(time.getDay());
+
   try {
     const itemData = await fetchPaypal(req.body.item);
     const timeValid = await checkTimeExist(req.body.selHour, req.body.date);
     const request = new paypal.orders.OrdersCreateRequest();
-    console.log(
-      time.getDay() === 6 ? itemData.price_saturday : itemData.price_standard
-    );
     const hash = Hash();
     request.prefer("return=representation");
     request.requestBody({

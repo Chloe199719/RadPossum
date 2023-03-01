@@ -1,8 +1,7 @@
 import pb from "@/lib/pocketbase";
 import { PayPalButtons } from "@paypal/react-paypal-js";
-import { rejects } from "assert";
-import { InputHTMLAttributes, useRef } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { InputHTMLAttributes, RefObject, useRef } from "react";
+
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
@@ -16,8 +15,8 @@ type Props = {
     privacy: string;
     duration: string;
   }[];
-  privacyCur: string;
-  durationCur: string;
+  privacyCur: RefObject<HTMLSelectElement>;
+  durationCur: RefObject<HTMLSelectElement>;
 };
 
 function PaypalBtn({
@@ -30,14 +29,19 @@ function PaypalBtn({
   const discordIDRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-
-  const getProdID = function (dur: string, priv: string) {
+  console.log(privacyCur.current?.value);
+  const getProdID = function () {
+    console.log(privacyCur.current?.value, durationCur.current?.value);
     let id = "";
     paypalID.forEach((e) => {
-      if (e.duration === dur && e.privacy === priv) {
+      if (
+        e.duration === durationCur.current?.value &&
+        e.privacy === privacyCur.current?.value
+      ) {
         id = e.private_id;
       }
     });
+    console.log(id);
     return id;
   };
   const createOrder = async function () {
@@ -49,7 +53,7 @@ function PaypalBtn({
         method: "POST",
         headers: { "Content-type": `application/json` },
         body: JSON.stringify({
-          item: getProdID(durationCur, privacyCur),
+          item: getProdID(),
           date: date,
           selHour: selHour,
           discordID: discordIDRef.current.value,

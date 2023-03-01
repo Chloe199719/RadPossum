@@ -1,4 +1,5 @@
 import pb from "@/lib/pocketbase";
+import { RefObject } from "react";
 import toast from "react-hot-toast";
 
 type Props = {
@@ -11,15 +12,18 @@ type Props = {
     privacy: string;
     duration: string;
   }[];
-  privacy: string;
-  duration: string;
+  privacy: RefObject<HTMLSelectElement>;
+  duration: RefObject<HTMLSelectElement>;
 };
 
 function CheckoutBtn({ date, selHour, btnData, privacy, duration }: Props) {
   const getProdID = function () {
     let id = "";
     btnData.forEach((e) => {
-      if (e.duration === duration && e.privacy === privacy) {
+      if (
+        e.duration === duration.current?.value &&
+        e.privacy === privacy.current?.value
+      ) {
         id = e.productID;
       }
     });

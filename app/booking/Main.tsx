@@ -3,7 +3,7 @@
 import pb from "@/lib/pocketbase";
 import dynamic from "next/dist/shared/lib/dynamic";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Calendar } from "react-calendar";
 import PaypalBtn from "./PaypalBtn";
 const CheckoutBtn = dynamic(() => import(`./CheckoutBtn`), { ssr: false });
@@ -30,8 +30,10 @@ function Main({ btnData, hours, paypalID }: Props) {
   const [availableHours, setAvailableHours] = useState<string[]>();
   const [selectedHour, setSelectedHour] = useState(``);
   const [data, setDate] = useState(new Date());
-  const [duration, setDuration] = useState(`50min`);
-  const [privacy, setPrivacy] = useState(`Private`);
+  // const [duration, setDuration] = useState(`50min`);
+  // const [privacy, setPrivacy] = useState(`Private`);
+  const duration = useRef<HTMLSelectElement>(null);
+  const privacy = useRef<HTMLSelectElement>(null);
   // Sets How many Days In Advance You can Book // Also Probably Change 3 for ENV Variable
   const minDaysDate = function () {
     const curDate = new Date();
@@ -115,10 +117,11 @@ function Main({ btnData, hours, paypalID }: Props) {
         <select
           name="time"
           id="time"
-          value={duration}
-          onChange={(e) => {
-            setDuration(e.target.value);
-          }}
+          ref={duration}
+          // value={duration}
+          // onChange={(e) => {
+          //   setDuration(e.target.value);
+          // }}
         >
           <option value="50min">50min</option>
           <option value="30min">30min</option>
@@ -126,10 +129,11 @@ function Main({ btnData, hours, paypalID }: Props) {
         <select
           name="time"
           id="time"
-          value={privacy}
-          onChange={(e) => {
-            setPrivacy(e.target.value);
-          }}
+          // value={privacy}
+          // onChange={(e) => {
+          //   setPrivacy(e.target.value);
+          // }}
+          ref={privacy}
         >
           <option value="Private">Private</option>
           <option value="Public">Public</option>

@@ -5,6 +5,7 @@ import fetchPaypal from "@/lib/paypal/fetchPaypalItems";
 import checkTimeExist from "@/lib/bookinglesson/timeValidation";
 import bookingLesson from "@/lib/bookinglesson/bookinglesson";
 import generateTime from "@/lib/bookinglesson/generatetime";
+import saveOrderLogPaypal from "@/lib/paypal/saveorderLog";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -19,7 +20,7 @@ export default async function handler(
       orderDetails.result.purchase_units[0].reference_id
     );
     const timeValid = await checkTimeExist(req.body.selHour, req.body.date);
-    await bookingLesson({
+    const lessonBook = await bookingLesson({
       date: generateTime(req.body.date),
       hour: req.body.selHour,
       client: req.body.client,
@@ -30,9 +31,14 @@ export default async function handler(
       email: orderDetails.result.purchase_units[0].payee.email_address,
     });
     const returnData = await paypalClient.execute(orderData);
+    const log = await saveOrderLogPaypal({
+      invoice_id: returnData.result.purchase_units[0].invoice_id,
+      item_bought: returnData.result.purchase_units[0].reference_id,
+      booking: lessonBook?.id,
+      value: returnData.result.purchase_units[0].amount.value,
+    });
     res.status(200).json({ message: `Completed` });
     // Add Logging to Order to DB
-    console.log(returnData.result.purchase_units);
     return;
   } catch (error: any) {
     console.log(error);

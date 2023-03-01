@@ -31,7 +31,7 @@ export default async function bookingLesson({
       },
       { APIKEY: "412312312" } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
     );
-    await pb.collection(`bookingUSER`).create(
+    const lessonBook = await pb.collection(`bookingUSER`).create(
       {
         date: date,
         hour: hour,
@@ -52,6 +52,7 @@ export default async function bookingLesson({
       text: `Your Lesson is Booked for ${date} at ${hour} `,
       html: `<p>Your Lesson is Booked for ${date} at ${hour}</p>`,
     });
+    return lessonBook;
   } catch (error) {
     console.log(error);
   }
