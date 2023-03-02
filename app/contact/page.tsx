@@ -93,16 +93,18 @@ function Page({}: Props) {
           </p>
         </div>
         <form
-          className="flex flex-col items-center justify-center gap-3"
+          className="flex flex-col form-control items-center justify-center gap-3"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex gap-3 flex-col md:flex-row">
             <div className="flex flex-col">
-              <label htmlFor="name">
-                Name<span className="text-red-600">*</span>
+              <label htmlFor="name" className="">
+                <span className=" label-text">Name</span>
+                <span className="text-red-600 label-text">*</span>
               </label>
               <input
                 id="name"
+                className="input border-transparent focus:border-transparent focus:ring-0 focus:outline-primary"
                 placeholder="Ex: Chloe"
                 type="text"
                 {...register("name")}
@@ -110,75 +112,101 @@ function Page({}: Props) {
             </div>
             <div className="flex flex-col">
               <label htmlFor="name">
-                Email<span className="text-red-600">*</span>
+                <span className=" label-text">Email</span>{" "}
+                <span className="label-text text-red-600">*</span>
               </label>
               <input
                 type="email"
+                className="input border-transparent focus:border-transparent focus:ring-0 focus:outline-primary"
                 placeholder="Ex: chloe@chloevison.com"
                 {...register("email")}
               />
             </div>
             <div className="flex flex-col">
               <label htmlFor="name">
-                Discord ID<span className="text-red-600">*</span>
+                <span className=" label-text"> Discord ID</span>
+                <span className="text-red-600 label-text">*</span>
               </label>
               <input
                 type="text"
+                className="input border-transparent focus:border-transparent focus:ring-0 focus:outline-primary"
                 placeholder="Ex: Chloe#1231"
                 {...register("discordID")}
               />
             </div>
           </div>
           <div className="grid grid-cols-2 md:flex gap-3 w-full items-center justify-center flex-col md:flex-row">
-            <div className="flex gap-3">
+            <div className="flex gap-3 items-center">
               {" "}
               <input
+                className="checkbox-primary checkbox"
                 id="she/her"
                 type="checkbox"
                 value="She/Her"
                 {...register("SheHer")}
               />
-              <label htmlFor="she/her">She/Her</label>{" "}
+              <label htmlFor="she/her">
+                <span className="label-text">She/Her</span>
+              </label>{" "}
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-3 items-center">
               <input
+                className="checkbox-primary checkbox"
                 id="he/him"
                 value="He/Him"
                 type="checkbox"
                 {...register("HeHim")}
               />
-              <label htmlFor="he/him">He/Him</label>
+              <label htmlFor="he/him">
+                {" "}
+                <span className="label-text">He/Him</span>
+              </label>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-3 items-center">
               <input
+                className="checkbox-primary checkbox"
                 id="they/them"
                 value="They/Them"
                 type="checkbox"
                 {...register("TheyThem")}
               />
-              <label htmlFor="they/them">They/them</label>
+              <label htmlFor="they/them">
+                {" "}
+                <span className="label-text">They/them</span>
+              </label>
             </div>
-            <div className="flex gap-3">
-              <input id="other" type="checkbox" {...register("other")} />
-              <label htmlFor="other">Other</label>
+            <div className="flex gap-3 items-center">
+              <input
+                className="checkbox-primary checkbox"
+                id="other"
+                type="checkbox"
+                {...register("other")}
+              />
+              <label htmlFor="other">
+                {" "}
+                <span className="label-text">Other</span>
+              </label>
             </div>
             <input
               placeholder="If you selected other drop you prefrences here"
-              className="flex-1 col-span-2"
+              className="input border-transparent focus:border-transparent focus:ring-0 focus:outline-primary flex-1"
               type="text"
               {...register("otherInput")}
             />
           </div>
-          <label htmlFor="message">Message</label>
+          <label htmlFor="message">
+            {" "}
+            <span className="label-text">Message</span>
+          </label>
           <textarea
             placeholder="Message that u wanna send"
-            className=" w-full"
+            className="textarea border-transparent focus:border-transparent focus:ring-0 focus:outline-primary w-full "
             id="message"
             {...register("message")}
           />
           <button
             disabled={loading}
-            className="w-full py-2 mt-3 px-10 bg-[#30bead] uppercase text-2xl rounded-lg"
+            className=" btn btn-primary w-full py-2 mt-3 px-10  text-white uppercase text-2xl rounded-lg"
           >
             Submit{" "}
             {loading ? <Spinner color="info" aria-label="Loading" /> : null}

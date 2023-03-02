@@ -99,7 +99,7 @@ function Main({ btnData, hours, paypalID }: Props) {
           availableHours?.map((e, i) => {
             return (
               <button
-                className="px-6 py-2 bg-[#30bead]/30 hover:bg-[#30bead]/80 my-3 border border-black"
+                className="btn btn-primary px-7 text-base text-white"
                 onClick={() => {
                   setSelectedHour(e);
                 }}
@@ -118,6 +118,7 @@ function Main({ btnData, hours, paypalID }: Props) {
           name="time"
           id="time"
           ref={duration}
+          className="select focus:outline-none border-transparent focus:border-transparent focus:ring-0"
           // value={duration}
           // onChange={(e) => {
           //   setDuration(e.target.value);
@@ -128,6 +129,7 @@ function Main({ btnData, hours, paypalID }: Props) {
         </select>
         <select
           name="time"
+          className="select select-primary focus:outline-none select-bordered border-transparent focus:border-transparent focus:ring-0"
           id="time"
           // value={privacy}
           // onChange={(e) => {

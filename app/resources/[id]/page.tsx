@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-
+import ReactMarkdown from "react-markdown";
 type Props = {
   params: {
     id: string;
@@ -29,12 +29,27 @@ const fetchPost = async (id: string) => {
   `this is a great exercise for maintaining vocal fold closure while also breaking into higher pitches and maintaining stabilized vocal folds here's a clip of me doing the whimpers and progressively using lower airflow to get even lower on vocal weight`,
 ];
 async function Page({ params }: Props) {
+  const test = `A paragraph with *emphasis* and **strong importance**.
+
+  > A block quote with ~strikethrough~ and a URL: https://reactjs.org.
+  
+  * Lists
+  * [ ] todo
+  * [x] done
+  
+  A table:
+  
+  | a | b |
+  | - | - |
+  `;
   const data = await fetchPost(params.id);
   return (
     <div className="flex flex-col justify-center items-center gap-6 flex-1 px-10">
       <h2 className=" text-4xl">{data?.title}</h2>
       <div className="flex flex-col gap-4">
-        {data.body?.map((e: string, i: string) => {
+        <ReactMarkdown className="test">{data.body}</ReactMarkdown>
+
+        {/* {data.body?.map((e: string, i: string) => {
           return (
             <p className=" text-lg tracking-wide" key={i}>
               {e}
@@ -69,7 +84,7 @@ async function Page({ params }: Props) {
               height={500}
             />
           );
-        })}
+        })} */}
       </div>
     </div>
   );
