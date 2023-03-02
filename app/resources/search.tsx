@@ -8,17 +8,15 @@ type Props = {
 };
 function Search({ data }: Props) {
   const [query, setQuery] = useState(``);
-  const keys = ["title"];
+  const keys = ["title", `body`];
   const search = (data: any) => {
     return data.filter((item: any) => {
-      return (
-        keys.some((key) =>
-          item[key].toLowerCase().includes(query.toLowerCase())
-        ) ||
-        item.body.some((body: string) => {
-          return body.toLowerCase().includes(query.toLowerCase());
-        })
+      return keys.some((key) =>
+        item[key].toLowerCase().includes(query.toLowerCase())
       );
+      // item.body.some((body: string) => {
+      //   return body.toLowerCase().includes(query.toLowerCase());
+      // })
     });
   };
 

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 type Props = {
   params: {
     id: string;
@@ -47,7 +48,9 @@ async function Page({ params }: Props) {
     <div className="flex flex-col justify-center items-center gap-6 flex-1 px-10">
       <h2 className=" text-4xl">{data?.title}</h2>
       <div className="flex flex-col gap-4">
-        <ReactMarkdown className="test">{data.body}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkGfm]} className="test">
+          {data.body}
+        </ReactMarkdown>
 
         {/* {data.body?.map((e: string, i: string) => {
           return (
