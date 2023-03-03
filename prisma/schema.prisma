@@ -39,14 +39,15 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?       @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
   lessons       lessons[]
+  LessonCodes   LessonCodes[]
 }
 
 model VerificationToken {
@@ -140,4 +141,35 @@ model AudioOnResources {
   audioId    String
 
   @@id([resourceId, audioId])
+}
+
+model LessonCodes {
+  id                String   @id @unique @default(cuid())
+  code              String   @unique
+  used              Boolean  @default(false)
+  public_or_private String
+  time              String
+  isValid           Boolean  @default(true)
+  timeCreated       DateTime @default(now())
+  user              User     @relation(fields: [userID], references: [id])
+  userID            String
+}
+
+model booking {
+  id                String             @id @unique @default(cuid())
+  date              String
+  hour              String
+  transactionID     String?
+  paypal_order_logs paypal_order_logs?
+}
+
+// Booking needs user and more 
+// Item Bought can have a Relation currently only ID Stringe identifier
+model paypal_order_logs {
+  id          String  @id @unique @default(cuid())
+  invoice_id  String
+  value       Float
+  booking     booking @relation(fields: [bookingId], references: [id])
+  bookingId   String  @unique
+  item_bought String
 }
