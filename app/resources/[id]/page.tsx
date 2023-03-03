@@ -26,23 +26,8 @@ const fetchPost = async (id: string) => {
     console.log(e, "Error");
   }
 };
-[
-  `this is a great exercise for maintaining vocal fold closure while also breaking into higher pitches and maintaining stabilized vocal folds here's a clip of me doing the whimpers and progressively using lower airflow to get even lower on vocal weight`,
-];
-async function Page({ params }: Props) {
-  const test = `A paragraph with *emphasis* and **strong importance**.
 
-  > A block quote with ~strikethrough~ and a URL: https://reactjs.org.
-  
-  * Lists
-  * [ ] todo
-  * [x] done
-  
-  A table:
-  
-  | a | b |
-  | - | - |
-  `;
+async function Page({ params }: Props) {
   const data = await fetchPost(params.id);
   return (
     <div className="flex flex-col justify-center items-center gap-6 flex-1 px-10">
