@@ -14,13 +14,21 @@ export default function Avatar({}: Props) {
   const data = pb.authStore.model;
   const router = useRouter();
   const { count } = useStore();
-
+  console.log(data?.avatar);
   return (
     <>
       {data ? (
         <Dropdown
           label={
-            <Pic size="md" rounded={true} img="/chloe.png">
+            <Pic
+              size="md"
+              rounded={true}
+              img={
+                data.avatar
+                  ? `${process.env.NEXT_PUBLIC_DB_URL}api/files/users/${data.id}/${data.avatar}`
+                  : `chloe.png`
+              }
+            >
               <div className="space-y-1 font-medium dark:text-white">
                 <div>{data.name} </div>
               </div>

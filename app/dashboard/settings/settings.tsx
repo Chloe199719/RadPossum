@@ -1,6 +1,7 @@
 "use client";
 import { useStore } from "@/components/useStore";
 import pb from "@/lib/pocketbase";
+import AvatarUpload from "./AvatarUpload";
 import ChangeDisplayName from "./ChangeDisplayName";
 import ChangePassword from "./ChangePassword";
 
@@ -18,6 +19,8 @@ function Settings({}: Props) {
         <ChangePassword />
         <h3 className=" text-3xl">Change Display Name</h3>
         <ChangeDisplayName />
+        <h3 className=" text-3xl">Upload an Avatar</h3>
+        <AvatarUpload />
       </div>{" "}
     </div>
   );
