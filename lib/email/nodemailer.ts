@@ -6,6 +6,6 @@ export const transporter = nodemailer.createTransport({
   secure: true, // use TLS
   auth: {
     user: process.env.SMTP_USER,
-    pass: process.env.SMPT_PW,
+    pass: process.env.SMTP_PW,
   },
 });
