@@ -33,7 +33,7 @@ function Dashboard({}: Props) {
     );
   };
   return (
-    <div className="flex flex-col justify-start items-center gap-6 flex-1 px-10">
+    <div className="flex flex-col justify-start md:items-center gap-6 flex-1 px-10">
       <div className="  flex justify-center">
         <h2 className="text-5xl">{userInfo?.name} Lessons</h2>
       </div>

@@ -7,16 +7,16 @@ export default function DashboardLayout({
 }) {
   return (
     <section className="min-h-screen flex flex-col py-28  mx-auto items-center justify-center z-[5] snap-start md:snap-center bg-gradient-to-b from-[#30bead]/30 to-[#ff7e84]/40">
-      <div className="font-mono max-w-7xl gap-8 flex flex-col items-center justify-center mx-auto  border-black rounded-xl p-12 bg-zinc-200 w-screen relative">
+      <div className="font-mono max-w-7xl gap-8 flex flex-col items-center justify-center mx-auto  border-black rounded-xl pt-4 md:p-12 bg-zinc-200 w-screen relative">
         <div
-          className="drawer drawer-mobile h-fit
+          className="drawer drawer-mobile md:h-fit
 "
         >
           <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content flex flex-col items-center justify-start ">
             <label
               htmlFor="my-drawer-2"
-              className=" lg:hidden absolute top-0
+              className=" lg:hidden absolute top-10
                left-0 z-100"
             >
               <svg
@@ -31,7 +31,7 @@ export default function DashboardLayout({
           </div>
           <div className="drawer-side">
             <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-            <ul className="menu p-4 w-80 bg-base-100 text-base-content gap-2  h-fit">
+            <ul className="menu p-4 w-80 bg-base-100 md:bg-transparent text-xl text-base-content gap-2  md:h-fit">
               <label htmlFor="my-drawer-2">
                 <svg
                   className=" w-10 h-10 inline md:hidden "
