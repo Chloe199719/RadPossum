@@ -30,7 +30,10 @@ export default function DashboardLayout({
             {children}
           </div>
           <div className="drawer-side">
-            <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
+            <label
+              htmlFor="my-drawer-2"
+              className="drawer-overlay md:hidden"
+            ></label>
             <ul className="menu p-4 w-80 bg-base-100 md:bg-transparent text-xl text-base-content gap-2  md:h-fit">
               <label htmlFor="my-drawer-2">
                 <svg
