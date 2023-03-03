@@ -1,5 +1,7 @@
+import pb from "@/lib/pocketbase";
 import React from "react";
 import ShopCard from "./shopCard";
+import { headers } from "next/headers";
 type cards = {
   id: string;
   title: string;
@@ -31,6 +33,7 @@ const fetchCards = async function () {
 };
 async function Page({}: Props) {
   const cards: cards[] = await fetchCards();
+
   return (
     <main className="min-h-screen flex flex-col py-28 pb-24  mx-auto items-center justify-center z-[5] snap-start md:snap-center bg-gradient-to-b from-[#30bead]/30 to-[#ff7e84]/40">
       <div className="font-mono max-w-6xl gap-8 flex flex-col items-center justify-center mx-auto  border-black rounded-xl p-12 bg-zinc-200 w-full">

@@ -1,5 +1,9 @@
 {
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "cSpell.words": ["forgotpassword", "Signup"]
+  "cSpell.words": ["forgotpassword", "Signup"],
+  "editor.formatOnSave": true,
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 }

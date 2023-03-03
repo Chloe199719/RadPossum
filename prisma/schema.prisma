@@ -1,0 +1,143 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//  Required for Next/Auth
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  lessons       lessons[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Questions {
+  id       String @id @default(cuid())
+  question String
+  answer   String
+}
+
+model SocialMedia {
+  id              String @id @default(cuid())
+  name            String
+  socialmedia_url String
+}
+
+model Aboutme {
+  id   String @id @default(cuid())
+  desc String
+}
+
+model hero {
+  id           String @id @default(cuid())
+  titleFirst   String
+  higlightText String
+  mainText     String
+  titleSec     String
+}
+
+model messages {
+  id         String  @id @default(cuid())
+  name       String
+  email      String
+  discordID  String
+  pronouns   String?
+  message    String
+  readSolved Boolean @default(false)
+}
+
+model lessons {
+  id          String               @id @default(cuid())
+  User        User                 @relation(fields: [userID], references: [id])
+  userID      String
+  lessonTitle String
+  recording   String
+  notes       String
+  homework    String
+  exercises   ExercicesOnLessons[]
+}
+
+// Needs to be checked more fields might be needed
+model exercice {
+  id      String               @id @default(cuid())
+  name    String
+  desc    String
+  lessons ExercicesOnLessons[]
+}
+
+model ExercicesOnLessons {
+  lesson     lessons  @relation(fields: [lessonId], references: [id])
+  lessonId   String
+  exercice   exercice @relation(fields: [exerciceId], references: [id])
+  exerciceId String
+
+  @@id([lessonId, exerciceId])
+}
+
+model Resources {
+  id    String             @id @default(cuid())
+  title String
+  audio AudioOnResources[]
+  body  String
+}
+
+model Audio {
+  id       String             @id @default(cuid())
+  url      String
+  resource AudioOnResources[]
+}
+
+model AudioOnResources {
+  resource   Resources @relation(fields: [resourceId], references: [id])
+  resourceId String
+  audio      Audio     @relation(fields: [audioId], references: [id])
+  audioId    String
+
+  @@id([resourceId, audioId])
+}
