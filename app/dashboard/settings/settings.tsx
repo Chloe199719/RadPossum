@@ -4,6 +4,7 @@ import pb from "@/lib/pocketbase";
 import AvatarUpload from "./AvatarUpload";
 import ChangeDisplayName from "./ChangeDisplayName";
 import ChangePassword from "./ChangePassword";
+import DeleteAvatar from "./DeleteAvatar";
 
 type Props = {};
 function Settings({}: Props) {
@@ -21,6 +22,7 @@ function Settings({}: Props) {
         <ChangeDisplayName />
         <h3 className=" text-3xl">Upload an Avatar</h3>
         <AvatarUpload />
+        {pb.authStore.model?.avatar ? <DeleteAvatar /> : null}
       </div>{" "}
     </div>
   );
