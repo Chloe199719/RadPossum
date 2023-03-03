@@ -99,8 +99,8 @@ model lessons {
   userID      String
   lessonTitle String
   recording   String
-  notes       String
-  homework    String
+  notes       String?
+  homework    String?
   exercises   ExercicesOnLessons[]
 }
 
@@ -164,6 +164,12 @@ model booking {
 }
 
 // Booking needs user and more 
+
+model avaiable_hours {
+  id   String @id @unique @default(cuid())
+  hour String
+}
+
 // Item Bought can have a Relation currently only ID Stringe identifier
 model paypal_order_logs {
   id          String  @id @unique @default(cuid())
