@@ -45,3 +45,4 @@ export default async function DashboardLayout({
     </main>
   );
 }
+export const revalidate = 60;

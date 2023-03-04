@@ -45,4 +45,3 @@ function Search({ data }: Props) {
   );
 }
 export default Search;
-export const revalidate = 60;
