@@ -2,6 +2,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import React from "react";
 
 import dynamic from "next/dynamic";
+import prismaClient from "@/lib/prisma/prismaClient";
 
 const Main = dynamic(() => import(`./Main`), { ssr: false });
 
@@ -50,18 +51,20 @@ const fetchPaypalPublic = async function () {
 };
 const fetchHours = async function () {
   try {
-    const res = await fetch(
-      `${process.env.DB_URL}api/collections/available_Hours/records/?sort=+hour`,
-      {
-        method: `GET`,
-        next: { revalidate: parseInt(process.env.REVALIDATE!) },
-      }
-    );
-    if (!res.ok) {
-      console.log(res);
-    }
-    const data = await res.json();
-
+    // const res = await fetch(
+    //   `${process.env.DB_URL}api/collections/available_Hours/records/?sort=+hour`,
+    //   {
+    //     method: `GET`,
+    //     next: { revalidate: parseInt(process.env.REVALIDATE!) },
+    //   }
+    // );
+    // if (!res.ok) {
+    //   console.log(res);
+    // }
+    // const data = await res.json();
+    const data = await prismaClient.avaiable_hours.findMany({
+      orderBy: [{ hour: "asc" }],
+    });
     return data;
   } catch (e) {
     console.log(e, "Error");
@@ -73,7 +76,7 @@ async function Page({}: Props) {
   const hours = async function () {
     const data = await fetchHours();
     const array: Array<string> = [];
-    data.items.forEach((e: any) => {
+    data?.forEach((e: any) => {
       array.push(e.hour);
     });
     return array;
@@ -93,3 +96,4 @@ async function Page({}: Props) {
   );
 }
 export default Page;
+export const revalidate = 60;

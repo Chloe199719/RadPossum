@@ -1,3 +1,5 @@
+import prismaClient from "@/lib/prisma/prismaClient";
+import { Aboutme, SocialMedia } from "@prisma/client";
 import Image from "next/image";
 import React from "react";
 import { SocialIcon } from "react-social-icons";
@@ -27,11 +29,12 @@ type Props = {};
 
 const fetchAboutMe = async function () {
   try {
-    const res = await fetch(
-      `${process.env.DB_URL}api/collections/aboutme/records/`,
-      { next: { revalidate: 100 } }
-    );
-    const data = await res.json();
+    // const res = await fetch(
+    //   `${process.env.DB_URL}api/collections/aboutme/records/`,
+    //   { next: { revalidate: 100 } }
+    // );
+    // const data = await res.json();
+    const data = await prismaClient.aboutme.findMany();
 
     return data;
   } catch (e) {
@@ -42,19 +45,14 @@ const fetchAboutMe = async function () {
 // Fetches Social Media Links
 const fetchSocialMedia = async function () {
   try {
-    const res = await fetch(
-      `${process.env.DB_URL}api/collections/social_media/records`,
-      { next: { revalidate: 100 } }
-    );
-    const data = await res.json();
-    return data;
+    const res = await prismaClient.socialMedia.findMany();
+    return res;
   } catch (e) {
     console.log(e, "Error");
   }
 };
 
 async function About({}: Props) {
-
   // Calls the fetch funtions
   const aboutMeData = await fetchAboutMe();
   const socialMediaData = await fetchSocialMedia();
@@ -74,10 +72,10 @@ async function About({}: Props) {
           <h1 className=" text-zinc-800 font-mono text-8xl uppercase tracking-widest ">
             About Me
           </h1>
-          {aboutMeData?.items.map((e: About) => {
+          {aboutMeData?.map((e: Aboutme) => {
             return (
               <p key={e.id} className=" text-lg">
-               {e.desc}
+                {e.desc}
               </p>
             );
           })}
@@ -86,7 +84,7 @@ async function About({}: Props) {
             Social Media
           </h4>
           <div className="flex gap-4">
-            {socialMediaData.items.map((e: Social) => {
+            {socialMediaData?.map((e: SocialMedia) => {
               return <SocialIcon key={e.id} url={e.socialmedia_url} />;
             })}
           </div>
@@ -111,3 +109,4 @@ async function About({}: Props) {
 }
 
 export default About;
+export const revalidate = 60;

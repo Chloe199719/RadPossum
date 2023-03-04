@@ -1,3 +1,4 @@
+import prismaClient from "@/lib/prisma/prismaClient";
 import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -10,17 +11,24 @@ type Props = {
 
 const fetchPost = async (id: string) => {
   try {
-    const res = await fetch(
-      `${process.env.DB_URL}api/collections/resources/records/${id}?expand=urls,audio,images`,
-      {
-        next: { revalidate: parseInt(process.env.REVALIDATE!) },
-      }
-    );
-    if (!res.ok) {
-      console.log(res);
-    }
-    const data = await res.json();
-
+    // const res = await fetch(
+    //   `${process.env.DB_URL}api/collections/resources/records/${id}?expand=urls,audio,images`,
+    //   {
+    //     next: { revalidate: parseInt(process.env.REVALIDATE!) },
+    //   }
+    // );
+    // if (!res.ok) {
+    //   console.log(res);
+    // }
+    // const data = await res.json();
+    const data = await prismaClient.resources.findUnique({
+      where: {
+        id: id,
+      },
+      include: {
+        audio: true,
+      },
+    });
     return data;
   } catch (e) {
     console.log(e, "Error");
@@ -34,7 +42,7 @@ async function Page({ params }: Props) {
       <h2 className=" text-4xl">{data?.title}</h2>
       <div className="flex flex-col gap-4">
         <ReactMarkdown remarkPlugins={[remarkGfm]} className="test">
-          {data.body}
+          {data ? data.body : ``}
         </ReactMarkdown>
 
         {/* {data.body?.map((e: string, i: string) => {
@@ -78,3 +86,4 @@ async function Page({ params }: Props) {
   );
 }
 export default Page;
+export const revalidate = 60;

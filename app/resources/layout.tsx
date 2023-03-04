@@ -1,20 +1,25 @@
+import prismaClient from "@/lib/prisma/prismaClient";
 import Link from "next/link";
 import Search from "./search";
 
 const fetchResources = async () => {
   try {
-    const res = await fetch(
-      `${process.env.DB_URL}api/collections/resources/records/`,
-      {
-        method: `get`,
-        next: { revalidate: 100 },
-      }
-    );
-    if (!res.ok) {
-      console.log(res);
-    }
-    const data = await res.json();
-
+    // const res = await fetch(
+    //   `${process.env.DB_URL}api/collections/resources/records/`,
+    //   {
+    //     method: `get`,
+    //     next: { revalidate: 100 },
+    //   }
+    // );
+    // if (!res.ok) {
+    //   console.log(res);
+    // }
+    // const data = await res.json();
+    const data = await prismaClient.resources.findMany({
+      include: {
+        audio: true,
+      },
+    });
     return data;
   } catch (e) {
     console.log(e, "Error");

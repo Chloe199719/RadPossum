@@ -10,7 +10,7 @@ function Search({ data }: Props) {
   const [query, setQuery] = useState(``);
   const keys = ["title", `body`];
   const search = (data: any) => {
-    return data.filter((item: any) => {
+    return data?.filter((item: any) => {
       return keys.some((key) =>
         item[key].toLowerCase().includes(query.toLowerCase())
       );
@@ -31,7 +31,7 @@ function Search({ data }: Props) {
         className="px-2 py-1 rounded-md"
       />
       <ul className="text-xl flex flex-col gap-1 overflow-y-scroll max-h-[500px] ">
-        {search(data.items).map((e: any) => {
+        {search(data).map((e: any) => {
           return (
             <Link key={e.id} href={`/resources/${e.id}`}>
               <li className=" py-2 px-1 rounded-lg hover:bg-sky-600">
@@ -45,3 +45,4 @@ function Search({ data }: Props) {
   );
 }
 export default Search;
+export const revalidate = 60;

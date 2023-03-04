@@ -122,26 +122,26 @@ model ExercicesOnLessons {
 }
 
 model Resources {
-  id    String             @id @default(cuid())
+  id    String  @id @default(cuid())
   title String
-  audio AudioOnResources[]
+  audio Audio[]
   body  String
 }
 
 model Audio {
-  id       String             @id @default(cuid())
+  id       String      @id @default(cuid())
   url      String
-  resource AudioOnResources[]
+  resource Resources[]
 }
 
-model AudioOnResources {
-  resource   Resources @relation(fields: [resourceId], references: [id])
-  resourceId String
-  audio      Audio     @relation(fields: [audioId], references: [id])
-  audioId    String
+// model AudioOnResources {
+//   resource   Resources @relation(fields: [resourceId], references: [id])
+//   resourceId String
+//   audio      Audio     @relation(fields: [audioId], references: [id])
+//   audioId    String
 
-  @@id([resourceId, audioId])
-}
+//   @@id([resourceId, audioId])
+// }
 
 model LessonCodes {
   id                String   @id @unique @default(cuid())
