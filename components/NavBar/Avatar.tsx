@@ -7,29 +7,29 @@ import pb from "@/lib/pocketbase";
 import { useStore } from "../useStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
+import { signIn, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 type Props = {};
 
 export default function Avatar({}: Props) {
   const data = pb.authStore.model;
   const router = useRouter();
   const { count } = useStore();
+
+  const { data: session, status } = useSession();
+  console.log(status, session);
   return (
     <>
-      {data ? (
+      {status === "authenticated" ? (
         <Dropdown
           label={
             <Pic
               size="md"
               rounded={true}
-              img={
-                data.avatar
-                  ? `${process.env.NEXT_PUBLIC_DB_URL}api/files/users/${data.id}/${data.avatar}`
-                  : `/chloe.png`
-              }
+              img={session.user?.image ? session.user?.image : "/chloe.png"}
             >
               <div className="space-y-1 font-medium dark:text-white">
-                <div>{data.name} </div>
+                <div>{session.user?.name} </div>
               </div>
             </Pic>
           }
@@ -37,9 +37,9 @@ export default function Avatar({}: Props) {
           inline={true}
         >
           <Dropdown.Header>
-            <span className="block text-sm">{data.name}</span>
+            <span className="block text-sm">{session.user?.name}</span>
             <span className="block truncate text-sm font-medium">
-              {data.email}
+              {session.user?.email}
             </span>
           </Dropdown.Header>
           <Link href="/dashboard">
@@ -54,7 +54,7 @@ export default function Avatar({}: Props) {
           <Dropdown.Divider />
           <Dropdown.Item
             onClick={() => {
-              pb.authStore.clear();
+              signOut();
               useStore.setState({ count: Math.random() });
               router.push(`/`);
             }}
@@ -64,16 +64,26 @@ export default function Avatar({}: Props) {
         </Dropdown>
       ) : (
         <Button.Group>
-          <Button className="focus:ring-0" color="gray">
-            <Link className="w-full h-full" href="/signup">
-              {" "}
-              Signup
-            </Link>
+          <Button
+            onClick={() => {
+              signOut();
+            }}
+            className="focus:ring-0"
+            color="gray"
+          >
+            {/* <Link className="w-full h-full" href="/signup"> */} Signup
+            {/* </Link> */}
           </Button>
-          <Button className="focus:ring-0" color="gray">
-            <Link className="w-full h-full" href="/login">
-              Login
-            </Link>
+          <Button
+            onClick={() => {
+              signIn();
+            }}
+            className="focus:ring-0"
+            color="gray"
+          >
+            {/* <Link className="w-full h-full" href="/login"> */}
+            Login
+            {/* </Link> */}
           </Button>
         </Button.Group>
       )}

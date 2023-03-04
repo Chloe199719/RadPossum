@@ -12,7 +12,7 @@ datasource db {
 
 //  Required for Next/Auth
 model Account {
-  id                String  @id @default(cuid())
+  id                String  @id @unique @default(cuid())
   userId            String
   type              String
   provider          String
@@ -31,7 +31,7 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
+  id           String   @id @unique @default(cuid())
   sessionToken String   @unique
   userId       String
   expires      DateTime
@@ -39,7 +39,7 @@ model Session {
 }
 
 model User {
-  id            String        @id @default(cuid())
+  id            String        @id @unique @default(cuid())
   name          String?
   email         String?       @unique
   emailVerified DateTime?
@@ -59,13 +59,13 @@ model VerificationToken {
 }
 
 model Questions {
-  id       String @id @default(cuid())
+  id       String @id @unique @default(cuid())
   question String
   answer   String
 }
 
 model SocialMedia {
-  id              String @id @default(cuid())
+  id              String @id @unique @default(cuid())
   name            String
   socialmedia_url String
 }
@@ -76,7 +76,7 @@ model Aboutme {
 }
 
 model hero {
-  id           String @id @default(cuid())
+  id           String @id @unique @default(cuid())
   titleFirst   String
   higlightText String
   mainText     String
@@ -84,7 +84,7 @@ model hero {
 }
 
 model messages {
-  id         String  @id @default(cuid())
+  id         String  @id @unique @default(cuid())
   name       String
   email      String
   discordID  String
@@ -94,31 +94,22 @@ model messages {
 }
 
 model lessons {
-  id          String               @id @default(cuid())
-  User        User                 @relation(fields: [userID], references: [id])
+  id          String     @id @unique @default(cuid())
+  User        User       @relation(fields: [userID], references: [id])
   userID      String
   lessonTitle String
   recording   String
   notes       String?
   homework    String?
-  exercises   ExercicesOnLessons[]
+  exercises   exercice[]
 }
 
 // Needs to be checked more fields might be needed
 model exercice {
-  id      String               @id @default(cuid())
-  name    String
-  desc    String
-  lessons ExercicesOnLessons[]
-}
-
-model ExercicesOnLessons {
-  lesson     lessons  @relation(fields: [lessonId], references: [id])
-  lessonId   String
-  exercice   exercice @relation(fields: [exerciceId], references: [id])
-  exerciceId String
-
-  @@id([lessonId, exerciceId])
+  id     String    @id @default(cuid())
+  name   String
+  desc   String
+  lesson lessons[]
 }
 
 model Resources {
@@ -133,15 +124,6 @@ model Audio {
   url      String
   resource Resources[]
 }
-
-// model AudioOnResources {
-//   resource   Resources @relation(fields: [resourceId], references: [id])
-//   resourceId String
-//   audio      Audio     @relation(fields: [audioId], references: [id])
-//   audioId    String
-
-//   @@id([resourceId, audioId])
-// }
 
 model LessonCodes {
   id                String   @id @unique @default(cuid())
