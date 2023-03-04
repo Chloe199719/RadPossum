@@ -1,28 +1,18 @@
 import Hero from "@/app/Hero";
+import prismaClient from "@/lib/prisma/prismaClient";
 import About from "./About";
 import Faq from "./Faq";
 const fetchQA = async function () {
   try {
-    const res = await fetch(
-      `${process.env.DB_URL}api/collections/questions/records/`,
-      {
-        method: `get`,
-        next: { revalidate: 100 },
-      }
-    );
-    if (!res.ok) {
-      console.log(res);
-    }
-    const data = await res.json();
+    const res = await prismaClient.questions.findMany();
 
-    return data;
+    return res;
   } catch (e) {
     console.log(e, "Error");
   }
 };
 
 export default async function Home() {
-  const faqList = await fetchQA();
   // console.log(data);
   // const faqList = [
   //   {
@@ -52,6 +42,8 @@ export default async function Home() {
   //   },
   // ];
 
+  const faqList = await fetchQA();
+
   return (
     <main className="h-screen snap-y snap-mandatory overflow-y-scroll">
       {/* @ts-expect-error */}
@@ -59,7 +51,8 @@ export default async function Home() {
       {/* @ts-expect-error */}
       <About />
 
-      <Faq data={faqList.items} />
+      <Faq data={faqList} />
     </main>
   );
 }
+export const revalidate = 60;

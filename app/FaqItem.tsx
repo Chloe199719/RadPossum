@@ -1,15 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/24/solid";
+import { Questions } from "@prisma/client";
 
 type Props = {
-  data: {
-    id: number;
-    question: string;
-    answer: string;
-    link?: string;
-  };
+  data: Questions;
 };
+
 function FaqItem({ data }: Props) {
   const [open, setOpen] = useState(false);
   return (

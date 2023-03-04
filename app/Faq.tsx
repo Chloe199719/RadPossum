@@ -1,14 +1,10 @@
+import { Questions } from "@prisma/client";
 import Image from "next/image";
 import React from "react";
 import FaqItem from "./FaqItem";
 
 type Props = {
-  data: {
-    id: number;
-    question: string;
-    answer: string;
-    link?: string;
-  }[];
+  data: Questions[] | undefined;
 };
 function Faq({ data }: Props) {
   return (
