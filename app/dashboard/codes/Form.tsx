@@ -19,7 +19,6 @@ function Form({ date, selHour }: Props) {
       const test = await fetch("/api/code_booking", {
         method: `POST`,
         body: JSON.stringify({
-          clientID: pb.authStore.model?.id,
           clientEmail: pb.authStore.model?.email,
           bookedHour: selHour,
           time: date,

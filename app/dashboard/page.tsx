@@ -1,5 +1,4 @@
 import React from "react";
-import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 import prismaClient from "@/lib/prisma/prismaClient";
 
@@ -43,6 +42,27 @@ const fetchLesson = async function (token: string | undefined) {
   });
   return lesson;
 };
+const fetchBookings = async function (token: string | undefined) {
+  const id = await prismaClient.session.findUnique({
+    where: {
+      sessionToken: token,
+    },
+    select: {
+      userId: true,
+    },
+  });
+  if (!id) {
+    return null;
+  }
+  const booking = await prismaClient.booking.findMany({
+    where: {
+      userID: id.userId,
+    },
+    orderBy: [{ date: `asc` }, { hour: `asc` }],
+  });
+
+  return booking;
+};
 
 type Props = {};
 async function Page({}: Props) {
@@ -68,6 +88,18 @@ async function Page({}: Props) {
     }
     return null;
   };
-  return <Dashboard lesson={await lessonData()} />;
+  const lessonBookingData = async function () {
+    if (cookieStore.get(cookie)?.value) {
+      const data = await fetchBookings(cookieStore.get(cookie)?.value);
+      return data;
+    }
+    return null;
+  };
+  return (
+    <Dashboard
+      lesson={await lessonData()}
+      bookings={await lessonBookingData()}
+    />
+  );
 }
 export default Page;

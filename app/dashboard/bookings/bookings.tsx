@@ -1,66 +1,85 @@
-"use client";
-import pb from "@/lib/pocketbase";
-import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-
-import React from "react";
+import cookie from "@/lib/cookie";
+import prismaClient from "@/lib/prisma/prismaClient";
 import Booking from "../Booking";
+import { cookies } from "next/headers";
+
+const fetchBookings = async function (token: string | undefined) {
+  const id = await prismaClient.session.findUnique({
+    where: {
+      sessionToken: token,
+    },
+    select: {
+      userId: true,
+    },
+  });
+  if (!id) {
+    return null;
+  }
+  const bookingUpcoming = await prismaClient.booking.findMany({
+    where: {
+      userID: id.userId,
+      completed: {
+        equals: false,
+      },
+      canceled: {
+        equals: false,
+      },
+    },
+    orderBy: [{ date: `asc` }, { hour: `asc` }],
+  });
+  const bookingPast = await prismaClient.booking.findMany({
+    where: {
+      userID: id.userId,
+      completed: {
+        equals: true,
+      },
+      canceled: {
+        equals: false,
+      },
+    },
+    orderBy: [{ date: `asc` }, { hour: `asc` }],
+  });
+
+  return { bookingUpcoming, bookingPast };
+};
 
 type Props = {};
-function Dashboard({}: Props) {
-  const userInfo = pb.authStore.model;
-  const router = useRouter();
-
-  const BookingQuery = useQuery({
-    queryKey: [`bookingUSERold`],
-    queryFn: () =>
-      pb.collection(`bookingUSER`).getList(1, 20, {
-        filter: `completed = true && canceled = false`,
-        sort: `+date,hour`,
-        $autoCancel: false,
-      }),
-  });
-
-  const BookingQueryUpcoming = useQuery({
-    queryKey: [`bookingUSERUpcoming`],
-    queryFn: () =>
-      pb.collection(`bookingUSER`).getList(1, 20, {
-        filter: `completed = false && canceled = false`,
-        sort: `+date,hour`,
-        $autoCancel: false,
-      }),
-  });
-
+async function Dashboard({}: Props) {
+  const lessonBookingData = async function () {
+    const cookieStore = cookies();
+    if (cookieStore.get(cookie)?.value) {
+      const data = await fetchBookings(cookieStore.get(cookie)?.value);
+      return data;
+    }
+    return null;
+  };
+  const data = await lessonBookingData();
   const PastBookings = function () {
-    if (BookingQuery.data === undefined)
-      return <p className=" text-center">No Lesson Taken yet </p>;
-    if (BookingQuery.data?.totalItems === 0)
+    if (data?.bookingPast === null || data?.bookingPast.length === 0)
       return <p className=" text-center">No Lesson Taken yet </p>;
     return (
       <>
-        {BookingQuery.data.items.map((data) => {
+        {data?.bookingPast.map((data) => {
           return <Booking key={data.id} bookingData={data} />;
         })}
       </>
     );
   };
   const UpcomingBookings = function () {
-    if (BookingQueryUpcoming.data === undefined)
-      return <p className=" text-center">No Lesson Taken yet </p>;
-    if (BookingQueryUpcoming.data?.totalItems === 0)
+    if (data?.bookingUpcoming === null || data?.bookingUpcoming.length === 0)
       return <p className=" text-center">No Lesson Taken yet </p>;
     return (
       <>
-        {BookingQueryUpcoming.data.items.map((data) => {
+        {data?.bookingUpcoming.map((data) => {
           return <Booking key={data.id} bookingData={data} />;
         })}
       </>
     );
   };
   return (
-    <div className="flex flex-col justify-center items-center gap-6 flex-1 px-10">
+    <div className="flex flex-col justify-center items-center gap-6 flex-1 px-10 w-full">
       <div className="  flex justify-center">
-        <h2 className="text-5xl">{userInfo?.name} Bookings</h2>
+        <h2 className="text-5xl"> Bookings</h2>
       </div>
       <div className="flex flex-col items-center justify-center gap-2 w-full overflow-y-auto ">
         <h3 className=" my-5 text-3xl">Upcoming Times</h3>

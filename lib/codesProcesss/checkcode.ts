@@ -1,22 +1,23 @@
-import pb from "../pocketbase";
+import prismaClient from "../prisma/prismaClient";
 
 export default async function checkCode(code: string) {
   try {
-    const checkCode = await pb.collection("codes").getList(1, 50, {
-      filter: `code = "${code}" && isValid = true`,
-      API_KEY: process.env.API_KEY,
+    const checkCode = await prismaClient.lessonCodes.findUnique({
+      where: {
+        code: code,
+      },
     });
 
-    if (checkCode.totalItems === 0) {
+    if (!checkCode) {
       throw new Error(`Code Not valid`);
     }
-    if (checkCode.items[0]?.used) {
+    if (checkCode.used) {
       throw new Error(`Code Already Used`);
     }
     return Promise.resolve({
-      id: checkCode.items[0].id,
-      time: checkCode.items[0].time,
-      locale: checkCode.items[0].public_or_private,
+      id: checkCode.id,
+      time: checkCode.time,
+      locale: checkCode.public_or_private,
     });
   } catch (error: any) {
     return Promise.reject({ status: 400, message: error.message });

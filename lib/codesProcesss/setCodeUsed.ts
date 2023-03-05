@@ -1,7 +1,13 @@
 import pb from "../pocketbase";
+import prismaClient from "../prisma/prismaClient";
 
 export default async function setCodeUsed(id: string) {
-  await pb
-    .collection(`codes`)
-    .update(id, { used: true }, { API_KEY: process.env.API_KEY });
+  await prismaClient.lessonCodes.update({
+    where: {
+      id: id,
+    },
+    data: {
+      used: true,
+    },
+  });
 }

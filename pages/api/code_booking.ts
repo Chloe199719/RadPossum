@@ -3,6 +3,9 @@ import generateTime from "@/lib/bookinglesson/generatetime";
 import checkTimeExist from "@/lib/bookinglesson/timeValidation";
 import checkCode from "@/lib/codesProcesss/checkcode";
 import setCodeUsed from "@/lib/codesProcesss/setCodeUsed";
+import cookie from "@/lib/cookie";
+import fetchUserID from "@/lib/user/getUserByToken";
+import { getCookie } from "cookies-next";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 interface body {
@@ -36,8 +39,7 @@ export default async function handler(
     !body.time ||
     !body.bookedHour ||
     !body.code ||
-    !body.discordID ||
-    !body.clientID
+    !body.discordID
   ) {
     res
       .status(400)
@@ -45,6 +47,8 @@ export default async function handler(
     return;
   }
   try {
+    const token = getCookie(cookie, { req, res });
+    const userId = await fetchUserID(token as string);
     // Return a Resolved Promise if code is valid else throws a Rejected Promise
     const codeRes: codeRes = await checkCode(body.code);
     // Return a Resolved Promise if time doesn't exist yet else throws a Rejected Promise // Server Check if time Exists
@@ -54,7 +58,7 @@ export default async function handler(
     await bookingLesson({
       date: generateTime(body.time),
       hour: body.bookedHour,
-      client: body.clientID,
+      client: userId,
       locale: codeRes.locale,
       bookedTime: codeRes.time,
       discordID: body.discordID,

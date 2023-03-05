@@ -34,16 +34,17 @@ function Main({ hours }: Props) {
     setSelectedHour(``);
     try {
       const res = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_DB_URL
-        }api/collections/booking/records/?filter=(date= "${e.getFullYear()}-${
+        `/api/availableHours/?date=${e.getFullYear()}-${
           e.getMonth() + 1
-        }-${e.getDate()}")`,
-        { cache: "default" }
+        }-${e.getDate()}`,
+        {
+          cache: "default",
+          method: "GET",
+        }
       );
       const date = await res.json();
       const hoursav = hours.filter((hour) => {
-        return !date.items.some((e: any) => {
+        return !date.some((e: any) => {
           return e.hour.includes(hour);
         });
       });

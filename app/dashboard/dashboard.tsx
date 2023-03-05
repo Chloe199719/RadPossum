@@ -1,6 +1,6 @@
 "use client";
 import pb from "@/lib/pocketbase";
-import { lessons } from "@prisma/client";
+import { booking, lessons } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
@@ -24,9 +24,9 @@ type Props = {
         }[];
       }[]
     | null;
+  bookings: booking[] | null;
 };
-function Dashboard({ lesson }: Props) {
-  const userInfo = pb.authStore.model;
+function Dashboard({ lesson, bookings }: Props) {
   const router = useRouter();
 
   // const lessonQuery = useQuery({
@@ -37,15 +37,15 @@ function Dashboard({ lesson }: Props) {
   //       $autoCancel: false,
   //     }),
   // });
-  const BookingQuery = useQuery({
-    queryKey: [`bookingUSER`],
-    queryFn: () =>
-      pb.collection(`bookingUSER`).getList(1, 20, {
-        filter: `completed = false && canceled = false`,
-        sort: `+date,hour`,
-        $autoCancel: false,
-      }),
-  });
+  // const BookingQuery = useQuery({
+  //   queryKey: [`bookingUSER`],
+  //   queryFn: () =>
+  //     pb.collection(`bookingUSER`).getList(1, 20, {
+  //       filter: `completed = false && canceled = false`,
+  //       sort: `+date,hour`,
+  //       $autoCancel: false,
+  //     }),
+  // });
 
   const Test = function () {
     if (lesson === null || lesson.length === 0)
@@ -54,13 +54,12 @@ function Dashboard({ lesson }: Props) {
     return <Lesson lessonData={lesson[0]} />;
   };
   const UpcomingBooking = function () {
-    if (BookingQuery.data === undefined)
+    if (bookings === null || bookings.length === 0)
       return <p className=" text-center">No Lesson Taken yet </p>;
-    if (BookingQuery.data?.totalItems === 0)
-      return <p className=" text-center">No Lesson Taken yet </p>;
+
     return (
       <div className="flex flex-col w-full gap-1">
-        {BookingQuery.data?.items?.map((e) => {
+        {bookings.map((e) => {
           return <Booking key={e.id} bookingData={e} />;
         })}
       </div>
@@ -69,7 +68,7 @@ function Dashboard({ lesson }: Props) {
   return (
     <div className="flex flex-col justify-center items-center gap-6 flex-1 px-10 w-full">
       <div className="  flex justify-center">
-        <h2 className="text-5xl">Dashboard {userInfo?.name}</h2>
+        <h2 className="text-5xl">Dashboard </h2>
       </div>
       <div className="flex flex-col items-center justify-center gap-6 w-full">
         <h3 className=" text-3xl">Your Last Lesson was:</h3>
