@@ -5,37 +5,41 @@ import { useRouter } from "next/navigation";
 
 import React from "react";
 import Lesson from "../Lesson";
-type Props = {};
-function Dashboard({}: Props) {
-  const userInfo = pb.authStore.model;
-  const router = useRouter();
 
-  const lessonQuery = useQuery({
-    queryKey: [`lessons`],
-    queryFn: () =>
-      pb.collection(`lessons`).getList(1, 250, {
-        sort: `-date`,
-        $autoCancel: false,
-      }),
-  });
-
+type Props = {
+  lesson:
+    | {
+        id: string;
+        userID: string;
+        lessonTitle: string;
+        recording: string;
+        notes: string | null;
+        homework: string | null;
+        time: string | undefined;
+        exercises: {
+          id: string;
+          name: string;
+          desc: string;
+        }[];
+      }[]
+    | null;
+};
+function Dashboard({ lesson }: Props) {
   const Test = function () {
-    if (lessonQuery.data === undefined)
-      return <p className=" text-center">No Lesson Taken yet </p>;
-    if (lessonQuery.data?.totalItems === 0)
+    if (lesson === null || lesson.length === 0)
       return <p className=" text-center">No Lesson Taken yet </p>;
     return (
       <>
-        {lessonQuery.data.items.map((data) => {
+        {lesson.map((data) => {
           return <Lesson key={data.id} lessonData={data} />;
         })}
       </>
     );
   };
   return (
-    <div className="flex flex-col justify-start md:items-center gap-6 flex-1 px-10">
+    <div className="flex flex-col justify-start md:items-center gap-6 flex-1 px-10 w-full">
       <div className="  flex justify-center">
-        <h2 className="text-5xl">{userInfo?.name} Lessons</h2>
+        <h2 className="text-5xl"> Lessons</h2>
       </div>
       <div className="flex flex-col items-center justify-center gap-4 w-full overflow-y-auto ">
         <h3 className=" text-3xl">Lessons History</h3>

@@ -13,6 +13,11 @@ type lessons1 = {
   notes: string | null;
   homework: string | null;
   time: string | undefined;
+  exercises: {
+    id: string;
+    name: string;
+    desc: string;
+  }[];
 };
 const Dashboard = dynamic(() => import(`./dashboard`), { ssr: false });
 const fetchLesson = async function (token: string | undefined) {
@@ -33,8 +38,10 @@ const fetchLesson = async function (token: string | undefined) {
     },
     orderBy: [{ time: `desc` }],
     take: 1,
+    include: {
+      exercises: true,
+    },
   });
-  console.log(lesson[0].time?.getFullYear());
   return lesson;
 };
 
@@ -57,6 +64,7 @@ async function Page({}: Props) {
           notes: obj.notes,
           homework: obj.homework,
           time: obj.time?.toUTCString(),
+          exercises: obj.exercises,
         });
       });
       return returnData;
