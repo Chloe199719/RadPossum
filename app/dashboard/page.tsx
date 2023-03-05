@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 import prismaClient from "@/lib/prisma/prismaClient";
 import { lessons } from "@prisma/client";
+import cookie from "@/lib/cookie";
 type lessons1 = {
   id: string;
   userID: string;
@@ -49,10 +50,8 @@ type Props = {};
 async function Page({}: Props) {
   const cookieStore = cookies();
   const lessonData = async function () {
-    if (cookieStore.get(`next-auth.session-token`)?.value) {
-      const data = await fetchLesson(
-        cookieStore.get(`next-auth.session-token`)?.value
-      );
+    if (cookieStore.get(cookie)?.value) {
+      const data = await fetchLesson(cookieStore.get(cookie)?.value);
 
       const returnData: lessons1[] = [];
       data?.forEach((obj) => {

@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import prismaClient from "@/lib/prisma/prismaClient";
 import { lessons1 } from "@/types";
 import { cookies } from "next/headers";
+import cookie from "@/lib/cookie";
 
 const Dashboard = dynamic(() => import(`./lessons`), { ssr: false });
 const fetchLesson = async function (token: string | undefined) {
@@ -32,10 +33,7 @@ const fetchLesson = async function (token: string | undefined) {
 type Props = {};
 async function Page({}: Props) {
   const cookieStore = cookies();
-  const cookie =
-    process.env.NODE_ENV === "production"
-      ? `__Secure-next-auth.session-token`
-      : ` next-auth.session-token`;
+
   console.log(cookieStore.getAll());
   const lessonData = async function () {
     if (cookieStore.get(cookie)?.value) {
