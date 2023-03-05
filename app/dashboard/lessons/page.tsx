@@ -32,13 +32,14 @@ const fetchLesson = async function (token: string | undefined) {
 type Props = {};
 async function Page({}: Props) {
   const cookieStore = cookies();
-  console.log(cookieStore.get(`next-auth.session-token`)?.value);
+  const cookie =
+    process.env.NODE_ENV === "production"
+      ? `__Secure-next-auth.session-token`
+      : ` next-auth.session-token`;
   console.log(cookieStore.getAll());
   const lessonData = async function () {
-    if (cookieStore.get(`next-auth.session-token`)?.value) {
-      const data = await fetchLesson(
-        cookieStore.get(`next-auth.session-token`)?.value
-      );
+    if (cookieStore.get(cookie)?.value) {
+      const data = await fetchLesson(cookieStore.get(cookie)?.value);
 
       const returnData: lessons1[] = [];
       data?.forEach((obj) => {
