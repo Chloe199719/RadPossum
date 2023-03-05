@@ -167,7 +167,7 @@ model avaiable_hours {
 model paypal_order_logs {
   id          String  @id @unique @default(cuid())
   invoice_id  String
-  value       Float
+  value       String
   booking     booking @relation(fields: [bookingId], references: [id])
   bookingId   String  @unique
   item_bought String
