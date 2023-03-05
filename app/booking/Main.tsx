@@ -1,10 +1,12 @@
 "use client";
 
 import pb from "@/lib/pocketbase";
+import axios from "axios";
 import dynamic from "next/dist/shared/lib/dynamic";
 
 import { useRef, useState } from "react";
 import { Calendar } from "react-calendar";
+import { json } from "stream/consumers";
 import PaypalBtn from "./PaypalBtn";
 const CheckoutBtn = dynamic(() => import(`./CheckoutBtn`), { ssr: false });
 
@@ -52,17 +54,18 @@ function Main({ btnData, hours, paypalID }: Props) {
     setAvailableHours([]);
     setSelectedHour(``);
     try {
-      const res = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_DB_URL
-        }api/collections/booking/records/?filter=(date= "${e.getFullYear()}-${
+      const res1 = await fetch(
+        `/api/availableHours/?date=${e.getFullYear()}-${
           e.getMonth() + 1
-        }-${e.getDate()}")`,
-        { cache: "default" }
+        }-${e.getDate()}`,
+        {
+          cache: "default",
+          method: "GET",
+        }
       );
-      const date = await res.json();
+      const date = await res1.json();
       const hoursav = hours.filter((hour) => {
-        return !date.items.some((e: any) => {
+        return !date.some((e: any) => {
           return e.hour.includes(hour);
         });
       });

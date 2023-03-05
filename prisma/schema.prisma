@@ -171,3 +171,31 @@ model paypal_order_logs {
   bookingId   String  @unique
   item_bought String
 }
+
+model paypal_items {
+  id             String @id @unique @default(cuid())
+  title          String
+  duration       String
+  privacy        String
+  price_standard String
+  price_saturday String
+}
+
+model stripes_items {
+  id              String @id @unique @default(cuid())
+  title           String
+  saturdayPriceID String
+  normalPriceID   String
+  prodID          String
+  privacy         String
+  duration        String
+}
+
+model shop {
+  id           String @id @unique @default(cuid())
+  title        String
+  desc         String
+  paypal_price String
+  stripes_ID   String
+  image        String
+}

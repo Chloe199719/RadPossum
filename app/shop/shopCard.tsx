@@ -1,12 +1,7 @@
+import { shop } from "@prisma/client";
+
 type Props = {
-  card: {
-    id: string;
-    title: string;
-    desc: string;
-    paypal_ID: string;
-    stripes_ID: string;
-    image: string;
-  };
+  card: shop;
 };
 function ShopCard({ card }: Props) {
   return (
