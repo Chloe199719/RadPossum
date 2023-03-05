@@ -1,5 +1,6 @@
 "use client";
 import pb from "@/lib/pocketbase";
+import axios from "axios";
 import { Spinner, Toast } from "flowbite-react";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -33,18 +34,21 @@ function Page({}: Props) {
     setError(``);
     setSuccess(``);
     try {
-      const record = await pb.collection("messages").create({
-        name: data.name,
-        email: data.email,
-        discordID: data.discordID,
-        pronouns: checkPronouns(data),
-        message: data.message,
-        readSolved: false,
+      const res = await axios({
+        method: `post`,
+        url: `/api/contact/postMessage`,
+        data: {
+          name: data.name,
+          email: data.email,
+          discordID: data.discordID,
+          pronouns: checkPronouns(data),
+          message: data.message,
+          readSolved: false,
+        },
       });
-      setSuccess(`Message Sent Expect a message in next 24Hours`);
+      setSuccess(res.data.message);
       reset();
     } catch (error: any) {
-      console.log(error.data);
       setError(`There was a Error Sending Your message Try again`);
     }
     setLoading(false);
@@ -108,6 +112,7 @@ function Page({}: Props) {
                 placeholder="Ex: Chloe"
                 type="text"
                 {...register("name")}
+                required
               />
             </div>
             <div className="flex flex-col">
@@ -120,6 +125,7 @@ function Page({}: Props) {
                 className="input border-transparent focus:border-transparent focus:ring-0 focus:outline-primary"
                 placeholder="Ex: chloe@chloevison.com"
                 {...register("email")}
+                required
               />
             </div>
             <div className="flex flex-col">
@@ -132,6 +138,7 @@ function Page({}: Props) {
                 className="input border-transparent focus:border-transparent focus:ring-0 focus:outline-primary"
                 placeholder="Ex: Chloe#1231"
                 {...register("discordID")}
+                required
               />
             </div>
           </div>
@@ -203,6 +210,7 @@ function Page({}: Props) {
             className="textarea border-transparent focus:border-transparent focus:ring-0 focus:outline-primary w-full "
             id="message"
             {...register("message")}
+            required
           />
           <button
             disabled={loading}
