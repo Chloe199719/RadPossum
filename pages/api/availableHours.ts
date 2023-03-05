@@ -25,9 +25,9 @@ export default async function handler(
       },
     });
     res.status(200).json(data);
-    console.log(data);
     return;
-  } catch (error) {}
-
-  res.status(200).json({ name: "John Doe" });
+  } catch (error) {
+    res.status(500).json({ message: `Server Error` });
+    return;
+  }
 }

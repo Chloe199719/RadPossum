@@ -153,6 +153,7 @@ model booking {
   bookedTime        String
   discordID         String
   message           String
+  completed         Boolean            @default(false)
 }
 
 // Booking needs user and more 

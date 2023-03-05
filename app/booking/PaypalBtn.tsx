@@ -4,17 +4,12 @@ import { RefObject, useRef } from "react";
 
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-
+import { paypal_items } from "@prisma/client";
+import { useSession } from "next-auth/react";
 type Props = {
   date: Date;
   selHour: string;
-  paypalID: {
-    id: string;
-    private_id: string;
-    title: string;
-    privacy: string;
-    duration: string;
-  }[];
+  paypalID: paypal_items[] | undefined;
   privacyCur: RefObject<HTMLSelectElement>;
   durationCur: RefObject<HTMLSelectElement>;
 };
@@ -29,15 +24,14 @@ function PaypalBtn({
   const discordIDRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-
   const getProdID = function () {
     let id = "";
-    paypalID.forEach((e) => {
+    paypalID?.forEach((e) => {
       if (
         e.duration === durationCur.current?.value &&
         e.privacy === privacyCur.current?.value
       ) {
-        id = e.private_id;
+        id = e.id;
       }
     });
     return id;
@@ -80,7 +74,6 @@ function PaypalBtn({
           selHour: selHour,
           discordID: discordIDRef.current.value,
           message: messageRef.current?.value,
-          client: pb.authStore.model?.id,
         }),
       });
       const data = await res.json();

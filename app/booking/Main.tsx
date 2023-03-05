@@ -1,12 +1,10 @@
 "use client";
 
 import pb from "@/lib/pocketbase";
-import axios from "axios";
+import { paypal_items } from "@prisma/client";
 import dynamic from "next/dist/shared/lib/dynamic";
-
 import { useRef, useState } from "react";
 import { Calendar } from "react-calendar";
-import { json } from "stream/consumers";
 import PaypalBtn from "./PaypalBtn";
 const CheckoutBtn = dynamic(() => import(`./CheckoutBtn`), { ssr: false });
 
@@ -18,22 +16,16 @@ type Props = {
     privacy: string;
     duration: string;
   }[];
-  paypalID: {
-    id: string;
-    private_id: string;
-    title: string;
-    privacy: string;
-    duration: string;
-  }[];
+  paypalID: paypal_items[] | undefined;
   hours: Array<string>;
 };
 function Main({ btnData, hours, paypalID }: Props) {
   //   const hours = ["14:00", "15:00", "16:00", "17:00"];
+
   const [availableHours, setAvailableHours] = useState<string[]>();
   const [selectedHour, setSelectedHour] = useState(``);
   const [data, setDate] = useState(new Date());
-  // const [duration, setDuration] = useState(`50min`);
-  // const [privacy, setPrivacy] = useState(`Private`);
+
   const duration = useRef<HTMLSelectElement>(null);
   const privacy = useRef<HTMLSelectElement>(null);
   // Sets How many Days In Advance You can Book // Also Probably Change 3 for ENV Variable
@@ -54,7 +46,7 @@ function Main({ btnData, hours, paypalID }: Props) {
     setAvailableHours([]);
     setSelectedHour(``);
     try {
-      const res1 = await fetch(
+      const res = await fetch(
         `/api/availableHours/?date=${e.getFullYear()}-${
           e.getMonth() + 1
         }-${e.getDate()}`,
@@ -63,7 +55,7 @@ function Main({ btnData, hours, paypalID }: Props) {
           method: "GET",
         }
       );
-      const date = await res1.json();
+      const date = await res.json();
       const hoursav = hours.filter((hour) => {
         return !date.some((e: any) => {
           return e.hour.includes(hour);

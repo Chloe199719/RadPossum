@@ -1,10 +1,19 @@
 import pb from "../pocketbase";
+import prismaClient from "../prisma/prismaClient";
 
 const fetchPaypal = async function (id: string) {
   try {
-    const data = pb
-      .collection(`paypal_items`)
-      .getOne(id, { API_KEY: process.env.API_KEY });
+    const data = prismaClient.paypal_items.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    if (data === null) {
+      return Promise.reject({
+        status: 500,
+        message: `There was Error in our Server`,
+      });
+    }
     return Promise.resolve(data);
   } catch (error) {
     return Promise.reject({

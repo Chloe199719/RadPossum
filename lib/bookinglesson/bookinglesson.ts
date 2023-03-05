@@ -1,5 +1,6 @@
 import { transporter } from "@/lib/email/nodemailer";
 import pb from "../pocketbase";
+import prismaClient from "../prisma/prismaClient";
 
 type info = {
   date: string;
@@ -23,28 +24,17 @@ export default async function bookingLesson({
   email,
 }: info) {
   try {
-    await pb.collection(`booking`).create(
-      {
+    const lessonBook = await prismaClient.booking.create({
+      data: {
         date: date,
         hour: hour,
-        clientId: client,
-      },
-      { API_KEY: process.env.API_KEY } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
-    );
-    const lessonBook = await pb.collection(`bookingUSER`).create(
-      {
-        date: date,
-        hour: hour,
-        user: client,
+        userID: client,
         public_or_private: locale,
         discordID: discordID,
         message: message,
-        bookedtime: bookedTime,
-        canceled: false,
-        completed: false,
+        bookedTime: bookedTime,
       },
-      { API_KEY: process.env.API_KEY } // TODO CHANGE IT TO ENV FILE AND GENERATE A CODE FOR IT
-    );
+    });
     await transporter.sendMail({
       from: process.env.SMTP_USER,
       to: email,

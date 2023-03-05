@@ -1,14 +1,17 @@
+import prismaClient from "../prisma/prismaClient";
 import generateTime from "./generatetime";
 
 const checkTimeExist = async function (hour: string, time: Date) {
-  const res = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_DB_URL
-    }api/collections/booking/records/?filter=(date= "${generateTime(time)}")`,
-    { cache: "default" }
-  );
-  const date = await res.json();
-  const check = date.items.some((item: any) => {
+  const date = await prismaClient.booking.findMany({
+    where: {
+      date: generateTime(time),
+    },
+    select: {
+      hour: true,
+    },
+  });
+
+  const check = date.some((item: any) => {
     return item.hour.includes(hour);
   });
   if (!check) {

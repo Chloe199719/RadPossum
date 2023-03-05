@@ -6,6 +6,11 @@ import checkTimeExist from "@/lib/bookinglesson/timeValidation";
 import bookingLesson from "@/lib/bookinglesson/bookinglesson";
 import generateTime from "@/lib/bookinglesson/generatetime";
 import saveOrderLogPaypal from "@/lib/paypal/saveorderLog";
+import cookie from "@/lib/cookie";
+
+import { getCookie } from "cookies-next";
+import fetchUserID from "@/lib/user/getUserByToken";
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -19,8 +24,7 @@ export default async function handler(
     !req.body.orderID ||
     !req.body.date ||
     !req.body.selHour ||
-    !req.body.discordID ||
-    !req.body.client
+    !req.body.discordID
   ) {
     res.status(400).json({ message: `Bad Request` });
     return;
@@ -29,6 +33,8 @@ export default async function handler(
   const requestDetails = new paypal.orders.OrdersGetRequest(req.body.orderID);
   orderData.prefer("return=representation");
   try {
+    const token = getCookie(cookie, { req, res });
+    const userId = await fetchUserID(token as string);
     const orderDetails = await paypalClient.execute(requestDetails);
     const itemData = await fetchPaypal(
       orderDetails.result.purchase_units[0].reference_id
@@ -37,8 +43,10 @@ export default async function handler(
     const lessonBook = await bookingLesson({
       date: generateTime(req.body.date),
       hour: req.body.selHour,
-      client: req.body.client,
+      client: userId,
+      /* @ts-expect-error */
       locale: itemData.privacy,
+      /* @ts-expect-error */
       bookedTime: itemData.duration,
       discordID: req.body.discordID,
       message: req.body.message,

@@ -4,6 +4,9 @@ import fetchPaypal from "@/lib/paypal/fetchPaypalItems";
 import checkTimeExist from "@/lib/bookinglesson/timeValidation";
 import paypalClient from "@/lib/paypal/paypalClient";
 import Hash from "@/lib/hashgenerator";
+import cookie from "@/lib/cookie";
+
+import { getCookie } from "cookies-next";
 
 export default async function handler(
   req: NextApiRequest,
@@ -30,6 +33,7 @@ export default async function handler(
   }
 
   try {
+    console.log(getCookie(cookie, { req, res }));
     const itemData = await fetchPaypal(req.body.item);
     const timeValid = await checkTimeExist(req.body.selHour, req.body.date);
     const request = new paypal.orders.OrdersCreateRequest();
@@ -43,31 +47,38 @@ export default async function handler(
           invoice_id: hash,
           amount: {
             currency_code: process.env.CURRENCY!,
+
             value:
-              time.getDay() === 6
-                ? itemData.price_saturday
+              time.getDay() === 6 /* @ts-expect-error */
+                ? itemData.price_saturday /* @ts-expect-error */
                 : itemData.price_standard,
             /* @ts-expect-error */
             breakdown: {
               item_total: {
                 currency_code: process.env.CURRENCY!,
+
                 value:
                   time.getDay() === 6
-                    ? itemData.price_saturday
-                    : itemData.price_standard,
+                    ? /* @ts-expect-error */
+                      itemData.price_saturday
+                    : /* @ts-expect-error */
+                      itemData.price_standard,
               },
             },
           },
           items: [
             {
               category: `DIGITAL_GOODS`,
+              /* @ts-expect-error */
               name: itemData.title,
               unit_amount: {
                 currency_code: process.env.CURRENCY!,
                 value:
                   time.getDay() === 6
-                    ? itemData.price_saturday
-                    : itemData.price_standard,
+                    ? /* @ts-expect-error */
+                      itemData.price_saturday
+                    : /* @ts-expect-error */
+                      itemData.price_standard,
               },
               quantity: `1`,
             },
@@ -89,5 +100,4 @@ export default async function handler(
     return;
   }
   // const body = JSON.parse(req.body);
-  res.status(200).json({ name: "John Doe" });
 }

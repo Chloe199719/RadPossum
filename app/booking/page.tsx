@@ -32,17 +32,18 @@ const fetchBtnData = async function () {
 };
 const fetchPaypalPublic = async function () {
   try {
-    const res = await fetch(
-      `${process.env.DB_URL}api/collections/paypal_public_id/records/?API_KEY=${process.env.API_KEY}`,
-      {
-        method: `GET`,
-        next: { revalidate: parseInt(process.env.REVALIDATE!) },
-      }
-    );
-    if (!res.ok) {
-      console.log(res);
-    }
-    const data = await res.json();
+    // const res = await fetch(
+    //   `${process.env.DB_URL}api/collections/paypal_public_id/records/?API_KEY=${process.env.API_KEY}`,
+    //   {
+    //     method: `GET`,
+    //     next: { revalidate: parseInt(process.env.REVALIDATE!) },
+    //   }
+    // );
+    // if (!res.ok) {
+    //   console.log(res);
+    // }
+    // const data = await res.json();
+    const data = await prismaClient.paypal_items.findMany({});
 
     return data;
   } catch (e) {
@@ -89,7 +90,7 @@ async function Page({}: Props) {
         <Main
           btnData={btnData.items}
           hours={await hours()}
-          paypalID={paypalID.items}
+          paypalID={paypalID}
         />
       </div>
     </main>

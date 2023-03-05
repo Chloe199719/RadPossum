@@ -12,12 +12,10 @@ import { useSession } from "next-auth/react";
 type Props = {};
 
 export default function Avatar({}: Props) {
-  const data = pb.authStore.model;
   const router = useRouter();
   const { count } = useStore();
 
   const { data: session, status } = useSession();
-  console.log(status, session);
   return (
     <>
       {status === "authenticated" ? (
