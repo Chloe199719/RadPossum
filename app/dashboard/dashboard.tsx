@@ -1,24 +1,37 @@
 "use client";
 import pb from "@/lib/pocketbase";
+import { lessons } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 import React from "react";
 import Booking from "./Booking";
 import Lesson from "./Lesson";
-type Props = {};
-function Dashboard({}: Props) {
+type Props = {
+  lesson:
+    | {
+        id: string;
+        userID: string;
+        lessonTitle: string;
+        recording: string;
+        notes: string | null;
+        homework: string | null;
+        time: string | undefined;
+      }[]
+    | null;
+};
+function Dashboard({ lesson }: Props) {
   const userInfo = pb.authStore.model;
   const router = useRouter();
 
-  const lessonQuery = useQuery({
-    queryKey: [`lessons`],
-    queryFn: () =>
-      pb.collection(`lessons`).getList(1, 1, {
-        sort: `-date`,
-        $autoCancel: false,
-      }),
-  });
+  // const lessonQuery = useQuery({
+  //   queryKey: [`lessons`],
+  //   queryFn: () =>
+  //     pb.collection(`lessons`).getList(1, 1, {
+  //       sort: `-date`,
+  //       $autoCancel: false,
+  //     }),
+  // });
   const BookingQuery = useQuery({
     queryKey: [`bookingUSER`],
     queryFn: () =>
@@ -30,11 +43,10 @@ function Dashboard({}: Props) {
   });
 
   const Test = function () {
-    if (lessonQuery.data === undefined)
+    if (lesson === null || lesson.length === 0)
       return <p className=" text-center">No Lesson Taken yet </p>;
-    if (lessonQuery.data?.totalItems === 0)
-      return <p className=" text-center">No Lesson Taken yet </p>;
-    return <Lesson lessonData={lessonQuery.data?.items[0]} />;
+
+    return <Lesson lessonData={lesson[0]} />;
   };
   const UpcomingBooking = function () {
     if (BookingQuery.data === undefined)
@@ -50,7 +62,7 @@ function Dashboard({}: Props) {
     );
   };
   return (
-    <div className="flex flex-col justify-center items-center gap-6 flex-1 px-10 ">
+    <div className="flex flex-col justify-center items-center gap-6 flex-1 px-10 w-full">
       <div className="  flex justify-center">
         <h2 className="text-5xl">Dashboard {userInfo?.name}</h2>
       </div>

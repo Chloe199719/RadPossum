@@ -101,6 +101,7 @@ model lessons {
   recording   String
   notes       String?
   homework    String?
+  time        DateTime?  @db.Timestamptz()
   exercises   exercice[]
 }
 

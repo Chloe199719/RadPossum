@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "lessons" ALTER COLUMN "time" SET DATA TYPE TIMESTAMPTZ;

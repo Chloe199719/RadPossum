@@ -1,9 +1,18 @@
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import { lessons } from "@prisma/client";
 
 type Props = {
-  lessonData: any;
+  lessonData: {
+    id: string;
+    userID: string;
+    lessonTitle: string;
+    recording: string;
+    notes: string | null;
+    homework: string | null;
+    time: string | undefined;
+  };
 };
 function Lesson({ lessonData }: Props) {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,12 +24,14 @@ function Lesson({ lessonData }: Props) {
       className="flex flex-col gap-3 border border-black rounded-lg bg-[#30bead]/30 w-full  px-4 py-2 hover:bg-[#30bead]  hover:cursor-pointer"
     >
       <div className="flex gap-3 justify-between ">
-        <h4 className=" text-lg uppercase">{lessonData.lesson}</h4>
-        <span className="text-lg">{lessonData.date}</span>
+        <h4 className=" text-lg uppercase">{lessonData.lessonTitle}</h4>
+        <span className="text-lg">{`${new Date(
+          lessonData.time!
+        ).toLocaleString()}`}</span>
         <Link
           className=" font-bold text-lg text-red-500"
           target="_blank"
-          href={lessonData.recoding}
+          href={lessonData.recording}
         >
           Recoding
         </Link>
