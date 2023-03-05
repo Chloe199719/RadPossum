@@ -33,6 +33,7 @@ type Props = {};
 async function Page({}: Props) {
   const cookieStore = cookies();
   console.log(cookieStore.get(`next-auth.session-token`)?.value);
+  console.log(cookieStore.getAll());
   const lessonData = async function () {
     if (cookieStore.get(`next-auth.session-token`)?.value) {
       const data = await fetchLesson(
