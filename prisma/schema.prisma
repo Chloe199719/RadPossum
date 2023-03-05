@@ -42,12 +42,14 @@ model User {
   id            String        @id @unique @default(cuid())
   name          String?
   email         String?       @unique
-  emailVerified DateTime?
+  emailVerified Boolean?
   image         String?
+  discriminator String?
   accounts      Account[]
   sessions      Session[]
   lessons       lessons[]
   LessonCodes   LessonCodes[]
+  booking       booking[]
 }
 
 model VerificationToken {
@@ -144,6 +146,13 @@ model booking {
   hour              String
   transactionID     String?
   paypal_order_logs paypal_order_logs?
+  public_or_private String
+  User              User               @relation(fields: [userID], references: [id])
+  userID            String
+  canceled          Boolean            @default(false)
+  bookedTime        String
+  discordID         String
+  message           String
 }
 
 // Booking needs user and more 
