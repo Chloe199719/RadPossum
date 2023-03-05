@@ -1,11 +1,10 @@
-import pb from "@/lib/pocketbase";
-import { useRouter } from "next/navigation";
 import React from "react";
 import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 import prismaClient from "@/lib/prisma/prismaClient";
-import { lessons } from "@prisma/client";
+
 import cookie from "@/lib/cookie";
+import Dashboard from "./dashboard";
 type lessons1 = {
   id: string;
   userID: string;
@@ -20,7 +19,6 @@ type lessons1 = {
     desc: string;
   }[];
 };
-const Dashboard = dynamic(() => import(`./dashboard`), { ssr: false });
 const fetchLesson = async function (token: string | undefined) {
   const id = await prismaClient.session.findUnique({
     where: {
@@ -70,7 +68,6 @@ async function Page({}: Props) {
     }
     return null;
   };
-
   return <Dashboard lesson={await lessonData()} />;
 }
 export default Page;

@@ -4,8 +4,8 @@ import prismaClient from "@/lib/prisma/prismaClient";
 import { lessons1 } from "@/types";
 import { cookies } from "next/headers";
 import cookie from "@/lib/cookie";
+import Lessons from "./lessons";
 
-const Dashboard = dynamic(() => import(`./lessons`), { ssr: false });
 const fetchLesson = async function (token: string | undefined) {
   const id = await prismaClient.session.findUnique({
     where: {
@@ -33,8 +33,6 @@ const fetchLesson = async function (token: string | undefined) {
 type Props = {};
 async function Page({}: Props) {
   const cookieStore = cookies();
-
-  console.log(cookieStore.getAll());
   const lessonData = async function () {
     if (cookieStore.get(cookie)?.value) {
       const data = await fetchLesson(cookieStore.get(cookie)?.value);
@@ -57,6 +55,6 @@ async function Page({}: Props) {
     return null;
   };
 
-  return <Dashboard lesson={await lessonData()} />;
+  return <Lessons lesson={await lessonData()} />;
 }
 export default Page;

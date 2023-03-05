@@ -24,7 +24,7 @@ type Props = {
       }[]
     | null;
 };
-function Dashboard({ lesson }: Props) {
+function Lessons({ lesson }: Props) {
   const Test = function () {
     if (lesson === null || lesson.length === 0)
       return <p className=" text-center">No Lesson Taken yet </p>;
@@ -52,4 +52,4 @@ function Dashboard({ lesson }: Props) {
     </div>
   );
 }
-export default Dashboard;
+export default Lessons;
