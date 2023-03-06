@@ -1,7 +1,3 @@
-"use client";
-import pb from "@/lib/pocketbase";
-import { useQuery } from "@tanstack/react-query";
-
 type Props = {};
 function Page({}: Props) {
   // const lessonQuery = useQuery({

@@ -1,8 +1,3 @@
-"use client";
-import pb from "@/lib/pocketbase";
-import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-
 import React from "react";
 import Lesson from "../Lesson";
 
