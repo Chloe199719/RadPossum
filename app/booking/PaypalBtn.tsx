@@ -1,11 +1,9 @@
-import pb from "@/lib/pocketbase";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { RefObject, useRef } from "react";
 
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { paypal_items } from "@prisma/client";
-import { useSession } from "next-auth/react";
 type Props = {
   date: Date;
   selHour: string;

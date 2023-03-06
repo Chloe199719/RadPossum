@@ -137,7 +137,7 @@ model LessonCodes {
   isValid           Boolean  @default(true)
   timeCreated       DateTime @default(now())
   user              User     @relation(fields: [userID], references: [id])
-  userID            String
+  userID            String   @unique
 }
 
 model booking {
@@ -148,7 +148,7 @@ model booking {
   paypal_order_logs paypal_order_logs?
   public_or_private String
   User              User               @relation(fields: [userID], references: [id])
-  userID            String
+  userID            String             @unique
   canceled          Boolean            @default(false)
   bookedTime        String
   discordID         String

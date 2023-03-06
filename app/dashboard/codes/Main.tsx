@@ -1,7 +1,5 @@
 "use client";
 
-import pb from "@/lib/pocketbase";
-
 import { useState } from "react";
 import { Calendar } from "react-calendar";
 import Form from "./Form";
@@ -28,7 +26,6 @@ function Main({ hours }: Props) {
     return curDate;
   };
 
-  const userExist = pb.authStore.isValid;
   const fetch1 = async function (e: Date) {
     setAvailableHours([]);
     setSelectedHour(``);
@@ -54,9 +51,7 @@ function Main({ hours }: Props) {
       console.log(error);
     }
   };
-  if (!userExist) {
-    return <p>Login First </p>;
-  }
+
   return (
     <div className="flex gap-4 w-full flex-col items-center ">
       <div className="flex gap-4 w-full justify-center relative">

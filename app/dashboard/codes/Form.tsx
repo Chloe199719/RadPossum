@@ -1,4 +1,4 @@
-import pb from "@/lib/pocketbase";
+import { useSession } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
@@ -14,12 +14,13 @@ type Props = {
 };
 function Form({ date, selHour }: Props) {
   const { register, handleSubmit, reset } = useForm<formData>();
+  const { data: session, status } = useSession();
   const Submit: SubmitHandler<formData> = async function (data) {
     try {
       const test = await fetch("/api/code_booking", {
         method: `POST`,
         body: JSON.stringify({
-          clientEmail: pb.authStore.model?.email,
+          clientEmail: session?.user?.email,
           bookedHour: selHour,
           time: date,
           discordID: data.discordID, // test data

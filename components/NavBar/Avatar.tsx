@@ -3,11 +3,10 @@ import React from "react";
 
 import { Avatar as Pic, Button } from "flowbite-react";
 import { Dropdown } from "flowbite-react";
-import pb from "@/lib/pocketbase";
 import { useStore } from "../useStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signIn, signOut } from "next-auth/react";
+import { getSession, signIn, signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 type Props = {};
 
@@ -16,6 +15,7 @@ export default function Avatar({}: Props) {
   const { count } = useStore();
 
   const { data: session, status } = useSession();
+  console.log(session);
   return (
     <>
       {status === "authenticated" ? (

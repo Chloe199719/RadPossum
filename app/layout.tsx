@@ -1,5 +1,7 @@
 import QueryWrapper from "@/components/QueryWrapper";
+import { Auth } from "@/pages/api/auth/[...nextauth]";
 import type { Metadata } from "next";
+import { getServerSession } from "next-auth";
 import NavBar from "../components/NavBar/NavBar";
 
 import "./globals.css";
@@ -15,6 +17,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(Auth);
   return (
     <html lang="en" data-theme="winter">
       {/*
@@ -23,7 +26,7 @@ export default async function RootLayout({
       */}
       <head />
       <body className=" bg-slate-50 		 ">
-        <QueryWrapper>
+        <QueryWrapper session={session}>
           {" "}
           <NavBar />
           {children}

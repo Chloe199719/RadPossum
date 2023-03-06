@@ -1,12 +1,11 @@
 "use client";
-
-import pb from "@/lib/pocketbase";
 import { paypal_items } from "@prisma/client";
-import dynamic from "next/dist/shared/lib/dynamic";
+import { useSession } from "next-auth/react";
+
 import { useRef, useState } from "react";
 import { Calendar } from "react-calendar";
 import PaypalBtn from "./PaypalBtn";
-const CheckoutBtn = dynamic(() => import(`./CheckoutBtn`), { ssr: false });
+import CheckoutBtn from "./CheckoutBtn";
 
 type Props = {
   btnData: {
@@ -25,7 +24,7 @@ function Main({ btnData, hours, paypalID }: Props) {
   const [availableHours, setAvailableHours] = useState<string[]>();
   const [selectedHour, setSelectedHour] = useState(``);
   const [data, setDate] = useState(new Date());
-
+  const { data: session, status } = useSession();
   const duration = useRef<HTMLSelectElement>(null);
   const privacy = useRef<HTMLSelectElement>(null);
   // Sets How many Days In Advance You can Book // Also Probably Change 3 for ENV Variable
@@ -40,8 +39,6 @@ function Main({ btnData, hours, paypalID }: Props) {
     curDate.setDate(curDate.getDate() + 100);
     return curDate;
   };
-
-  const userExist = pb.authStore.isValid;
   const fetch1 = async function (e: Date) {
     setAvailableHours([]);
     setSelectedHour(``);
@@ -67,8 +64,11 @@ function Main({ btnData, hours, paypalID }: Props) {
       console.log(error);
     }
   };
-  if (!userExist) {
+  if (status === "unauthenticated") {
     return <p>Login First </p>;
+  }
+  if (status === "loading") {
+    return <p>Loading... </p>;
   }
   return (
     <div className="flex gap-4 w-full flex-col items-center ">

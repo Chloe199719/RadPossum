@@ -6,12 +6,17 @@ import { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 type Props = {
   children?: ReactNode;
+  session: any;
 };
 
 const queryClient = new QueryClient();
-function QueryWrapper({ children }: Props) {
+function QueryWrapper({ session, children }: Props) {
   return (
-    <SessionProvider>
+    <SessionProvider
+      session={session}
+      refetchInterval={5 * 60}
+      refetchOnWindowFocus={true}
+    >
       <QueryClientProvider client={queryClient}>
         <PayPalScriptProvider
           options={{

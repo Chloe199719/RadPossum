@@ -1,10 +1,8 @@
 import { loadStripe } from "@stripe/stripe-js";
 import React from "react";
-
-import dynamic from "next/dynamic";
 import prismaClient from "@/lib/prisma/prismaClient";
 
-const Main = dynamic(() => import(`./Main`), { ssr: false });
+import Main from "./Main";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
