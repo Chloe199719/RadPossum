@@ -44,7 +44,7 @@ const fetchBookings = async function (token: string | undefined) {
 };
 
 type Props = {};
-async function Dashboard({}: Props) {
+async function Bookings({}: Props) {
   const lessonBookingData = async function () {
     const cookieStore = cookies();
     if (cookieStore.get(cookie)?.value) {
@@ -92,4 +92,4 @@ async function Dashboard({}: Props) {
     </div>
   );
 }
-export default Dashboard;
+export default Bookings;
