@@ -1,7 +1,7 @@
+"use client";
 import React, { useState } from "react";
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { lessons } from "@prisma/client";
 
 type Props = {
   lessonData: {
