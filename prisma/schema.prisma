@@ -129,31 +129,33 @@ model Audio {
 }
 
 model LessonCodes {
-  id                String   @id @unique @default(cuid())
-  code              String   @unique
-  used              Boolean  @default(false)
-  public_or_private String
-  time              String
-  isValid           Boolean  @default(true)
-  timeCreated       DateTime @default(now())
-  user              User     @relation(fields: [userID], references: [id])
-  userID            String   @unique
+  id                      String                   @id @unique @default(cuid())
+  code                    String                   @unique
+  used                    Boolean                  @default(false)
+  public_or_private       String
+  time                    String
+  isValid                 Boolean                  @default(true)
+  timeCreated             DateTime                 @default(now())
+  user                    User                     @relation(fields: [userID], references: [id])
+  userID                  String
+  paypal_order_codes_logs paypal_order_codes_logs?
 }
 
 model booking {
-  id                String             @id @unique @default(cuid())
-  date              String
-  hour              String
-  transactionID     String?
-  paypal_order_logs paypal_order_logs?
-  public_or_private String
-  User              User               @relation(fields: [userID], references: [id])
-  userID            String             @unique
-  canceled          Boolean            @default(false)
-  bookedTime        String
-  discordID         String
-  message           String
-  completed         Boolean            @default(false)
+  id                  String             @id @unique @default(cuid())
+  date                String
+  hour                String
+  transactionID       String?
+  public_or_private   String
+  User                User               @relation(fields: [userID], references: [id])
+  userID              String
+  canceled            Boolean            @default(false)
+  bookedTime          String
+  discordID           String
+  message             String
+  completed           Boolean            @default(false)
+  paypal_order_logsId String
+  paypal_order_logs   paypal_order_logs?
 }
 
 // Booking needs user and more 
@@ -193,10 +195,23 @@ model stripes_items {
 }
 
 model shop {
-  id           String @id @unique @default(cuid())
-  title        String
-  desc         String
-  paypal_price String
-  stripes_ID   String
-  image        String
+  id                      String                    @id @unique @default(cuid())
+  title                   String
+  desc                    String
+  paypal_price            String
+  stripes_ID              String
+  image                   String
+  privacy                 String
+  duration                String
+  paypal_order_codes_logs paypal_order_codes_logs[]
+}
+
+model paypal_order_codes_logs {
+  id           String      @id @unique @default(cuid())
+  invoice_id   String
+  value        String
+  item_bought  shop        @relation(fields: [shopID], references: [id])
+  shopID       String
+  lessonCode   LessonCodes @relation(fields: [lessonCodeID], references: [id])
+  lessonCodeID String      @unique
 }

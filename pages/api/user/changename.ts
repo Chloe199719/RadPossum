@@ -17,6 +17,10 @@ export default async function handler(
     return;
   }
   const token = getCookie(cookie, { req, res });
+  if (!token) {
+    res.status(401).end();
+    return;
+  }
   const userId = await fetchUserID(token as string);
   try {
     const data = await prismaClient.user.update({

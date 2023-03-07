@@ -1,9 +1,13 @@
+"use client";
 import { shop } from "@prisma/client";
+import { useRef } from "react";
+import PaypalBtn from "./PaypalBtn";
 
 type Props = {
   card: shop;
 };
 function ShopCard({ card }: Props) {
+  const valueRef = useRef<HTMLInputElement>(null);
   return (
     <div className="card w-96 bg-base-100 shadow-xl">
       <figure>
@@ -15,16 +19,17 @@ function ShopCard({ card }: Props) {
         <div className="card-actions justify-end items-center">
           <label htmlFor="amount">Amount:</label>
           <input
+            ref={valueRef}
             id="amount"
             type="number"
-            placeholder="1"
+            defaultValue={1}
             max={10}
             min={1}
             className="input w-12 h-fit p-0 pl-2"
           ></input>{" "}
-          <button className="btn btn-warning">PayPal</button>
+          <PaypalBtn value={valueRef} card={card} />
           {/* TThis Would be a Paypal Button */}
-          <button className="btn btn-primary">Buy Now</button>
+          <button className=" w-full btn btn-primary">Buy Now</button>
           {/* This Would a Stripes button */}
         </div>
       </div>

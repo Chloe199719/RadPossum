@@ -10,6 +10,9 @@ import cookie from "@/lib/cookie";
 
 import { getCookie } from "cookies-next";
 import fetchUserID from "@/lib/user/getUserByToken";
+import fetchShopItem from "@/lib/codesProcesss/fetchPaypalItems";
+import createNewCode from "@/lib/codesProcesss/createNewCode";
+import saveCodeOrderLog from "@/lib/logs/saveCodeOrderLOG";
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,12 +23,7 @@ export default async function handler(
     res.status(405).end("Method Not Allowed");
     return;
   }
-  if (
-    !req.body.orderID ||
-    !req.body.date ||
-    !req.body.selHour ||
-    !req.body.discordID
-  ) {
+  if (!req.body.orderID) {
     res.status(400).json({ message: `Bad Request` });
     return;
   }
@@ -34,36 +32,32 @@ export default async function handler(
   orderData.prefer("return=representation");
   try {
     const token = getCookie(cookie, { req, res });
+    if (!token) {
+      res.status(401).json({ message: `Not Authorized` });
+      return;
+    }
     const userId = await fetchUserID(token as string);
     const orderDetails = await paypalClient.execute(requestDetails);
-    const itemData = await fetchPaypal(
+    const itemData = await fetchShopItem(
       orderDetails.result.purchase_units[0].reference_id
     );
-    const timeValid = await checkTimeExist(req.body.selHour, req.body.date);
-    const lessonBook = await bookingLesson({
-      date: generateTime(req.body.date),
-      hour: req.body.selHour,
-      client: userId,
-      /* @ts-expect-error */
-      locale: itemData.privacy,
-      /* @ts-expect-error */
-      bookedTime: itemData.duration,
-      discordID: req.body.discordID,
-      message: req.body.message,
-      email: orderDetails.result.purchase_units[0].payee.email_address,
-    });
+    const codeGenerate = await createNewCode(
+      itemData!,
+      orderDetails.result.purchase_units[0].items[0].quantity,
+      userId
+    );
+    console.log(codeGenerate);
     const returnData = await paypalClient.execute(orderData);
-    const log = await saveOrderLogPaypal({
+    const log = await saveCodeOrderLog({
+      code: codeGenerate,
       invoice_id: returnData.result.purchase_units[0].invoice_id,
       item_bought: returnData.result.purchase_units[0].reference_id,
-      booking: lessonBook?.id,
       value: returnData.result.purchase_units[0].amount.value,
     });
     res.status(200).json({ message: `Completed` });
     // Add Logging to Order to DB
     return;
   } catch (error: any) {
-    console.log(error);
     // If no status or message are Present throw a Default Bad Request
     if (!error.status) {
       res.status(400).json({ message: ` Bad Request` });
