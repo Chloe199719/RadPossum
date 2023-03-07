@@ -46,7 +46,6 @@ export default async function handler(
       orderDetails.result.purchase_units[0].items[0].quantity,
       userId
     );
-    console.log(codeGenerate);
     const returnData = await paypalClient.execute(orderData);
     const log = await saveCodeOrderLog({
       code: codeGenerate,

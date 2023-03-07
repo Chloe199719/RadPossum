@@ -142,20 +142,19 @@ model LessonCodes {
 }
 
 model booking {
-  id                  String             @id @unique @default(cuid())
-  date                String
-  hour                String
-  transactionID       String?
-  public_or_private   String
-  User                User               @relation(fields: [userID], references: [id])
-  userID              String
-  canceled            Boolean            @default(false)
-  bookedTime          String
-  discordID           String
-  message             String
-  completed           Boolean            @default(false)
-  paypal_order_logsId String
-  paypal_order_logs   paypal_order_logs?
+  id                String             @id @unique @default(cuid())
+  date              String
+  hour              String
+  transactionID     String?
+  public_or_private String
+  User              User               @relation(fields: [userID], references: [id])
+  userID            String
+  canceled          Boolean            @default(false)
+  bookedTime        String
+  discordID         String
+  message           String?
+  completed         Boolean            @default(false)
+  paypal_order_logs paypal_order_logs?
 }
 
 // Booking needs user and more 

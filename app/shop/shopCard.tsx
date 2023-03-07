@@ -29,7 +29,7 @@ function ShopCard({ card }: Props) {
           ></input>{" "}
           <PaypalBtn value={valueRef} card={card} />
           {/* TThis Would be a Paypal Button */}
-          <button className=" w-full btn btn-primary">Buy Now</button>
+          {/* <button className=" w-full btn btn-primary">Buy Now</button> */}
           {/* This Would a Stripes button */}
         </div>
       </div>
