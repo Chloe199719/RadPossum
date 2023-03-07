@@ -19,7 +19,7 @@ function ChangeDisplayName({}: Props) {
     try {
       // @ts-ignore
       await axios({
-        method: `post`,
+        method: `put`,
         url: `/api/user/changename`,
         data: {
           name: data.name,

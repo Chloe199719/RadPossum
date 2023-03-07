@@ -1,5 +1,4 @@
 import React from "react";
-import dynamic from "next/dynamic";
 import Bookings from "./bookings";
 
 type Props = {};

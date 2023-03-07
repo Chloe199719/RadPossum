@@ -7,13 +7,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
+  if (req.method !== "PUT") {
+    res.setHeader("Allow", "PUT");
     res.status(405).end("Method Not Allowed");
     return;
   }
   if (!req.body.name) {
     res.status(400).json({ message: `Bad Request` });
+    return;
   }
   const token = getCookie(cookie, { req, res });
   const userId = await fetchUserID(token as string);
