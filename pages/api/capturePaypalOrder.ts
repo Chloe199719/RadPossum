@@ -43,14 +43,13 @@ export default async function handler(
     const lessonBook = await bookingLesson({
       date: generateTime(req.body.date),
       hour: req.body.selHour,
-      client: userId,
-      /* @ts-expect-error */
-      locale: itemData.privacy,
-      /* @ts-expect-error */
-      bookedTime: itemData.duration,
+      client: userId.userID,
+      locale: itemData?.privacy!,
+
+      bookedTime: itemData?.duration!,
       discordID: req.body.discordID,
       message: req.body.message,
-      email: orderDetails.result.purchase_units[0].payee.email_address,
+      email: userId.email!,
     });
     const returnData = await paypalClient.execute(orderData);
     const log = await saveOrderLogPaypal({

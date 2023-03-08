@@ -25,7 +25,7 @@ export default async function handler(
   try {
     const data = await prismaClient.user.update({
       where: {
-        id: userId,
+        id: userId.userID,
       },
       data: {
         name: req.body.name,

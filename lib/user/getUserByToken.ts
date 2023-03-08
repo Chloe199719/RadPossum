@@ -6,14 +6,15 @@ const fetchUserID = async function (token: string) {
       where: {
         sessionToken: token,
       },
-      select: {
-        userId: true,
+
+      include: {
+        user: true,
       },
     });
     if (!id) {
       return Promise.reject({ status: 500, message: `Server Error` });
     }
-    return id.userId;
+    return { userID: id.userId, email: id.user.email };
   } catch (error) {
     return Promise.reject({ status: 500, message: `Server Error` });
   }

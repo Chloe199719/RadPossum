@@ -58,7 +58,7 @@ export default async function handler(
     await bookingLesson({
       date: generateTime(body.time),
       hour: body.bookedHour,
-      client: userId,
+      client: userId.userID,
       locale: codeRes.locale,
       bookedTime: codeRes.time,
       discordID: body.discordID,

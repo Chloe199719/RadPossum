@@ -76,6 +76,12 @@ export default async function DashboardLayout({
               <Link href="/dashboard/codes">
                 {" "}
                 <li className="border border-sky-300 py-2 px-10   hover:bg-sky-600">
+                  Codes
+                </li>
+              </Link>
+              <Link href="/dashboard/codesreddem">
+                {" "}
+                <li className="border border-sky-300 py-2 px-10   hover:bg-sky-600">
                   Code Redeem
                 </li>
               </Link>

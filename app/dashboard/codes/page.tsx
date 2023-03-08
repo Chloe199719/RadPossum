@@ -1,45 +1,52 @@
 import React from "react";
 
-import dynamic from "next/dynamic";
+import prismaClient from "@/lib/prisma/prismaClient";
 
-const Main = dynamic(() => import(`./Main`), { ssr: false });
+import { cookies } from "next/headers";
+import cookie from "@/lib/cookie";
+import Codes from "./codes";
+
+const fetchCodes = async function (token: string | undefined) {
+  const id = await prismaClient.session.findUnique({
+    where: {
+      sessionToken: token,
+    },
+    select: {
+      userId: true,
+    },
+  });
+  if (!id) {
+    return null;
+  }
+  const codes = await prismaClient.lessonCodes.findMany({
+    where: {
+      userID: id.userId,
+    },
+    select: {
+      id: true,
+      code: true,
+      used: true,
+      isValid: true,
+      time: true,
+      userID: true,
+      public_or_private: true,
+    },
+  });
+  return codes;
+};
 
 type Props = {};
-
-const fetchHours = async function () {
-  try {
-    const res = await fetch(
-      `${process.env.DB_URL}api/collections/available_Hours/records/?sort=+hour`,
-      {
-        method: `GET`,
-        next: { revalidate: parseInt(process.env.REVALIDATE!) },
-      }
-    );
-    if (!res.ok) {
-      console.log(res);
-    }
-    const data = await res.json();
-
-    return data;
-  } catch (e) {
-    console.log(e, "Error");
-  }
-};
 async function Page({}: Props) {
-  const hours = async function () {
-    const data = await fetchHours();
-    const array: Array<string> = [];
-    data.items.forEach((e: any) => {
-      array.push(e.hour);
-    });
-    return array;
+  const cookieStore = cookies();
+  const codesData = async function () {
+    if (cookieStore.get(cookie)?.value) {
+      const data = await fetchCodes(cookieStore.get(cookie)?.value);
+
+      return data;
+    }
+    return null;
   };
 
-  return (
-    <main className="flex flex-col items-center w-full gap-6">
-      <h2 className="text-2xl md:text-4xl">Booking Calendar</h2>
-      <Main hours={await hours()} />
-    </main>
-  );
+  return <Codes codes={await codesData()} />;
 }
 export default Page;
