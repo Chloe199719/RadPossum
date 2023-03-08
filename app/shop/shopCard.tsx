@@ -2,7 +2,7 @@
 import { shop } from "@prisma/client";
 import { useRef } from "react";
 import PaypalBtn from "./PaypalBtn";
-
+import Image from "next/image";
 type Props = {
   card: shop;
 };
@@ -11,7 +11,7 @@ function ShopCard({ card }: Props) {
   return (
     <div className="card w-96 bg-base-100 shadow-xl">
       <figure>
-        <img src="/chloe.png" alt="Shoes" />
+        <Image width={384} height={384} src="/chloe.png" alt="Shoes" />
       </figure>
       <div className="card-body">
         <h2 className="card-title">{card.title}</h2>
