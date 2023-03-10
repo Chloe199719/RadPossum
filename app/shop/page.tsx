@@ -5,15 +5,6 @@ import { Auth } from "pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
 import { shop } from "@prisma/client";
 
-type cards = {
-  id: string;
-  title: string;
-  desc: string;
-  paypal_ID: string;
-  stripes_ID: string;
-  image: string;
-};
-
 type Props = {};
 const fetchCards = async function () {
   try {

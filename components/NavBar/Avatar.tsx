@@ -20,8 +20,10 @@ export default function Avatar({}: Props) {
     <>
       {status === "authenticated" ? (
         <Dropdown
+          className=" hover:bg-gray-200"
           label={
             <Pic
+              className=" hover:bg-gray-200"
               size="md"
               rounded={true}
               img={session.user?.image ? session.user?.image : "/chloe.png"}

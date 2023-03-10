@@ -50,6 +50,8 @@ model User {
   lessons       lessons[]
   LessonCodes   LessonCodes[]
   booking       booking[]
+  posts         posts[]
+  comments      comments[]
 }
 
 model VerificationToken {
@@ -213,4 +215,27 @@ model paypal_order_codes_logs {
   shopID       String
   lessonCode   LessonCodes @relation(fields: [lessonCodeID], references: [id])
   lessonCodeID String      @unique
+}
+
+model posts {
+  id        String     @id @unique @default(cuid())
+  title     String
+  message   String
+  createdAT DateTime   @default(now())
+  updatedAT DateTime   @default(now())
+  user      User       @relation(fields: [userID], references: [id])
+  userID    String     @unique
+  comments  comments[]
+}
+
+model comments {
+  id        String   @id @unique @default(cuid())
+  post      posts    @relation(fields: [postID], references: [id])
+  postID    String   @unique
+  parentID  String?
+  message   String
+  createdAT DateTime @default(now())
+  updatedAT DateTime @default(now())
+  user      User     @relation(fields: [userID], references: [id])
+  userID    String   @unique
 }
