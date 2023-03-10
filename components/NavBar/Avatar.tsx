@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getSession, signIn, signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 type Props = {};
 
 export default function Avatar({}: Props) {
@@ -19,50 +20,99 @@ export default function Avatar({}: Props) {
   return (
     <>
       {status === "authenticated" ? (
-        <Dropdown
-          className=" hover:bg-gray-200"
-          label={
-            <Pic
-              className=" hover:bg-gray-200"
-              size="md"
-              rounded={true}
-              img={session.user?.image ? session.user?.image : "/chloe.png"}
-            >
-              <div className="space-y-1 font-medium dark:text-white">
-                <div>{session.user?.name} </div>
-              </div>
-            </Pic>
-          }
-          arrowIcon={false}
-          inline={true}
-        >
-          <Dropdown.Header>
-            <span className="block text-sm">{session.user?.name}</span>
-            <span className="block truncate text-sm font-medium">
-              {session.user?.email}
-            </span>
-          </Dropdown.Header>
-          <Link href="/dashboard">
-            {" "}
-            <Dropdown.Item>Dashboard</Dropdown.Item>
-          </Link>
-          <Dropdown.Item>Settings</Dropdown.Item>
-          <Link href="/dashboard/lessons">
-            {" "}
-            <Dropdown.Item>Lessons</Dropdown.Item>{" "}
-          </Link>
-          <Dropdown.Divider />
-          <Dropdown.Item
-            onClick={() => {
-              signOut();
-              useStore.setState({ count: Math.random() });
-              router.push(`/`);
-            }}
+        <div className="dropdown">
+          <label tabIndex={0} className=" m-1 flex items-center gap-2">
+            <div className="avatar">
+              <div className="w-12 rounded-full flex">
+                {" "}
+                <Image
+                  src={session?.user ? session.user.image! : "/chloe.jpg"}
+                  alt={
+                    session?.user ? session.user.name! : "Default Profile Pic"
+                  }
+                  width={96}
+                  height={96}
+                />{" "}
+              </div>{" "}
+            </div>{" "}
+            {session.user?.name}
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-60"
           >
-            Sign out
-          </Dropdown.Item>
-        </Dropdown>
+            <li>
+              <div className="flex flex-col items-start">
+                <p>{session.user?.name}</p>
+                <p>{session.user?.email}</p>
+              </div>
+            </li>
+            <hr />
+            <li>
+              <Link href="/dashboard">Dashboard</Link>
+            </li>
+            <li>
+              <Link href="/dashboard/codes">Codes</Link>
+            </li>
+            <li>
+              <Link href="/dashboard/lessons">Lessons</Link>
+            </li>
+            <hr />
+            <li
+              onClick={() => {
+                signOut();
+                useStore.setState({ count: Math.random() });
+                router.push(`/`);
+              }}
+            >
+              <a> Logout</a>
+            </li>
+          </ul>
+        </div>
       ) : (
+        // <Dropdown
+        //   className=" hover:bg-gray-200"
+        //   label={
+        //     <Pic
+        //       className=" hover:bg-gray-200"
+        //       size="md"
+        //       rounded={true}
+        //       img={session.user?.image ? session.user?.image : "/chloe.png"}
+        //     >
+        //       <div className="space-y-1 font-medium dark:text-white">
+        //         <div>{session.user?.name} </div>
+        //       </div>
+        //     </Pic>
+        //   }
+        //   arrowIcon={false}
+        //   inline={true}
+        // >
+        //   <Dropdown.Header>
+        //     <span className="block text-sm">{session.user?.name}</span>
+        //     <span className="block truncate text-sm font-medium">
+        //       {session.user?.email}
+        //     </span>
+        //   </Dropdown.Header>
+        //   <Link href="/dashboard">
+        //     {" "}
+        //     <Dropdown.Item>Dashboard</Dropdown.Item>
+        //   </Link>
+        //   <Dropdown.Item>Settings</Dropdown.Item>
+        //   <Link href="/dashboard/lessons">
+        //     {" "}
+        //     <Dropdown.Item>Lessons</Dropdown.Item>{" "}
+        //   </Link>
+        //   <Dropdown.Divider />
+        //   <Dropdown.Item
+        //     onClick={() => {
+        //       signOut();
+        //       useStore.setState({ count: Math.random() });
+        //       router.push(`/`);
+        //     }}
+        //   >
+        //     Sign out
+        //   </Dropdown.Item>
+        // </Dropdown>
         <Button.Group>
           <Button
             onClick={() => {
