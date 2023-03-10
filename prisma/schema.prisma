@@ -224,18 +224,18 @@ model posts {
   createdAT DateTime   @default(now())
   updatedAT DateTime   @default(now())
   user      User       @relation(fields: [userID], references: [id])
-  userID    String     @unique
+  userID    String
   comments  comments[]
 }
 
 model comments {
   id        String   @id @unique @default(cuid())
   post      posts    @relation(fields: [postID], references: [id])
-  postID    String   @unique
+  postID    String
   parentID  String?
   message   String
   createdAT DateTime @default(now())
   updatedAT DateTime @default(now())
   user      User     @relation(fields: [userID], references: [id])
-  userID    String   @unique
+  userID    String
 }

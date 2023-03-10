@@ -18,7 +18,7 @@ function NavBarList({}: Props) {
         {" "}
         <li className="text-blue-800 uppercase">Shop</li>
       </Link>
-      <Link href="/shop">
+      <Link href="/blog">
         {" "}
         <li className="text-orange-800 uppercase">Blog</li>
       </Link>

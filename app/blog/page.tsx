@@ -1,4 +1,5 @@
 import prismaClient from "@/lib/prisma/prismaClient";
+import Link from "next/link";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -19,7 +20,7 @@ const fetchPosts = async function () {
 async function Page({}: Props) {
   const posts = await fetchPosts();
   return (
-    <main className="snap-y snap-mandatory overflow-y-scroll  flex gap-10 flex-col py-32  mx-auto items-center justify-center z-[5] bg-gradient-to-b from-[#30bead]/30 to-[#ff7e84]/40">
+    <main className="min-h-screen snap-y snap-mandatory overflow-y-scroll  flex gap-10 flex-col py-32  mx-auto items-center justify-center z-[5] bg-gradient-to-b from-[#30bead]/30 to-[#ff7e84]/40">
       {posts.map((post) => {
         return (
           <div
@@ -39,7 +40,7 @@ async function Page({}: Props) {
                 </ReactMarkdown>
               </article>
               <div className=" flex justify-between  mt-10 w-full">
-                <span>Comments</span>
+                <Link href={`/blog/${post.id}`}> Comments</Link>
                 <span>
                   Created by {post.user.name} Last Update at{" "}
                   {post.updatedAT.toLocaleString()}
