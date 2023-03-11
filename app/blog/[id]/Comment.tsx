@@ -1,5 +1,6 @@
 import { useComment } from "@/components/context/ComentsContext";
 import { comment } from "@/types";
+import CommentsList from "./CommentsList";
 
 type Props = {
   comment: comment;
@@ -7,7 +8,8 @@ type Props = {
 function Comment({ comment }: Props) {
   /* @ts-expect-error */
   const { getReplies } = useComment();
-  const childComments = getReplies(comment.id);
+  const childComments: comment[] = getReplies(comment.id);
+  console.log(childComments);
   return (
     <div>
       <div>
@@ -15,6 +17,10 @@ function Comment({ comment }: Props) {
         <span>Post At {`${new Date(comment.createdAT).toLocaleString()}`}</span>
       </div>
       <div>{comment.message}</div>
+      <div className="ml-10 my-2">
+        {" "}
+        {childComments?.length > 0 && <CommentsList comments={childComments} />}
+      </div>
     </div>
   );
 }

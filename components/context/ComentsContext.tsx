@@ -39,6 +39,7 @@ function CommentProvider({ children, postID }: Props) {
     });
     return group;
   }, [comments.data]);
+  console.log(commentsByParentI);
   function getReplies(parentID: string) {
     return commentsByParentI[parentID];
   }

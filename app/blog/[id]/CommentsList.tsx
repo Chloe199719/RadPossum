@@ -9,7 +9,7 @@ function CommentsList({ comments }: Props) {
     <>
       {" "}
       {comments.map((comment: comment) => (
-        <div key={comment.id} className="comment-stack">
+        <div key={comment.id} className="w-full flex flex-col gap-2">
           <Comment comment={comment} />
         </div>
       ))}
