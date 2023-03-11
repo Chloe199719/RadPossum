@@ -1,6 +1,8 @@
+import CommentProvider from "@/components/context/ComentsContext";
 import prismaClient from "@/lib/prisma/prismaClient";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import remarkGfm from "remark-gfm";
+import Comments from "./Comments";
 import PostCommentBox from "./PostCommentBox";
 
 type Props = {
@@ -53,6 +55,9 @@ async function Page({ params }: Props) {
             </span>
           </div>
           <PostCommentBox postID={post.id} />
+          <CommentProvider postID={post.id}>
+            <Comments postID={params.id} />
+          </CommentProvider>
         </div>
       </div>
     </main>

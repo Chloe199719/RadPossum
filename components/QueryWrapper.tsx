@@ -9,7 +9,7 @@ type Props = {
   session: any;
 };
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 function QueryWrapper({ session, children }: Props) {
   return (
     <SessionProvider

@@ -1,7 +1,11 @@
 "use client";
 
 import myLoader from "@/lib/imageloader";
-import { useMutation } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -12,6 +16,7 @@ type Props = {
 function PostCommentBox({ postID }: Props) {
   const { data: session, status } = useSession();
   const messageRef = useRef<HTMLTextAreaElement>(null);
+  const queryClient = useQueryClient();
   const postComment = async function () {
     if (!messageRef.current?.value) {
       return Promise.reject(`Fill Text Area`);
@@ -30,7 +35,7 @@ function PostCommentBox({ postID }: Props) {
   const mutation = useMutation({
     mutationFn: postComment,
     onSuccess: () => {
-      console.log(`Worked Swap  to Invalidate Query`);
+      queryClient.invalidateQueries({ queryKey: [`Comment ${postID}`] });
     },
   });
 

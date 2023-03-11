@@ -12,3 +12,16 @@ export type lessons1 = {
     desc: string;
   }[];
 };
+
+export type comment = {
+  id: string;
+  message: string;
+  parentID: string;
+  updateAT: string;
+  createdAT: string;
+  user: {
+    name: string;
+    image: string;
+  };
+  userID: string;
+};

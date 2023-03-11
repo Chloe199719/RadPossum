@@ -6,7 +6,13 @@ export default async function getComments(postID: string) {
       where: {
         postID: postID,
       },
-      include: {
+      select: {
+        id: true,
+        parentID: true,
+        message: true,
+        createdAT: true,
+        updatedAT: true,
+        userID: true,
         user: {
           select: {
             name: true,
