@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { getSession, signIn, signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import myLoader from "@/lib/imageloader";
 type Props = {};
 
 export default function Avatar({}: Props) {
@@ -30,6 +31,7 @@ export default function Avatar({}: Props) {
                   alt={
                     session?.user ? session.user.name! : "Default Profile Pic"
                   }
+                  loader={myLoader}
                   width={96}
                   height={96}
                 />{" "}
@@ -47,7 +49,7 @@ export default function Avatar({}: Props) {
                 <p>{session.user?.email}</p>
               </div>
             </li>
-            <hr />
+            <hr className=" my-1" />
             <li>
               <Link href="/dashboard">Dashboard</Link>
             </li>
@@ -57,7 +59,7 @@ export default function Avatar({}: Props) {
             <li>
               <Link href="/dashboard/lessons">Lessons</Link>
             </li>
-            <hr />
+            <hr className=" my-1" />
             <li
               onClick={() => {
                 signOut();
@@ -113,29 +115,17 @@ export default function Avatar({}: Props) {
         //     Sign out
         //   </Dropdown.Item>
         // </Dropdown>
-        <Button.Group>
-          <Button
-            onClick={() => {
-              signOut();
-            }}
-            className="focus:ring-0"
-            color="gray"
-          >
-            {/* <Link className="w-full h-full" href="/signup"> */} Signup
-            {/* </Link> */}
-          </Button>
-          <Button
-            onClick={() => {
-              signIn();
-            }}
-            className="focus:ring-0"
-            color="gray"
-          >
-            {/* <Link className="w-full h-full" href="/login"> */}
-            Login
-            {/* </Link> */}
-          </Button>
-        </Button.Group>
+
+        <button
+          onClick={() => {
+            signIn();
+          }}
+          className="btn btn-primary focus:ring-0 w-32"
+        >
+          {/* <Link className="w-full h-full" href="/login"> */}
+          Login
+          {/* </Link> */}
+        </button>
       )}
       {/* {data ? (
         <div>{data.name}</div>

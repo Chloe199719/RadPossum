@@ -1,5 +1,6 @@
 "use client";
 
+import myLoader from "@/lib/imageloader";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -11,7 +12,6 @@ type Props = {
 function PostCommentBox({ postID }: Props) {
   const { data: session, status } = useSession();
   const messageRef = useRef<HTMLTextAreaElement>(null);
-  console.log(session?.user?.image);
   const postComment = async function () {
     if (!messageRef.current?.value) {
       return Promise.reject(`Fill Text Area`);
@@ -33,9 +33,7 @@ function PostCommentBox({ postID }: Props) {
       console.log(`Worked Swap  to Invalidate Query`);
     },
   });
-  const myLoader = ({ src, width, quality }: any) => {
-    return `${src}`;
-  };
+
   return (
     <form
       onSubmit={(e) => {
@@ -50,6 +48,7 @@ function PostCommentBox({ postID }: Props) {
           <span className="px-2 text-lg flex items-center">
             as {session?.user?.name}
             <Image
+              className=" rounded-full"
               loader={myLoader}
               src={session?.user ? session.user.image! : "/chloe.jpg"}
               alt={session?.user ? session.user.name! : "Default Profile Pic"}
