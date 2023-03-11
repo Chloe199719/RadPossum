@@ -18,7 +18,7 @@ function PostCommentBox({ postID }: Props) {
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const queryClient = useQueryClient();
   const postComment = async function () {
-    if (!messageRef.current?.value) {
+    if (!messageRef.current?.value.trim()) {
       return Promise.reject(`Fill Text Area`);
     }
     try {
@@ -46,7 +46,7 @@ function PostCommentBox({ postID }: Props) {
       }}
       className="w-full space-y-4"
     >
-      <textarea ref={messageRef} className="textarea w-full" />
+      <textarea ref={messageRef} className="textarea w-full" required />
       {status === "authenticated" ? (
         <div className="flex justify-end items-center">
           <button className="btn btn-primary w-48 text-xl">Comment</button>

@@ -26,26 +26,43 @@ function CommentProvider({ children, postID }: Props) {
       return error.message;
     }
   };
+  const fetchUserID = async function () {
+    try {
+      const data = await axios.get(`/api/user/getUser`);
+
+      return data.data;
+    } catch (error: any) {
+      return error.message;
+    }
+  };
   const comments = useQuery({
     queryKey: [`Comment ${postID}`],
     queryFn: fetchComments,
   });
+
+  const userID = useQuery({
+    queryKey: [`USER`],
+    queryFn: fetchUserID,
+  });
   const commentsByParentI = useMemo(() => {
     if (!comments.data) return {};
     const group: any = {};
-    comments.data.forEach((comment: any) => {
+    comments?.data.forEach((comment: any) => {
       group[comment.parentID] ||= [];
       group[comment.parentID].push(comment);
     });
     return group;
   }, [comments.data]);
-  console.log(commentsByParentI);
   function getReplies(parentID: string) {
     return commentsByParentI[parentID];
   }
   return (
     <Context.Provider
-      value={{ getReplies, rootComments: commentsByParentI.null }}
+      value={{
+        getReplies,
+        rootComments: commentsByParentI.null,
+        userID: userID.isLoading ? "Loading" : userID.data.userId.userID,
+      }}
     >
       {comments.isLoading ? <h1>Loading</h1> : children}
     </Context.Provider>
