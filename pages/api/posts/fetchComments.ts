@@ -9,12 +9,16 @@ export default async function handler(
     res.status(405).end("Method Not Allowed");
     return;
   }
+
   if (!req.query.post) {
     res.status(400).json({ message: `Bad Request` });
     return;
   }
   try {
-    const data = await getComments(req.query.post as string);
+    const data = await getComments(
+      req.query.post as string,
+      req.query.sort as string
+    );
 
     res.status(200).json({ data });
     return;

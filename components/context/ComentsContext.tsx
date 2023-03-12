@@ -1,7 +1,8 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useMemo, useRef, useState } from "react";
+import { useStore } from "../useStore";
 type Props = {
   children: any;
   postID: string;
@@ -17,9 +18,15 @@ interface context {
 /* @ts-expect-error */
 const Context = React.createContext();
 function CommentProvider({ children, postID }: Props) {
-  const fetchComments = async function () {
+  const store = useStore();
+  const stateRef = useRef<string>();
+  stateRef.current = store.sort;
+
+  const fetchComments = async function (sort: string) {
     try {
-      const data = await axios.get(`/api/posts/fetchComments/?post=${postID}`);
+      const data = await axios.get(
+        `/api/posts/fetchComments/?post=${postID}&&sort=${sort}`
+      );
 
       return data.data.data;
     } catch (error: any) {
@@ -37,7 +44,9 @@ function CommentProvider({ children, postID }: Props) {
   };
   const comments = useQuery({
     queryKey: [`Comment ${postID}`],
-    queryFn: fetchComments,
+    queryFn: () => {
+      return fetchComments(stateRef.current as string);
+    },
   });
 
   const userID = useQuery({
@@ -45,7 +54,7 @@ function CommentProvider({ children, postID }: Props) {
     queryFn: fetchUserID,
   });
   const commentsByParentI = useMemo(() => {
-    if (!comments.data) return {};
+    if (comments.data === undefined) return {};
     const group: any = {};
     comments?.data.forEach((comment: any) => {
       group[comment.parentID] ||= [];

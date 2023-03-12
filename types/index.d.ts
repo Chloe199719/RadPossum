@@ -19,6 +19,8 @@ export type comment = {
   parentID: string;
   updateAT: string;
   createdAT: string;
+  postID: string;
+  edited: boolean;
   user: {
     name: string;
     image: string;

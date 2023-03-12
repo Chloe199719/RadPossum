@@ -1,6 +1,9 @@
 import prismaClient from "../prisma/prismaClient";
 
-export default async function getComments(postID: string) {
+export default async function getComments(
+  postID: string,
+  sort: string = `desc`
+) {
   try {
     const data = await prismaClient.comments.findMany({
       where: {
@@ -13,12 +16,17 @@ export default async function getComments(postID: string) {
         createdAT: true,
         updatedAT: true,
         userID: true,
+        postID: true,
+        edited: true,
         user: {
           select: {
             name: true,
             image: true,
           },
         },
+      },
+      orderBy: {
+        createdAT: `${sort === `desc` ? `desc` : `asc`}`,
       },
     });
 
