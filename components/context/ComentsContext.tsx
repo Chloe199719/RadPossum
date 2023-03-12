@@ -39,7 +39,7 @@ function CommentProvider({ children, postID }: Props) {
 
       return data.data;
     } catch (error: any) {
-      return error.message;
+      return `no User`;
     }
   };
   const comments = useQuery({
@@ -65,12 +65,17 @@ function CommentProvider({ children, postID }: Props) {
   function getReplies(parentID: string) {
     return commentsByParentI[parentID];
   }
+  console.log(userID.data);
   return (
     <Context.Provider
       value={{
         getReplies,
         rootComments: commentsByParentI.null,
-        userID: userID.isLoading ? "Loading" : userID.data.userId.userID,
+        userID: userID.isLoading
+          ? "Loading"
+          : userID.data.userId
+          ? userID.data.userId.userID
+          : userID.data,
       }}
     >
       {comments.isLoading ? <h1>Loading</h1> : children}

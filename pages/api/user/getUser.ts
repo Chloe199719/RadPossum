@@ -14,7 +14,7 @@ export default async function handler(
   }
   const token = getCookie(cookie, { req, res });
   if (!token) {
-    res.status(401).end();
+    res.status(200).json({ message: `no User Found` });
     return;
   }
 
