@@ -65,7 +65,6 @@ function CommentProvider({ children, postID }: Props) {
   function getReplies(parentID: string) {
     return commentsByParentI[parentID];
   }
-  console.log(userID.data);
   return (
     <Context.Provider
       value={{
