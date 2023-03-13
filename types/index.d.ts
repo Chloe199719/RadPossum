@@ -17,7 +17,7 @@ export type comment = {
   id: string;
   message: string;
   parentID: string;
-  updateAT: string;
+  updatedAT: string;
   createdAT: string;
   postID: string;
   edited: boolean;

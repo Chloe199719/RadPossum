@@ -8,6 +8,7 @@ export default async function editComment(commentID: string, message: string) {
       },
       data: {
         message: message,
+        edited: true,
       },
     });
 

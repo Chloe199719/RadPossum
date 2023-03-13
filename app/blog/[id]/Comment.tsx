@@ -15,7 +15,8 @@ import PostCommentBox from "./PostCommentBox";
 import EditCommentBox from "./EditCommentBox";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-
+import myLoader from "@/lib/imageloader";
+import Image from "next/image";
 type Props = {
   comment: comment;
 };
@@ -48,108 +49,133 @@ function Comment({ comment }: Props) {
   });
 
   return (
-    <div>
-      <div>
-        <span>{comment.user.name}</span>
-        <span>Post At {`${new Date(comment.createdAT).toLocaleString()}`}</span>
+    <div className="flex flex-col gap-2 relative">
+      <div className="flex items-center justify-between">
+        <span className="flex items-center gap-2">
+          {" "}
+          <Image
+            className=" rounded-full"
+            loader={myLoader}
+            src={comment.user.image ? comment.user.image : "/chloe.jpg"}
+            alt={comment.user.image ? comment.user.name : "Default Profile Pic"}
+            width={35}
+            height={35}
+          />
+          <span className="text-black text-lg">{comment.user.name}</span>
+          {comment.edited && (
+            <span
+              className="tooltip tooltip-right"
+              data-tip={`Last Edited at: ${new Date(
+                comment.updatedAT
+              ).toLocaleString()}`}
+            >
+              Edited
+            </span>
+          )}
+        </span>
+        <span>
+          Posted At {`${new Date(comment.createdAT).toLocaleString()}`}
+        </span>
       </div>
-      {isEditing ? (
-        <EditCommentBox
-          autoFocus={true}
-          initialValue={comment.message}
-          postID={comment.postID}
-          commentID={comment.id}
-          setisEditing={setIsEditing}
-        />
-      ) : (
-        <div>{comment.message}</div>
-      )}
-      <div className="flex gap-4">
-        <IconBtn
-          onClick={() => {
-            setIsReplying(!isReplying);
-          }}
-          isActive={false}
-          Icon={FaReply}
-          aria-label={false ? "Cancel Reply" : "Reply"}
-        />
+      <div className="flex flex-col gap-2 ml-10">
+        {isEditing ? (
+          <EditCommentBox
+            autoFocus={true}
+            initialValue={comment.message}
+            postID={comment.postID}
+            commentID={comment.id}
+            setisEditing={setIsEditing}
+          />
+        ) : (
+          <div className="text-black bg-slate-50 px-2 py-3 rounded-lg">
+            {comment.message}
+          </div>
+        )}
+        <div className="flex gap-4 text-black">
+          <IconBtn
+            onClick={() => {
+              setIsReplying(!isReplying);
+            }}
+            isActive={false}
+            Icon={FaReply}
+            aria-label={false ? "Cancel Reply" : "Reply"}
+          />
 
-        {userID === comment.userID && (
-          <>
+          {userID === comment.userID && (
+            <>
+              <IconBtn
+                onClick={() => {
+                  setIsEditing((perv) => !perv);
+                }}
+                Icon={FaEdit}
+                isActive={false}
+                aria-label={true ? "Cancel Edit" : `Edit`}
+              />
+              <IconBtn
+                onClick={() => {
+                  setConfirmDelete(!confirmDelete);
+                }}
+                Icon={FaTrash}
+                aria-label="Delete"
+                color="text-red-700"
+              />
+              {confirmDelete && (
+                <div className="flex gap-2 items-center">
+                  <span className="text-red-600">
+                    Are you Sure u Want to Delete?
+                  </span>
+                  <button
+                    onClick={() => {
+                      mutation.mutate();
+                    }}
+                    className="btn btn-warning btn-sm"
+                  >
+                    YES
+                  </button>
+                  <button
+                    onClick={() => {
+                      setConfirmDelete(false);
+                    }}
+                    className="btn btn-primary btn-sm"
+                  >
+                    NO
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+          {childComments?.length > 0 && (
             <IconBtn
-              onClick={() => {
-                setIsEditing((perv) => !perv);
-              }}
-              Icon={FaEdit}
-              isActive={false}
-              aria-label={true ? "Cancel Edit" : `Edit`}
+              Icon={FaListUl}
+              aria-label={`Show Reply`}
+              onClick={() => setAreChildrenHidden(!areChildrenHidden)}
             />
-            <IconBtn
-              onClick={() => {
-                setConfirmDelete(!confirmDelete);
-              }}
-              Icon={FaTrash}
-              aria-label="Delete"
-              color="text-red-700"
+          )}
+        </div>
+        {isReplying && (
+          <div className="mt-4">
+            <PostCommentBox
+              postID={comment.postID}
+              autoFocus={true}
+              parentID={comment.id}
+              closeBox={setIsReplying}
             />
-            {confirmDelete && (
-              <div className="flex gap-2 items-center">
-                <span className="text-red-600">
-                  Are you Sure u Want to Delete?
-                </span>
-                <button
-                  onClick={() => {
-                    mutation.mutate();
-                  }}
-                  className="btn btn-warning btn-sm"
-                >
-                  YES
-                </button>
-                <button
-                  onClick={() => {
-                    setConfirmDelete(false);
-                  }}
-                  className="btn btn-primary btn-sm"
-                >
-                  NO
-                </button>
-              </div>
-            )}
-          </>
+          </div>
         )}
         {childComments?.length > 0 && (
-          <IconBtn
-            Icon={FaListUl}
-            aria-label={`Show Reply`}
-            onClick={() => setAreChildrenHidden(!areChildrenHidden)}
-          />
+          <div className={`${areChildrenHidden ? `hidden` : `flex`}  w-full`}>
+            <button
+              className="w-1 h-[calc(100%-50px)] bg-primary absolute my-1 hover:bg-accent left-3 top-10 bottom-0"
+              aria-label="Hide Replies"
+              onClick={() => setAreChildrenHidden(true)}
+            />
+            <div className="ml-10 my-2 w-full">
+              {" "}
+              <CommentsList comments={childComments} />
+            </div>
+          </div>
         )}
       </div>
-      {isReplying && (
-        <div className="mt-4">
-          <PostCommentBox
-            postID={comment.postID}
-            autoFocus={true}
-            parentID={comment.id}
-            closeBox={setIsReplying}
-          />
-        </div>
-      )}
-      {childComments?.length > 0 && (
-        <div
-          className={`${areChildrenHidden ? `hidden` : `flex`} relative w-full`}
-        >
-          <button
-            className="w-1 h-full bg-primary absolute my-1 hover:bg-accent"
-            aria-label="Hide Replies"
-            onClick={() => setAreChildrenHidden(true)}
-          />
-          <div className="ml-10 my-2 w-full">
-            {" "}
-            <CommentsList comments={childComments} />
-          </div>
-        </div>
-      )}
     </div>
   );
 }
