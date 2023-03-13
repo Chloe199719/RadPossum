@@ -49,7 +49,9 @@ function EditCommentBox({
     },
   });
   if (mutation.isSuccess) {
-    setisEditing(false);
+    setTimeout(() => {
+      setisEditing(false);
+    }, 200);
   }
   return (
     <form
@@ -67,7 +69,12 @@ function EditCommentBox({
       />
       {status === "authenticated" ? (
         <div className="flex justify-end items-center">
-          <button className="btn btn-primary w-48 text-xl">Edit Comment</button>
+          <button
+            disabled={mutation.isLoading}
+            className="btn btn-primary w-48 text-xl"
+          >
+            Edit Comment
+          </button>
           <span className="px-2 text-lg flex items-center">
             as {session?.user?.name}
             <Image

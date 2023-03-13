@@ -17,6 +17,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import myLoader from "@/lib/imageloader";
 import Image from "next/image";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import remarkGfm from "remark-gfm";
+import { useSession } from "next-auth/react";
+
 type Props = {
   comment: comment;
 };
@@ -29,6 +33,7 @@ function Comment({ comment }: Props) {
   const [isEditing, setIsEditing] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const queryClient = useQueryClient();
+  const { data: session, status } = useSession();
   const deleteComment = async function () {
     try {
       const deleteObj = await axios.delete(
@@ -55,7 +60,6 @@ function Comment({ comment }: Props) {
           {" "}
           <Image
             className=" rounded-full"
-            loader={myLoader}
             src={comment.user.image ? comment.user.image : "/chloe.jpg"}
             alt={comment.user.image ? comment.user.name : "Default Profile Pic"}
             width={35}
@@ -87,19 +91,24 @@ function Comment({ comment }: Props) {
             setisEditing={setIsEditing}
           />
         ) : (
-          <div className="text-black bg-slate-50 px-2 py-3 rounded-lg">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            className="text-black bg-slate-50 px-2 py-3 rounded-lg"
+          >
             {comment.message}
-          </div>
+          </ReactMarkdown>
         )}
         <div className="flex gap-4 text-black">
-          <IconBtn
-            onClick={() => {
-              setIsReplying(!isReplying);
-            }}
-            isActive={false}
-            Icon={FaReply}
-            aria-label={false ? "Cancel Reply" : "Reply"}
-          />
+          {status === "authenticated" && (
+            <IconBtn
+              onClick={() => {
+                setIsReplying(!isReplying);
+              }}
+              isActive={false}
+              Icon={FaReply}
+              aria-label={false ? "Cancel Reply" : "Reply"}
+            />
+          )}
 
           {userID === comment.userID && (
             <>

@@ -54,7 +54,7 @@ function CommentProvider({ children, postID }: Props) {
     queryFn: fetchUserID,
   });
   const commentsByParentI = useMemo(() => {
-    if (comments.data === undefined) return {};
+    if (!comments.data) return {};
     const group: any = {};
     comments?.data.forEach((comment: any) => {
       group[comment.parentID] ||= [];
