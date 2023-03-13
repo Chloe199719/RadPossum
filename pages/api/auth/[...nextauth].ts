@@ -40,7 +40,7 @@ export const Auth = {
   },
   events: {
     async signIn(message: any) {
-      prismaClient.account.update({
+      await prismaClient.account.update({
         where: {
           providerAccountId: message.account.providerAccountId,
         },
