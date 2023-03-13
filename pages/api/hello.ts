@@ -20,18 +20,18 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const test = await axios.post(
-      `https://discord.com/api/oauth2/token?${new URLSearchParams({
-        client_id: process.env.DISCORD_CLIENT_ID!,
-        client_secret: process.env.DISCORD_CLIENT_SECRET!,
-        grant_type: "refresh_token",
-        refresh_token: `R9NaB3WgKUOGMryfwTuw1WuKTqmvOh`,
-      })} `,
-      {},
-      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
-    );
-    res.status(200).json({ test });
-    return;
+    // const test = await axios.post(
+    //   `https://discord.com/api/oauth2/token?${new URLSearchParams({
+    //     client_id: process.env.DISCORD_CLIENT_ID!,
+    //     client_secret: process.env.DISCORD_CLIENT_SECRET!,
+    //     grant_type: "refresh_token",
+    //     refresh_token: `R9NaB3WgKUOGMryfwTuw1WuKTqmvOh`,
+    //   })} `,
+    //   {},
+    //   { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+    // );
+    // res.status(200).json({ test });
+    // return;
   } catch (error) {
     console.log(error);
   }
