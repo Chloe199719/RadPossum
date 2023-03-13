@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prismaClient from "@/lib/prisma/prismaClient";
+import { use } from "react";
 
 export const Auth = {
   adapter: PrismaAdapter(prismaClient),
@@ -28,6 +29,29 @@ export const Auth = {
       },
     }),
   ],
+  callbacks: {
+    async signIn({ user, account, profile, email, credentials }: any) {
+      return true;
+    },
+    async session({ session, token, user }: any) {
+      session.user.id = user.id;
+      return session;
+    },
+  },
+  events: {
+    async signIn(message: any) {
+      prismaClient.account.update({
+        where: {
+          providerAccountId: message.account.providerAccountId,
+        },
+        data: {
+          refresh_token: message.account.refresh_token,
+          expires_at: message.account.expires_at,
+          access_token: message.account.access_token,
+        },
+      });
+    },
+  },
 };
 
 export default NextAuth(Auth);

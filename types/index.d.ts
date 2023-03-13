@@ -27,3 +27,15 @@ export type comment = {
   };
   userID: string;
 };
+
+export type session = {
+  status: "authenticated" | "loading" | "unauthenticated";
+  data: {
+    user?: {
+      name?: string;
+      email?: string;
+      image?: string;
+      id?: string;
+    };
+  } | null;
+};

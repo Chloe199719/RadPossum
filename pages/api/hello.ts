@@ -7,6 +7,9 @@ import { RandomHash } from "random-hash";
 import fetchProdId from "@/lib/fetchProdID";
 import test from "@/lib/testLog";
 import generateTime from "@/lib/bookinglesson/generatetime";
+import axios from "axios";
+import { headers } from "next/headers";
+import { URLSearchParams } from "url";
 
 type Data = {
   name: string;
@@ -14,14 +17,23 @@ type Data = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
-  transporter.verify(function (error, success) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Server is ready to take our messages");
-    }
-  });
-  res.status(200).json({ name: "John Doe" });
+  try {
+    const test = await axios.post(
+      `https://discord.com/api/oauth2/token?${new URLSearchParams({
+        client_id: process.env.DISCORD_CLIENT_ID!,
+        client_secret: process.env.DISCORD_CLIENT_SECRET!,
+        grant_type: "refresh_token",
+        refresh_token: `R9NaB3WgKUOGMryfwTuw1WuKTqmvOh`,
+      })} `,
+      {},
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+    );
+    res.status(200).json({ test });
+    return;
+  } catch (error) {
+    console.log(error);
+  }
+  res.status(200).json({ name: `test` });
 }

@@ -26,7 +26,7 @@ type Props = {
 };
 function Comment({ comment }: Props) {
   /* @ts-expect-error */
-  const { getReplies, userID } = useComment();
+  const { getReplies } = useComment();
   const childComments: comment[] = getReplies(comment.id);
   const [areChildrenHidden, setAreChildrenHidden] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
@@ -109,8 +109,8 @@ function Comment({ comment }: Props) {
               aria-label={false ? "Cancel Reply" : "Reply"}
             />
           )}
-
-          {userID === comment.userID && (
+          {/* @ts-expect-error */}
+          {session?.user?.id! === comment.userID && (
             <>
               <IconBtn
                 onClick={() => {

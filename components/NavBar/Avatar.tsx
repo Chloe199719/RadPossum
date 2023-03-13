@@ -10,6 +10,7 @@ import { getSession, signIn, signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import myLoader from "@/lib/imageloader";
+import { session } from "@/types";
 type Props = {};
 
 export default function Avatar({}: Props) {
@@ -17,7 +18,7 @@ export default function Avatar({}: Props) {
   const { count } = useStore();
 
   const { data: session, status } = useSession();
-  // console.log(session);
+  console.log(session);
   return (
     <>
       {status === "authenticated" ? (
