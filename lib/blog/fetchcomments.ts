@@ -24,7 +24,17 @@ export default async function getComments(
             image: true,
           },
         },
-        Like: true,
+        Like: {
+          select: {
+            user: {
+              select: {
+                name: true,
+              },
+            },
+            userId: true,
+            commentId: true,
+          },
+        },
       },
       orderBy: {
         createdAT: `${sort === `desc` ? `desc` : `asc`}`,

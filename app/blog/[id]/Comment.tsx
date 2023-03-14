@@ -15,7 +15,6 @@ import PostCommentBox from "./PostCommentBox";
 import EditCommentBox from "./EditCommentBox";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import myLoader from "@/lib/imageloader";
 import Image from "next/image";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import remarkGfm from "remark-gfm";
@@ -196,10 +195,16 @@ function Comment({ comment, index }: Props) {
               {areChildrenHidden && <span>{childComments.length}</span>}
             </div>
           )}
-          <div className="flex items-center text-red-500 gap-2">
+          <div
+            className="flex items-center text-red-500 gap-2 tooltip tooltip-success tooltip-right"
+            data-tip={comment.Like.map((like) => {
+              return like.user.name;
+            }).join(`, `)}
+          >
             <IconBtn
               Icon={Liked ? FaHeart : FaRegHeart}
               aria-label={`Like or  Dislike`}
+              disabled={status === "authenticated" ? false : true}
               onClick={() => {
                 toggleLikeMutation.mutate();
               }}

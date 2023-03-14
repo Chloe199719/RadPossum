@@ -5,10 +5,22 @@ interface Props extends ComponentPropsWithoutRef<"button"> {
   isActive?: any;
   color?: string;
   children?: any;
+  disabled?: boolean;
 }
-function IconBtn({ Icon, isActive, color, children, ...props }: Props) {
+function IconBtn({
+  Icon,
+  isActive,
+  color,
+  children,
+  disabled,
+  ...props
+}: Props) {
   return (
-    <button className={`${color ? color : null}`} {...props}>
+    <button
+      className={`${color ? color : null}`}
+      {...props}
+      disabled={disabled}
+    >
       <span>
         <Icon />
       </span>

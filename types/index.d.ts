@@ -29,6 +29,9 @@ export type comment = {
   Like: {
     userId: string;
     commentId: string;
+    user: {
+      name: string;
+    };
   }[];
 };
 
