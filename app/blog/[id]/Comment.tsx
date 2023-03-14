@@ -86,8 +86,8 @@ function Comment({ comment, index }: Props) {
     },
   });
   return (
-    <div className="flex flex-col gap-2 relative">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-2 relative w-full justify-start">
+      <div className="flex-col md:flex-row flex md:items-center justify-between">
         <span className="flex items-center gap-2">
           {" "}
           <Image
@@ -109,9 +109,14 @@ function Comment({ comment, index }: Props) {
             </span>
           )}
         </span>
-        <span>
-          Posted At {`${new Date(comment.createdAT).toLocaleString()}`}
-        </span>
+        <div
+          className="tooltip tooltip-left flex items-center"
+          data-tip={`${new Date(comment.createdAT).toLocaleString()}`}
+        >
+          <span className="ml-10 md:ml-0 text-sm md:text-base truncate">
+            Posted At {`${new Date(comment.createdAT).toLocaleString()}`}
+          </span>
+        </div>
       </div>
       <div className="flex flex-col gap-2 ml-10">
         {isEditing ? (
@@ -125,7 +130,7 @@ function Comment({ comment, index }: Props) {
         ) : (
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
-            className="text-black bg-slate-50 px-2 py-3 rounded-lg"
+            className="text-black bg-slate-50 px-2 py-3 rounded-lg "
           >
             {comment.message}
           </ReactMarkdown>
@@ -235,11 +240,11 @@ function Comment({ comment, index }: Props) {
         {childComments?.length > 0 && (
           <div className={`${areChildrenHidden ? `hidden` : `flex`}  w-full`}>
             <button
-              className="w-1 h-[calc(100%-50px)] bg-primary absolute my-1 hover:bg-accent left-3 top-10 bottom-0"
+              className="w-1  h-[calc(100%-50px)] bg-primary absolute my-1 hover:bg-accent left-3 top-12 md:top-10 bottom-0 translate-x-full "
               aria-label="Hide Replies"
               onClick={() => setAreChildrenHidden(true)}
             />
-            <div className="ml-10 my-2 w-full">
+            <div className="ml:1 md:ml-10 my-2 w-full">
               {" "}
               <CommentsList index={index + 1} comments={childComments} />
             </div>

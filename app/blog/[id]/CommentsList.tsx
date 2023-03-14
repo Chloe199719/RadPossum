@@ -13,7 +13,7 @@ function CommentsList({ comments, index = 1 }: Props) {
     <div className="flex flex-col gap-3">
       {" "}
       {comments?.map((comment: comment) => (
-        <div key={comment.id} className="w-full flex flex-col ">
+        <div key={comment.id} className="w-full flex flex-col">
           <Comment index={index} comment={comment} />
         </div>
       ))}

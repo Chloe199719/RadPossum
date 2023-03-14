@@ -41,8 +41,10 @@ async function Page({ params }: Props) {
     <main className="min-h-screen snap-y snap-mandatory overflow-y-scroll  flex gap-10 flex-col py-32  mx-auto items-center justify-center z-[5] bg-gradient-to-b from-[#30bead]/30 to-[#ff7e84]/40">
       <div className=" snap-start md:snap-center flex items-center justify-center">
         {" "}
-        <div className="font-mono max-w-7xl gap-3 flex flex-col items-center justify-center mx-auto  border-black rounded-xl p-12 bg-zinc-200 w-screen">
-          <h2 className=" text-5xl my-12 text-black ">{post?.title}</h2>
+        <div className="font-mono max-w-7xl gap-3 flex flex-col items-center justify-center mx-auto  border-black rounded-xl p-6 md:p-12 bg-zinc-200 w-screen">
+          <h2 className="text-2xl md:text-5xl my-12 text-black ">
+            {post?.title}
+          </h2>
           <p className=" text-black self-end text-lg">
             Posted at : {post.createdAT.toLocaleString()}
           </p>
@@ -72,17 +74,20 @@ async function Page({ params }: Props) {
               {post.message}
             </ReactMarkdown>
           </article>
-          <div className=" flex justify-between  mt-10 w-full">
-            <span className="text-xl text-black">Comment</span>
-            <div className="flex gap-2 items-center">
-              <span>Created by {post.user.name} </span>
-              <Image
-                className=" rounded-full"
-                src={post.user.image!}
-                alt={post.user.name!}
-                width={35}
-                height={35}
-              />{" "}
+          <div className="flex-col flex justify-between  mt-10 w-full gap-2">
+            <span className="text-xl text-black order-last">Comment</span>
+            <div className="flex gap-2 items-center text-sm flex-col md:flex-row md:justify-end">
+              <div className="flex items-center gap-2">
+                {" "}
+                <span>Created by {post.user.name} </span>
+                <Image
+                  className=" rounded-full"
+                  src={post.user.image!}
+                  alt={post.user.name!}
+                  width={35}
+                  height={35}
+                />{" "}
+              </div>
               <span> Last Update at {post.updatedAT.toLocaleString()}</span>
             </div>
           </div>

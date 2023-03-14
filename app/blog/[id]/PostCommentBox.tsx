@@ -67,10 +67,10 @@ function PostCommentBox({
         required
       />
       {status === "authenticated" ? (
-        <div className="flex justify-end items-center">
+        <div className="flex justify-between md:justify-end items-center ">
           <button
             disabled={mutation.isLoading}
-            className="btn btn-primary w-48 text-xl"
+            className="btn btn-primary md:w-48 text-xl flex-1 md:flex-none"
           >
             Comment
           </button>
