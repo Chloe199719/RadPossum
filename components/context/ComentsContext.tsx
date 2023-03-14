@@ -33,15 +33,6 @@ function CommentProvider({ children, postID }: Props) {
       return error.message;
     }
   };
-  const fetchUserID = async function () {
-    try {
-      const data = await axios.get(`/api/user/getUser`);
-
-      return data.data;
-    } catch (error: any) {
-      return `no User`;
-    }
-  };
   const comments = useQuery({
     queryKey: [`Comment ${postID}`],
     queryFn: () => {
@@ -49,10 +40,6 @@ function CommentProvider({ children, postID }: Props) {
     },
   });
 
-  const userID = useQuery({
-    queryKey: [`USER`],
-    queryFn: fetchUserID,
-  });
   const commentsByParentI = useMemo(() => {
     if (!comments.data) return {};
     const group: any = {};
@@ -70,11 +57,6 @@ function CommentProvider({ children, postID }: Props) {
       value={{
         getReplies,
         rootComments: commentsByParentI.null,
-        userID: userID.isLoading
-          ? "Loading"
-          : userID.data.userId
-          ? userID.data.userId.userID
-          : userID.data,
       }}
     >
       {comments.isLoading ? <h1>Loading</h1> : children}
