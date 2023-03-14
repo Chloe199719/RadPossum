@@ -23,12 +23,15 @@ import { useSession } from "next-auth/react";
 
 type Props = {
   comment: comment;
+  index: number;
 };
-function Comment({ comment }: Props) {
+function Comment({ comment, index }: Props) {
   /* @ts-expect-error */
   const { getReplies } = useComment();
   const childComments: comment[] = getReplies(comment.id);
-  const [areChildrenHidden, setAreChildrenHidden] = useState(false);
+  const [areChildrenHidden, setAreChildrenHidden] = useState(
+    index >= 3 ? true : false
+  );
   const [isReplying, setIsReplying] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -52,7 +55,37 @@ function Comment({ comment }: Props) {
       });
     },
   });
+  const ilikethis = function () {
+    return comment.Like.some((like) => {
+      /* @ts-expect-error */
+      if (like.userId === session?.user.id) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  };
+  const Liked = ilikethis();
+  const toggleLike = async function () {
+    try {
+      const toggleLikes = await axios.put(`/api/posts/toggleLike`, {
+        toggleLike: toggleLike,
+        commentID: comment.id,
+      });
+      return toggleLikes;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  const toggleLikeMutation = useMutation({
+    mutationFn: toggleLike,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [`Comment ${comment.postID}`],
+      });
+    },
+  });
   return (
     <div className="flex flex-col gap-2 relative">
       <div className="flex items-center justify-between">
@@ -154,12 +187,25 @@ function Comment({ comment }: Props) {
             </>
           )}
           {childComments?.length > 0 && (
-            <IconBtn
-              Icon={FaListUl}
-              aria-label={`Show Reply`}
-              onClick={() => setAreChildrenHidden(!areChildrenHidden)}
-            />
+            <div className="flex gap-2 items-center">
+              <IconBtn
+                Icon={FaListUl}
+                aria-label={`Show Reply`}
+                onClick={() => setAreChildrenHidden(!areChildrenHidden)}
+              />{" "}
+              {areChildrenHidden && <span>{childComments.length}</span>}
+            </div>
           )}
+          <div className="flex items-center text-red-500 gap-2">
+            <IconBtn
+              Icon={Liked ? FaHeart : FaRegHeart}
+              aria-label={`Like or  Dislike`}
+              onClick={() => {
+                toggleLikeMutation.mutate();
+              }}
+            />
+            <span>{comment.Like.length}</span>
+          </div>
         </div>
         {isReplying && (
           <div className="mt-4">
@@ -180,7 +226,7 @@ function Comment({ comment }: Props) {
             />
             <div className="ml-10 my-2 w-full">
               {" "}
-              <CommentsList comments={childComments} />
+              <CommentsList index={index + 1} comments={childComments} />
             </div>
           </div>
         )}

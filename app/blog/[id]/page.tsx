@@ -37,7 +37,7 @@ async function Page({ params }: Props) {
       <div className=" snap-start md:snap-center flex items-center justify-center">
         {" "}
         <div className="font-mono max-w-7xl gap-3 flex flex-col items-center justify-center mx-auto  border-black rounded-xl p-12 bg-zinc-200 w-screen">
-          <h2 className=" text-4xl my-12 ">{post?.title}</h2>
+          <h2 className=" text-4xl my-12 text-black ">{post?.title}</h2>
           <p className=" text-black self-end">
             Posted at : {post.createdAT.toLocaleString()}
           </p>

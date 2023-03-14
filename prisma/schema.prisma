@@ -53,6 +53,7 @@ model User {
   posts         posts[]
   comments      comments[]
   commentsOLD   commentsOLD[]
+  Like          Like[]
 }
 
 model VerificationToken {
@@ -241,6 +242,7 @@ model comments {
   updatedAT DateTime @updatedAt
   user      User     @relation(fields: [userID], references: [id])
   userID    String
+  Like      Like[]
 }
 
 model commentsOLD {
@@ -254,4 +256,13 @@ model commentsOLD {
   updatedAT DateTime @updatedAt
   user      User     @relation(fields: [userID], references: [id])
   userID    String
+}
+
+model Like {
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comment   comments @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  userId    String
+  commentId String
+
+  @@id([userId, commentId])
 }

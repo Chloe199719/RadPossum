@@ -3,8 +3,9 @@ import Comment from "./Comment";
 
 type Props = {
   comments: comment[];
+  index?: number;
 };
-function CommentsList({ comments }: Props) {
+function CommentsList({ comments, index = 1 }: Props) {
   if (!comments) {
     return <h2 className=" text-2xl text-center">No Comments Yet</h2>;
   }
@@ -13,7 +14,7 @@ function CommentsList({ comments }: Props) {
       {" "}
       {comments?.map((comment: comment) => (
         <div key={comment.id} className="w-full flex flex-col ">
-          <Comment comment={comment} />
+          <Comment index={index} comment={comment} />
         </div>
       ))}
     </div>

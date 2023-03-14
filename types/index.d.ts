@@ -26,6 +26,10 @@ export type comment = {
     image: string;
   };
   userID: string;
+  Like: {
+    userId: string;
+    commentId: string;
+  }[];
 };
 
 export type session = {

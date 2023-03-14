@@ -18,7 +18,7 @@ export default function Avatar({}: Props) {
   const { count } = useStore();
 
   const { data: session, status } = useSession();
-  console.log(session);
+  // console.log(session);
   return (
     <>
       {status === "authenticated" ? (

@@ -24,12 +24,12 @@ export default async function getComments(
             image: true,
           },
         },
+        Like: true,
       },
       orderBy: {
         createdAT: `${sort === `desc` ? `desc` : `asc`}`,
       },
     });
-
     return data;
   } catch (error: any) {
     return Promise.reject(error.message);
