@@ -16,33 +16,36 @@ function Comments({ postID }: Props) {
   const store = useStore();
   return (
     <div className="w-full">
-      <div className="text-xl flex justify-end gap-3">
-        <span
-          className={`${store.sort === "asc" ? `text-primary` : ``}`}
-          onClick={() => {
-            useStore.setState({ sort: `asc` });
-            setTimeout(() => {
-              queryClient.invalidateQueries({
-                queryKey: [`Comment ${postID}`],
-              });
-            }, 10);
-          }}
-        >
-          Ascended
-        </span>{" "}
-        <span
-          onClick={() => {
-            useStore.setState({ sort: `desc` });
-            setTimeout(() => {
-              queryClient.invalidateQueries({
-                queryKey: [`Comment ${postID}`],
-              });
-            }, 10);
-          }}
-          className={`${store.sort === "desc" ? `text-primary` : ``}`}
-        >
-          Descend
-        </span>
+      <div className="flex items-center justify-between py-4">
+        <span className="text-xl text-black">Comments</span>
+        <div className="text-xl flex justify-end gap-3">
+          <span
+            className={`${store.sort === "asc" ? `text-primary` : ``}`}
+            onClick={() => {
+              useStore.setState({ sort: `asc` });
+              setTimeout(() => {
+                queryClient.invalidateQueries({
+                  queryKey: [`Comment ${postID}`],
+                });
+              }, 10);
+            }}
+          >
+            Ascended
+          </span>{" "}
+          <span
+            onClick={() => {
+              useStore.setState({ sort: `desc` });
+              setTimeout(() => {
+                queryClient.invalidateQueries({
+                  queryKey: [`Comment ${postID}`],
+                });
+              }, 10);
+            }}
+            className={`${store.sort === "desc" ? `text-primary` : ``}`}
+          >
+            Descend
+          </span>
+        </div>
       </div>
       <CommentsList comments={rootComments} />
     </div>

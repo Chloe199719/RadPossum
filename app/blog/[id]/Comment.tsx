@@ -197,9 +197,19 @@ function Comment({ comment, index }: Props) {
           )}
           <div
             className="flex items-center text-red-500 gap-2 tooltip tooltip-success tooltip-right"
-            data-tip={comment.Like.map((like) => {
-              return like.user.name;
-            }).join(`, `)}
+            data-tip={
+              comment.Like.length !== 0
+                ? comment.Like.map((like, index) => {
+                    if (index === 20) {
+                      return `and more...`;
+                    }
+                    if (index > 20) {
+                      return;
+                    }
+                    return like.user.name;
+                  }).join(`, `)
+                : `No Likes Yet`
+            }
           >
             <IconBtn
               Icon={Liked ? FaHeart : FaRegHeart}

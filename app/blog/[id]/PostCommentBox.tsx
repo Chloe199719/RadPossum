@@ -78,7 +78,6 @@ function PostCommentBox({
             as {session?.user?.name}
             <Image
               className=" rounded-full"
-              loader={myLoader}
               src={session?.user ? session.user.image! : "/chloe.jpg"}
               alt={session?.user ? session.user.name! : "Default Profile Pic"}
               width={35}

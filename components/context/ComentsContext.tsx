@@ -41,14 +41,14 @@ function CommentProvider({ children, postID }: Props) {
   });
 
   const commentsByParentI = useMemo(() => {
-    if (!comments.data) return {};
+    if (!comments.isSuccess) return {};
     const group: any = {};
-    comments?.data.forEach((comment: any) => {
+    comments.data.forEach((comment: any) => {
       group[comment.parentID] ||= [];
       group[comment.parentID].push(comment);
     });
     return group;
-  }, [comments.data]);
+  }, [comments.data, comments.isSuccess]);
   function getReplies(parentID: string) {
     return commentsByParentI[parentID];
   }
