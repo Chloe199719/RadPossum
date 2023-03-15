@@ -204,15 +204,17 @@ function Comment({ comment, index }: Props) {
             className="flex items-center text-red-500 gap-2 tooltip tooltip-success tooltip-right"
             data-tip={
               comment.Like.length !== 0
-                ? comment.Like.map((like, index) => {
-                    if (index === 20) {
-                      return `and more...`;
+                ? comment.Like.map((like, index, array) => {
+                    if (index === 5) {
+                      return `and ${array.length - 5} more `;
                     }
-                    if (index > 20) {
+                    if (index > 5) {
                       return;
                     }
                     return like.user.name;
-                  }).join(`, `)
+                  })
+                    .splice(0, 6)
+                    .join(`, `)
                 : `No Likes Yet`
             }
           >

@@ -85,7 +85,7 @@ function Page({}: Props) {
   };
   return (
     <main className="min-h-screen flex flex-col py-24  mx-auto items-center justify-center z-[5] snap-start md:snap-center bg-gradient-to-b from-[#30bead]/30 to-[#ff7e84]/40">
-      <div className="font-mono max-w-6xl gap-8 flex flex-col items-center justify-center mx-auto  border-black rounded-xl p-12 bg-zinc-200">
+      <div className="font-mono max-w-6xl gap-8 flex flex-col items-center justify-center mx-auto  border-black rounded-xl p-4 md:p-12 bg-zinc-200">
         <h2 className="text-4xl">Contact Me</h2>
         <div className="flex flex-col items-center justify-center text-center">
           {/* Small Text */}
@@ -142,8 +142,8 @@ function Page({}: Props) {
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 md:flex gap-3 w-full items-center justify-center flex-col md:flex-row">
-            <div className="flex gap-3 items-center">
+          <div className="flex md:flex gap-3 w-full items-start md:items-center justify-start md:justify-center flex-col md:flex-row">
+            <div className="flex  gap-3 items-center">
               {" "}
               <input
                 className="checkbox-primary checkbox"

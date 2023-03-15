@@ -42,7 +42,7 @@ export default function Avatar({}: Props) {
           </label>
           <ul
             tabIndex={0}
-            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-60"
+            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-fit"
           >
             <li>
               <div className="flex flex-col items-start">

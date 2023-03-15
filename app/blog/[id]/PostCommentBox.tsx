@@ -9,7 +9,7 @@ import {
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useState } from "react";
 type Props = {
   postID: string;
   initialValue?: string;

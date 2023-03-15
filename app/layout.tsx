@@ -3,6 +3,7 @@ import { Auth } from "@/pages/api/auth/[...nextauth]";
 import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import NavBar from "../components/NavBar/NavBar";
+import Footer from "./footer";
 
 import "./globals.css";
 
@@ -25,12 +26,13 @@ export default async function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body className=" bg-slate-50 		 ">
+      <body className=" bg-slate-50 flex flex-col ">
         <QueryWrapper session={session}>
           {" "}
           <NavBar />
           {children}
           <div id="modal"></div>
+          <Footer />
         </QueryWrapper>
       </body>
     </html>
