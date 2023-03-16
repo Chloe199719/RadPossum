@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "booking" ALTER COLUMN "date" DROP NOT NULL,
+ALTER COLUMN "hour" DROP NOT NULL;

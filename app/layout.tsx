@@ -26,7 +26,7 @@ export default async function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body className=" bg-slate-50 flex flex-col ">
+      <body className=" bg-slate-50  ">
         <QueryWrapper session={session}>
           {" "}
           <NavBar />

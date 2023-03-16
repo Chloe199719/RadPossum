@@ -7,6 +7,7 @@ import Hash from "@/lib/hashgenerator";
 import cookie from "@/lib/cookie";
 
 import { getCookie } from "cookies-next";
+import fetchUserID from "@/lib/user/getUserByToken";
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,23 +20,24 @@ export default async function handler(
   }
   if (
     !req.body.item ||
-    !req.body.date ||
-    !req.body.selHour ||
-    !req.body.discordID
+    !req.body.time ||
+    !req.body.discordID ||
+    !req.body.offset
   ) {
     res.status(400).json({ message: `Bad Request1` });
     return;
   }
-  const time = new Date(req.body.date);
-  if (time.getDay() === 0) {
+  const time = new Date(req.body.time);
+  if (time.getUTCDay() === 0) {
     res.status(400).json({ message: `Bad Request` });
     return;
   }
 
   try {
-    console.log(getCookie(cookie, { req, res }));
+    const token = getCookie(cookie, { req, res });
+    const userId = await fetchUserID(token as string);
     const itemData = await fetchPaypal(req.body.item);
-    const timeValid = await checkTimeExist(req.body.selHour, req.body.date);
+    const timeValid = await checkTimeExist(req.body.time.toString());
     const request = new paypal.orders.OrdersCreateRequest();
     const hash = Hash();
     request.prefer("return=representation");
@@ -49,7 +51,7 @@ export default async function handler(
             currency_code: process.env.CURRENCY!,
 
             value:
-              time.getDay() === 6 /* @ts-expect-error */
+              time.getUTCDay() === 6 /* @ts-expect-error */
                 ? itemData.price_saturday /* @ts-expect-error */
                 : itemData.price_standard,
             /* @ts-expect-error */
@@ -58,7 +60,7 @@ export default async function handler(
                 currency_code: process.env.CURRENCY!,
 
                 value:
-                  time.getDay() === 6
+                  time.getUTCDay() === 6
                     ? /* @ts-expect-error */
                       itemData.price_saturday
                     : /* @ts-expect-error */
@@ -74,7 +76,7 @@ export default async function handler(
               unit_amount: {
                 currency_code: process.env.CURRENCY!,
                 value:
-                  time.getDay() === 6
+                  time.getUTCDay() === 6
                     ? /* @ts-expect-error */
                       itemData.price_saturday
                     : /* @ts-expect-error */

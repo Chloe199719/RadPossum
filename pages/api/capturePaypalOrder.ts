@@ -20,12 +20,12 @@ export default async function handler(
     res.status(405).end("Method Not Allowed");
     return;
   }
-  if (
-    !req.body.orderID ||
-    !req.body.date ||
-    !req.body.selHour ||
-    !req.body.discordID
-  ) {
+  if (!req.body.orderID || !req.body.time || !req.body.discordID) {
+    res.status(400).json({ message: `Bad Request` });
+    return;
+  }
+  const time = new Date(req.body.time);
+  if (time.getUTCDay() === 0) {
     res.status(400).json({ message: `Bad Request` });
     return;
   }
@@ -39,10 +39,9 @@ export default async function handler(
     const itemData = await fetchPaypal(
       orderDetails.result.purchase_units[0].reference_id
     );
-    const timeValid = await checkTimeExist(req.body.selHour, req.body.date);
+    const timeValid = await checkTimeExist(req.body.time.toString());
     const lessonBook = await bookingLesson({
-      date: generateTime(req.body.date),
-      hour: req.body.selHour,
+      time: req.body.time.toString(),
       client: userId.userID,
       locale: itemData?.privacy!,
 

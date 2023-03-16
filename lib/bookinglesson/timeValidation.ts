@@ -1,20 +1,21 @@
 import prismaClient from "../prisma/prismaClient";
 import generateTime from "./generatetime";
 
-const checkTimeExist = async function (hour: string, time: Date) {
+const checkTimeExist = async function (time: string) {
   const date = await prismaClient.booking.findMany({
     where: {
-      date: generateTime(time),
+      time: time,
     },
     select: {
-      hour: true,
+      time: true,
     },
   });
 
-  const check = date.some((item: any) => {
-    return item.hour.includes(hour);
-  });
-  if (!check) {
+  // const check = date.some((item: any) => {
+  //   return item.hour.includes(hour);
+  // });
+
+  if (date.length === 0) {
     return Promise.resolve(true);
   } else {
     return Promise.reject({

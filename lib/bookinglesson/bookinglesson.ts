@@ -3,8 +3,7 @@ import pb from "../pocketbase";
 import prismaClient from "../prisma/prismaClient";
 
 type info = {
-  date: string;
-  hour: string;
+  time: string;
   client: string;
   locale: string; // public or  Private
   bookedTime: string;
@@ -14,8 +13,7 @@ type info = {
 };
 
 export default async function bookingLesson({
-  date,
-  hour,
+  time,
   client,
   locale,
   bookedTime,
@@ -26,8 +24,7 @@ export default async function bookingLesson({
   try {
     const lessonBook = await prismaClient.booking.create({
       data: {
-        date: date,
-        hour: hour,
+        time: time,
         userID: client,
         public_or_private: locale,
         discordID: discordID,
@@ -39,8 +36,8 @@ export default async function bookingLesson({
       from: process.env.SMTP_USER,
       to: email,
       subject: "Test Message",
-      text: `Your Lesson is Booked for ${date} at ${hour} `,
-      html: `<p>Your Lesson is Booked for ${date} at ${hour}</p>`,
+      text: `Your Lesson is Booked for ${new Date(parseInt(time))} `,
+      html: `<p>Your Lesson is Booked for ${new Date(parseInt(time))}</p>`,
     });
     return lessonBook;
   } catch (error) {

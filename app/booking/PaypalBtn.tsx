@@ -5,20 +5,13 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { paypal_items } from "@prisma/client";
 type Props = {
-  date: Date;
-  selHour: string;
+  time: number;
   paypalID: paypal_items[] | undefined;
   privacyCur: RefObject<HTMLSelectElement>;
   durationCur: RefObject<HTMLSelectElement>;
 };
 
-function PaypalBtn({
-  date,
-  selHour,
-  paypalID,
-  privacyCur,
-  durationCur,
-}: Props) {
+function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
   const discordIDRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -44,8 +37,8 @@ function PaypalBtn({
         headers: { "Content-type": `application/json` },
         body: JSON.stringify({
           item: getProdID(),
-          date: date,
-          selHour: selHour,
+          time: time,
+          offset: new Date().getTimezoneOffset(),
           discordID: discordIDRef.current.value,
           message: messageRef.current?.value,
         }),
@@ -68,8 +61,8 @@ function PaypalBtn({
         headers: { "Content-type": `application/json` },
         body: JSON.stringify({
           orderID: orderID,
-          date: date,
-          selHour: selHour,
+          time: time,
+          offset: new Date().getTimezoneOffset(),
           discordID: discordIDRef.current.value,
           message: messageRef.current?.value,
         }),
