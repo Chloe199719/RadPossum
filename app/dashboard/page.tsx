@@ -58,7 +58,7 @@ const fetchBookings = async function (token: string | undefined) {
     where: {
       userID: id.userId,
     },
-    orderBy: [{ date: `asc` }, { hour: `asc` }],
+    orderBy: [{ time: "asc" }],
   });
 
   return booking;

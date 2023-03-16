@@ -15,40 +15,52 @@ export default async function handler(
     res.status(400).json({ message: `Bad Request` });
     return;
   }
-
-  const dayInMilliseconds = 86400000;
-  const dbArrayWorkingTimes = [
-    50400000, 54000000, 57600000, 61200000, 64800000,
-  ];
-  const time: number = parseInt(req.query.time as string);
-  const offset: number = parseInt(req.query.offset as string);
-  const UTCTime = new Date(time).getTime() - offset * 60 * 1000;
-  const dayBefore = UTCTime - dayInMilliseconds;
-  const nextDay = UTCTime + dayInMilliseconds;
-  const time23 = time + 82800000;
-  const dayBeforeArray = dbArrayWorkingTimes.map((time) => {
-    return dayBefore + time;
-  });
-  const daySelectedArray = dbArrayWorkingTimes.map((time) => {
-    return UTCTime + time;
-  });
-  const dayAfterArray = dbArrayWorkingTimes.map((time) => {
-    return nextDay + time;
-  });
-
-  const possibleTimes = [
-    ...dayBeforeArray,
-    ...daySelectedArray,
-    ...dayAfterArray,
-  ];
-
-  // console.log(
-  //   possibleTimes.map((e) => {
-  //     return new Date(e).toUTCString();
-  //   })
-  // );
   try {
+    const dayInMilliseconds = 86400000;
+    // const dbArrayWorkingTimes = [
+    //   50400000, 54000000, 57600000, 61200000, 64800000,
+    // ];
+    const time: number = parseInt(req.query.time as string);
+    const offset: number = parseInt(req.query.offset as string);
+    const UTCTime = new Date(time).getTime() - offset * 60 * 1000;
+    const dayBefore = UTCTime - dayInMilliseconds;
+    const nextDay = UTCTime + dayInMilliseconds;
+    const time23 = time + 82800000;
+    const dbArrayWorkingTimes = await prismaClient.avaiable_hours.findMany({
+      select: {
+        hour: true,
+      },
+      orderBy: [{ hour: `asc` }],
+    });
+    const dayBeforeArray = dbArrayWorkingTimes.map((time) => {
+      return dayBefore + time.hour;
+    });
+    const daySelectedArray = dbArrayWorkingTimes.map((time) => {
+      return UTCTime + time.hour;
+    });
+    const dayAfterArray = dbArrayWorkingTimes.map((time) => {
+      return nextDay + time.hour;
+    });
+
+    const possibleTimes = [
+      ...dayBeforeArray,
+      ...daySelectedArray,
+      ...dayAfterArray,
+    ];
+
+    // console.log(
+    //   possibleTimes.map((e) => {
+    //     return new Date(e).toUTCString();
+    //   })
+    // );
+
     const data = await prismaClient.booking.findMany({
+      where: {
+        AND: [
+          { time: { gte: possibleTimes[0].toString() } },
+          { time: { lte: possibleTimes[possibleTimes.length - 1].toString() } },
+        ],
+      },
       select: {
         time: true,
       },

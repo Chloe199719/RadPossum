@@ -3,22 +3,25 @@ import { paypal_items } from "@prisma/client";
 import { useSession } from "next-auth/react";
 
 import { useRef, useState } from "react";
-import { Calendar } from "react-calendar";
+// import { Calendar } from "react-calendar";
 import PaypalBtn from "./PaypalBtn";
 import CheckoutBtn from "./CheckoutBtn";
+import dynamic from "next/dynamic";
 
+const Calendar = dynamic(() => import("react-calendar"), {
+  ssr: false,
+});
 type Props = {
-  btnData: {
-    id: string;
-    productID: string;
-    button_text: string;
-    privacy: string;
-    duration: string;
-  }[];
+  // btnData: {
+  //   id: string;
+  //   productID: string;
+  //   button_text: string;
+  //   privacy: string;
+  //   duration: string;
+  // }[];
   paypalID: paypal_items[] | undefined;
-  hours: Array<string>;
 };
-function Main({ btnData, hours, paypalID }: Props) {
+function Main({ paypalID }: Props) {
   //   const hours = ["14:00", "15:00", "16:00", "17:00"];
 
   const [availableHours, setAvailableHours] = useState<number[]>();
@@ -123,7 +126,7 @@ function Main({ btnData, hours, paypalID }: Props) {
           // }
         />
       </div>{" "}
-      <p>All times are in UTC(Coordinated universal time)</p>
+      <p>Times Displayed in Local Time</p>
       <div className="flex gap-2 flex-wrap">
         {availableHours?.length !== 0 ? (
           availableHours?.map((e, i) => {
@@ -175,10 +178,7 @@ function Main({ btnData, hours, paypalID }: Props) {
         {" "}
         {selectedHour ? (
           <h3 className=" text-2xl md:text-4xl underline">
-            You Selected:{" "}
-            {`${data.getFullYear()}-${
-              data.getMonth() + 1
-            }-${data.getDate()} at ${selectedHour} UTC`}{" "}
+            You Selected:{new Date(selectedHour).toLocaleString()}
           </h3>
         ) : null}
       </div>

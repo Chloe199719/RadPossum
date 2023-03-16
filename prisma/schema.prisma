@@ -147,8 +147,8 @@ model LessonCodes {
 
 model booking {
   id                String             @id @unique @default(cuid())
-  date              String?
-  hour              String?
+  date              String? // Delete
+  hour              String? // Delete
   time              String // Change to Required Later
   transactionID     String?
   public_or_private String
@@ -166,7 +166,7 @@ model booking {
 
 model avaiable_hours {
   id   String @id @unique @default(cuid())
-  hour String
+  hour Int    @unique
 }
 
 // Item Bought can have a Relation currently only ID Stringe identifier

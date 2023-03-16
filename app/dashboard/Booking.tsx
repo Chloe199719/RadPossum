@@ -17,7 +17,9 @@ function Booking({ bookingData }: Props) {
     >
       <div className="flex gap-3 justify-between w-full">
         <h4 className=" text-lg uppercase">{bookingData.bookedTime}</h4>
-        <span className="text-lg">{`${bookingData.date} at ${bookingData.hour} UTC`}</span>
+        <span className="text-lg">{`${new Date(
+          parseInt(bookingData.time)
+        ).toLocaleString()}`}</span>
         <span className="text-lg">{bookingData.public_or_private}</span>
         {isOpen ? (
           <ArrowDownIcon className="w-6 h-6" />
