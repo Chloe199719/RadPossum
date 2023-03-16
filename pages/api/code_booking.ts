@@ -12,7 +12,7 @@ interface body {
   clientID: string;
   clientEmail: string;
   bookedHour: string;
-  time: Date;
+  time: string;
   discordID: string;
   message: string;
   code: string;
@@ -34,13 +34,7 @@ export default async function handler(
   }
   const body: body = JSON.parse(req.body);
   // Checks if all Required Information Got Passed in the Request
-  if (
-    !body.clientEmail ||
-    !body.time ||
-    !body.bookedHour ||
-    !body.code ||
-    !body.discordID
-  ) {
+  if (!body.time || !body.code || !body.discordID) {
     res
       .status(400)
       .json({ message: `Bad Request a Required Parameter is missing` });
@@ -52,18 +46,18 @@ export default async function handler(
     // Return a Resolved Promise if code is valid else throws a Rejected Promise
     const codeRes: codeRes = await checkCode(body.code);
     // Return a Resolved Promise if time doesn't exist yet else throws a Rejected Promise // Server Check if time Exists
-    const checkTime = await checkTimeExist(body.bookedHour, body.time);
+    const checkTime = await checkTimeExist(body.time.toString());
 
     //Books Lesson
     await bookingLesson({
-      date: generateTime(body.time),
-      hour: body.bookedHour,
+      time: body.time.toString(),
+
       client: userId.userID,
       locale: codeRes.locale,
       bookedTime: codeRes.time,
       discordID: body.discordID,
       message: body.message,
-      email: body.clientEmail,
+      email: userId.email!,
     });
 
     // Invalidates Code

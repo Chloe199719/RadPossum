@@ -9,8 +9,8 @@ type Props = {
 };
 function Main({ hours }: Props) {
   //   const hours = ["14:00", "15:00", "16:00", "17:00"];
-  const [availableHours, setAvailableHours] = useState<string[]>();
-  const [selectedHour, setSelectedHour] = useState(``);
+  const [availableHours, setAvailableHours] = useState<number[]>();
+  const [selectedHour, setSelectedHour] = useState<number>();
   const [data, setDate] = useState(new Date());
 
   // Sets How many Days In Advance You can Book // Also Probably Change 3 for ENV Variable
@@ -26,48 +26,68 @@ function Main({ hours }: Props) {
     return curDate;
   };
 
-  const fetch1 = async function (e: Date) {
+  // const fetch1 = async function (e: Date) {
+  //   setAvailableHours([]);
+  //   setSelectedHour(``);
+  //   try {
+  //     const res = await fetch(
+  //       `/api/availableHours/?date=${e.getFullYear()}-${
+  //         e.getMonth() + 1
+  //       }-${e.getDate()}`,
+  //       {
+  //         cache: "default",
+  //         method: "GET",
+  //       }
+  //     );
+  //     const date = await res.json();
+  //     const hoursav = hours.filter((hour) => {
+  //       return !date.some((e: any) => {
+  //         return e.hour.includes(hour);
+  //       });
+  //     });
+  //     setAvailableHours(hoursav);
+  //     return data;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  const fetchtest = async function (e: Date) {
     setAvailableHours([]);
-    setSelectedHour(``);
+    setSelectedHour(0);
     try {
       const res = await fetch(
-        `/api/availableHours/?date=${e.getFullYear()}-${
-          e.getMonth() + 1
-        }-${e.getDate()}`,
+        `/api/availableHours2/?time=${e.getTime()}&offset=${e.getTimezoneOffset()}`,
         {
           cache: "default",
           method: "GET",
         }
       );
-      const date = await res.json();
-      const hoursav = hours.filter((hour) => {
-        return !date.some((e: any) => {
-          return e.hour.includes(hour);
-        });
-      });
-      setAvailableHours(hoursav);
+      const date: number[] = await res.json();
+
+      setAvailableHours(date);
       return data;
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <div className="flex gap-4 w-full flex-col items-center ">
       <div className="flex gap-4 w-full justify-center relative">
         {" "}
         <Calendar
           onChange={(e: Date) => {
-            setDate(new Date(e.setHours(2)));
+            // console.log(e.getTime() - e.getTimezoneOffset() * 60 * 1000);
+            // console.log(e.getTime(), e.getTimezoneOffset());
+            setDate(new Date(e));
           }}
           value={data}
           minDetail="month"
-          onClickDay={fetch1}
+          onClickDay={fetchtest}
           minDate={minDaysDate()}
           maxDate={maxDaysDate()}
-          tileDisabled={({ activeStartDate, date, view }) =>
-            date.getDay() === 0
-          }
+          // tileDisabled={({ activeStartDate, date, view }) =>
+          //   date.getDay() === 0
+          // }
         />
       </div>{" "}
       <p>All times are in UTC(Coordinated universal time)</p>
@@ -82,7 +102,7 @@ function Main({ hours }: Props) {
                 }}
                 key={i}
               >
-                {e}
+                {new Date(e).toLocaleTimeString()}
               </button>
             );
           })
@@ -101,7 +121,7 @@ function Main({ hours }: Props) {
           </h3>
         ) : null}
       </div>
-      {selectedHour ? <Form date={data} selHour={selectedHour} /> : null}
+      {selectedHour ? <Form time={selectedHour} /> : null}
     </div>
   );
 }

@@ -9,10 +9,9 @@ interface formData {
 }
 
 type Props = {
-  date: Date;
-  selHour: string;
+  time: number;
 };
-function Form({ date, selHour }: Props) {
+function Form({ time }: Props) {
   const { register, handleSubmit, reset } = useForm<formData>();
   const { data: session, status } = useSession();
   const Submit: SubmitHandler<formData> = async function (data) {
@@ -21,8 +20,8 @@ function Form({ date, selHour }: Props) {
         method: `POST`,
         body: JSON.stringify({
           clientEmail: session?.user?.email,
-          bookedHour: selHour,
-          time: date,
+
+          time: time,
           discordID: data.discordID, // test data
           message: data.message, //test data
           code: data.code, // test date
