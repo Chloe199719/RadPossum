@@ -147,8 +147,6 @@ model LessonCodes {
 
 model booking {
   id                String             @id @unique @default(cuid())
-  date              String? // Delete
-  hour              String? // Delete
   time              String // Change to Required Later
   transactionID     String?
   public_or_private String

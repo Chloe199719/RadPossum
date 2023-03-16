@@ -48,12 +48,6 @@ export default async function handler(
       ...dayAfterArray,
     ];
 
-    // console.log(
-    //   possibleTimes.map((e) => {
-    //     return new Date(e).toUTCString();
-    //   })
-    // );
-
     const data = await prismaClient.booking.findMany({
       where: {
         AND: [

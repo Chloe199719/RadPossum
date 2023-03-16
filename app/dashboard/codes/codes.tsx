@@ -1,6 +1,5 @@
-import { LessonCodes } from "@prisma/client";
 import React from "react";
-import Lesson from "../Lesson";
+
 import Code from "./code";
 
 type Props = {

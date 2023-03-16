@@ -26,6 +26,7 @@ function Main({ paypalID }: Props) {
 
   const [availableHours, setAvailableHours] = useState<number[]>();
   const [selectedHour, setSelectedHour] = useState<number>();
+  const [selected, setSelected] = useState<number>();
   const [data, setDate] = useState(new Date());
   const { data: session, status } = useSession();
   const duration = useRef<HTMLSelectElement>(null);
@@ -107,73 +108,87 @@ function Main({ paypalID }: Props) {
   }
   // console.log(data.toUTCString());
   return (
-    <div className="flex gap-4 w-full flex-col items-center ">
+    <div className="flex gap-4 w-full flex-col items-center justify-center ">
       <div className="flex gap-4 w-full justify-center relative">
         {" "}
-        <Calendar
-          onChange={(e: Date) => {
-            // console.log(e.getTime() - e.getTimezoneOffset() * 60 * 1000);
-            console.log(e.getTime(), e.getTimezoneOffset());
-            setDate(new Date(e));
-          }}
-          value={data}
-          minDetail="month"
-          onClickDay={fetchtest}
-          minDate={minDaysDate()}
-          maxDate={maxDaysDate()}
-          // tileDisabled={({ activeStartDate, date, view }) =>
-          //   date.getDay() === 0
-          // }
-        />
+        <div>
+          <Calendar
+            onChange={(e: Date) => {
+              // console.log(e.getTime() - e.getTimezoneOffset() * 60 * 1000);
+              console.log(e.getTime(), e.getTimezoneOffset());
+              setDate(new Date(e));
+            }}
+            value={data}
+            minDetail="month"
+            onClickDay={(e: Date) => {
+              fetchtest(e), setSelected(9999);
+            }}
+            minDate={minDaysDate()}
+            maxDate={maxDaysDate()}
+            // tileDisabled={({ activeStartDate, date, view }) =>
+            //   date.getDay() === 0
+            // }
+          />
+        </div>
+        <div>
+          {" "}
+          <p>Times Displayed in Local Time</p>
+          <div className="grid grid-rows-4 grid-flow-col gap-2 p-2 flex-1">
+            {availableHours?.length !== 0 ? (
+              availableHours?.map((e, i) => {
+                return (
+                  <button
+                    className={`btn bg-white px-7 text-base font-sans text-gray-900 hover:text-white ${
+                      selected === i && `bg-slate-400`
+                    }`}
+                    onClick={() => {
+                      setSelectedHour(e);
+                      setSelected(i);
+                    }}
+                    key={i}
+                  >
+                    {new Date(e).toLocaleTimeString([], {
+                      hour: `2-digit`,
+                      minute: `2-digit`,
+                    })}
+                  </button>
+                );
+              })
+            ) : (
+              <p>No Available dates in this day</p>
+            )}
+          </div>
+        </div>
+        <div className="flex flex-col  gap-5">
+          <h3>Select Duration and Privacy</h3>
+          <select
+            name="time"
+            id="time"
+            ref={duration}
+            className="select focus:outline-none border-transparent focus:border-transparent focus:ring-0"
+            // value={duration}
+            // onChange={(e) => {
+            //   setDuration(e.target.value);
+            // }}
+          >
+            <option value="50min">50min</option>
+            <option value="30min">30min</option>
+          </select>
+          <select
+            name="time"
+            className="select select-primary focus:outline-none select-bordered border-transparent focus:border-transparent focus:ring-0"
+            id="time"
+            // value={privacy}
+            // onChange={(e) => {
+            //   setPrivacy(e.target.value);
+            // }}
+            ref={privacy}
+          >
+            <option value="Private">Private</option>
+            <option value="Public">Public</option>
+          </select>
+        </div>
       </div>{" "}
-      <p>Times Displayed in Local Time</p>
-      <div className="flex gap-2 flex-wrap">
-        {availableHours?.length !== 0 ? (
-          availableHours?.map((e, i) => {
-            return (
-              <button
-                className="btn btn-primary px-7 text-base text-white"
-                onClick={() => {
-                  setSelectedHour(e);
-                }}
-                key={i}
-              >
-                {new Date(e).toLocaleTimeString()}
-              </button>
-            );
-          })
-        ) : (
-          <p>No Available dates in this day</p>
-        )}
-      </div>
-      <div>
-        <select
-          name="time"
-          id="time"
-          ref={duration}
-          className="select focus:outline-none border-transparent focus:border-transparent focus:ring-0"
-          // value={duration}
-          // onChange={(e) => {
-          //   setDuration(e.target.value);
-          // }}
-        >
-          <option value="50min">50min</option>
-          <option value="30min">30min</option>
-        </select>
-        <select
-          name="time"
-          className="select select-primary focus:outline-none select-bordered border-transparent focus:border-transparent focus:ring-0"
-          id="time"
-          // value={privacy}
-          // onChange={(e) => {
-          //   setPrivacy(e.target.value);
-          // }}
-          ref={privacy}
-        >
-          <option value="Private">Private</option>
-          <option value="Public">Public</option>
-        </select>
-      </div>
       <div>
         {" "}
         {selectedHour ? (
@@ -182,23 +197,21 @@ function Main({ paypalID }: Props) {
           </h3>
         ) : null}
       </div>
-      {selectedHour ? (
-        <div className="flex gap-2 items-end">
-          {/* <CheckoutBtn
+      <div className="flex gap-2 items-end">
+        {/* <CheckoutBtn
             btnData={btnData}
             date={data}
             selHour={selectedHour}
             privacy={privacy}
             duration={duration}
           /> */}
-          <PaypalBtn
-            paypalID={paypalID}
-            time={selectedHour}
-            privacyCur={privacy}
-            durationCur={duration}
-          />
-        </div>
-      ) : null}
+        <PaypalBtn
+          paypalID={paypalID}
+          time={selectedHour}
+          privacyCur={privacy}
+          durationCur={duration}
+        />
+      </div>
     </div>
   );
 }

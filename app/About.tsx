@@ -29,11 +29,6 @@ type Props = {};
 
 const fetchAboutMe = async function () {
   try {
-    // const res = await fetch(
-    //   `${process.env.DB_URL}api/collections/aboutme/records/`,
-    //   { next: { revalidate: 100 } }
-    // );
-    // const data = await res.json();
     const data = await prismaClient.aboutme.findMany();
 
     return data;

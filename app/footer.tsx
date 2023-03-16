@@ -18,7 +18,7 @@ function Footer({}: Props) {
           <p>
             Rad Possum
             <br />
-            Providing reliable tech since 1992
+            Providing reliable Services since 2022
           </p>
         </div>
         <div>

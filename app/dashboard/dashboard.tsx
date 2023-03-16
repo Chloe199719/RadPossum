@@ -1,7 +1,6 @@
 "use client";
-import pb from "@/lib/pocketbase";
+
 import { booking, lessons } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 import React from "react";
@@ -28,24 +27,6 @@ type Props = {
 };
 function Dashboard({ lesson, bookings }: Props) {
   const router = useRouter();
-
-  // const lessonQuery = useQuery({
-  //   queryKey: [`lessons`],
-  //   queryFn: () =>
-  //     pb.collection(`lessons`).getList(1, 1, {
-  //       sort: `-date`,
-  //       $autoCancel: false,
-  //     }),
-  // });
-  // const BookingQuery = useQuery({
-  //   queryKey: [`bookingUSER`],
-  //   queryFn: () =>
-  //     pb.collection(`bookingUSER`).getList(1, 20, {
-  //       filter: `completed = false && canceled = false`,
-  //       sort: `+date,hour`,
-  //       $autoCancel: false,
-  //     }),
-  // });
 
   const Test = function () {
     if (lesson === null || lesson.length === 0)

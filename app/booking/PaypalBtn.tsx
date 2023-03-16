@@ -1,11 +1,11 @@
 import { PayPalButtons } from "@paypal/react-paypal-js";
-import { RefObject, useRef } from "react";
+import { RefObject, useRef, useState } from "react";
 
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { paypal_items } from "@prisma/client";
 type Props = {
-  time: number;
+  time: number | undefined;
   paypalID: paypal_items[] | undefined;
   privacyCur: RefObject<HTMLSelectElement>;
   durationCur: RefObject<HTMLSelectElement>;
@@ -13,7 +13,8 @@ type Props = {
 
 function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
   const discordIDRef = useRef<HTMLInputElement>(null);
-  const messageRef = useRef<HTMLInputElement>(null);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+  const [discordID, setDiscordID] = useState(``);
   const router = useRouter();
   const getProdID = function () {
     let id = "";
@@ -28,7 +29,7 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
     return id;
   };
   const createOrder = async function () {
-    if (!discordIDRef.current?.value) {
+    if (!discordIDRef.current?.value.trim()) {
       return Promise.reject(`Fill Discord ID`);
     }
     try {
@@ -51,7 +52,7 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
   };
 
   const onApprove = async function (orderID: string) {
-    if (!discordIDRef.current?.value) {
+    if (!discordID.trim()) {
       toast.error(`Fill Discord ID and try again u didn't get charged`);
       return;
     }
@@ -63,7 +64,7 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
           orderID: orderID,
           time: time,
           offset: new Date().getTimezoneOffset(),
-          discordID: discordIDRef.current.value,
+          discordID: discordID,
           message: messageRef.current?.value,
         }),
       });
@@ -73,29 +74,43 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
       return Promise.reject(error.message);
     }
   };
-
+  const check = function () {
+    if (time && discordID.trim()) {
+      return false;
+    } else {
+      return true;
+    }
+  };
   return (
     <form className="flex flex-col gap-2">
-      <div className="flex gap-2">
-        <input
-          type="text"
-          ref={discordIDRef}
-          id="discordID"
-          placeholder="Discord ID"
-          required
-        />
-        <input
-          id="message"
-          placeholder="Message"
-          type="text"
-          ref={messageRef}
-        />
+      <div className="flex flex-col gap-2 w-96">
+        <div
+          className="flex flex-col
+        "
+        >
+          <label htmlFor="discordID" className="label text-red-600">
+            Required*
+          </label>
+          <input
+            className="input"
+            type="text"
+            value={discordID}
+            onChange={(e) => {
+              setDiscordID(e.target.value);
+            }}
+            id="discordID"
+            placeholder="Discord ID"
+            required
+          />
+        </div>
+        <textarea id="message" placeholder="Message" ref={messageRef} />
       </div>
       <PayPalButtons
         onError={(e) => {
           /* @ts-expect-error */
           toast.error(e);
         }}
+        disabled={check()}
         fundingSource="paypal"
         style={{ shape: `pill`, label: `buynow`, height: 55 }}
         createOrder={createOrder}
