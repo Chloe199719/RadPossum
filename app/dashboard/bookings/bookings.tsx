@@ -25,7 +25,7 @@ const fetchBookings = async function (token: string | undefined) {
         equals: false,
       },
     },
-    orderBy: [{ date: `asc` }, { hour: `asc` }],
+    orderBy: [{ time: `asc` }],
   });
   const bookingPast = await prismaClient.booking.findMany({
     where: {
@@ -37,7 +37,7 @@ const fetchBookings = async function (token: string | undefined) {
         equals: false,
       },
     },
-    orderBy: [{ date: `asc` }, { hour: `asc` }],
+    orderBy: [{ time: `asc` }],
   });
 
   return { bookingUpcoming, bookingPast };
