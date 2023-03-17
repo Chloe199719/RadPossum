@@ -5,7 +5,7 @@ type Props = {
 };
 function A({ children, href }: Props) {
   return (
-    <a className="text-primary underline" href={href}>
+    <a className="text-primary  link link-hover" href={href}>
       {children}
     </a>
   );
@@ -16,7 +16,7 @@ type img = {
   alt: string;
 };
 function IMG({ src, alt }: img) {
-  return <img src={src} alt={alt} width={200} />;
+  return <img className=" text-center" src={src} alt={alt} width={200} />;
 }
 
 export { A, IMG };

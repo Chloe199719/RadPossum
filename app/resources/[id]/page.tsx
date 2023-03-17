@@ -65,7 +65,7 @@ async function Page({ params }: Props) {
             p: PTag,
           }}
           remarkPlugins={[remarkGfm]}
-          className=" flex flex-col gap-2"
+          className=" flex flex-col gap-1 text-lg tracking-widest"
         >
           {data ? data.body : ``}
         </ReactMarkdown>
