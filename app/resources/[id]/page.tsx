@@ -3,6 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { H1, H2, H3, H4, H6, H5 } from "@/components/ReactMarkDown/Headings";
+import { Li, Ol, Ul } from "@/components/ReactMarkDown/Lists";
+import { A, IMG } from "@/components/ReactMarkDown/LinksImages";
+import { PTag } from "@/components/ReactMarkDown/Paragraph";
 type Props = {
   params: {
     id: string;
@@ -40,47 +44,43 @@ async function Page({ params }: Props) {
   return (
     <div className="flex flex-col justify-center items-center gap-6 flex-1 px-10">
       <h2 className=" text-4xl">{data?.title}</h2>
-      <div className="flex flex-col gap-4">
-        <ReactMarkdown remarkPlugins={[remarkGfm]} className="test">
+      <div className="flex flex-col gap-4 bg-white py-3 px-4 rounded-lg w-full">
+        <ReactMarkdown
+          components={{
+            h1: H1,
+            h2: H2,
+            h3: H3,
+            h4: H4,
+            h5: H5,
+            h6: H6,
+            ul: Ul,
+            ol: Ol,
+            li: Li,
+            a: (a) => {
+              return <A href={a.href!}>{a.children}</A>;
+            },
+            img: (a) => {
+              return <IMG src={a.src!} alt={a.alt!} />;
+            },
+            p: PTag,
+          }}
+          remarkPlugins={[remarkGfm]}
+          className=" flex flex-col gap-2"
+        >
           {data ? data.body : ``}
         </ReactMarkdown>
-
-        {/* {data.body?.map((e: string, i: string) => {
-          return (
-            <p className=" text-lg tracking-wide" key={i}>
-              {e}
-            </p>
-          );
-        })}
-        {data?.expand?.urls?.map((e: any) => {
-          return (
-            <Link className="text-red-800" key={e.id} href={e.url}>
-              {e.link_Description}
-            </Link>
-          );
-        })}
-        {data.expand?.audio?.map((e: any) => {
-          return (
-            <figure className="flex flex-col gap-1" key={e.id}>
-              <figcaption>{e.title}</figcaption>
-              <audio controls>
-                <source src={e.soundurl} type="audio/mpeg" />
-                Your browser does not support the audio element.
-              </audio>
-            </figure>
-          );
-        })}
-        {data.expand?.images?.map((e: any) => {
-          return (
-            <Image
-              key={e.id}
-              src={e.image_url}
-              alt={e.alt_text}
-              width={500}
-              height={500}
-            />
-          );
-        })} */}
+        {data?.audio.length !== 0 &&
+          data?.audio.map((e) => {
+            return (
+              <figure className="flex flex-col gap-1" key={e.id}>
+                <figcaption>{e.title}</figcaption>
+                <audio controls>
+                  <source src={e.url} type="audio/mpeg" />
+                  Your browser does not support the audio element.
+                </audio>
+              </figure>
+            );
+          })}
       </div>
     </div>
   );

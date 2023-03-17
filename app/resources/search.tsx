@@ -27,8 +27,9 @@ function Search({ data }: Props) {
         onChange={(e) => {
           setQuery(e.target.value);
         }}
-        placeholder="search"
-        className="px-2 py-1 rounded-md"
+        type="search"
+        placeholder="Search"
+        className="input px-2 py-1 rounded-md"
       />
       <ul className="text-xl flex flex-col gap-1 overflow-y-scroll max-h-[500px] ">
         {search(data).map((e: any) => {

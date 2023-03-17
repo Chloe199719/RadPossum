@@ -4,7 +4,11 @@ type Props = {
   href: string;
 };
 function A({ children, href }: Props) {
-  return <a href={href}>{children}</a>;
+  return (
+    <a className="text-primary underline" href={href}>
+      {children}
+    </a>
+  );
 }
 
 type img = {

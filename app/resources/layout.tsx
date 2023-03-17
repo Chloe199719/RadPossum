@@ -20,7 +20,17 @@ const fetchResources = async () => {
         audio: true,
       },
     });
-    return data;
+    const data1 = data.map((item) => {
+      return {
+        id: item.id,
+        title: item.title,
+        body: item.body,
+        audio: item.audio,
+        createdAT: item.createdAT.getTime(),
+        updatedAT: item.updatedAT.getTime(),
+      };
+    });
+    return data1;
   } catch (e) {
     console.log(e, "Error");
   }

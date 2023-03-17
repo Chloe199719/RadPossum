@@ -120,14 +120,17 @@ model exercice {
 }
 
 model Resources {
-  id    String  @id @default(cuid())
-  title String
-  audio Audio[]
-  body  String
+  id        String   @id @default(cuid())
+  title     String
+  audio     Audio[]
+  body      String
+  createdAT DateTime @default(now())
+  updatedAT DateTime @default(now()) @updatedAt
 }
 
 model Audio {
   id       String      @id @default(cuid())
+  title    String?
   url      String
   resource Resources[]
 }
