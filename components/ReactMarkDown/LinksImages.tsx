@@ -1,13 +1,14 @@
 import Image from "next/image";
+import Link from "next/link";
 type Props = {
   children: any;
   href: string;
 };
 function A({ children, href }: Props) {
   return (
-    <a className="text-primary  link link-hover" href={href}>
+    <Link target="_blank" className="text-primary  link link-hover" href={href}>
       {children}
-    </a>
+    </Link>
   );
 }
 

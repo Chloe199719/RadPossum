@@ -3,7 +3,7 @@ import { paypal_items } from "@prisma/client";
 import { useSession } from "next-auth/react";
 
 import { useRef, useState } from "react";
-// import { Calendar } from "react-calendar";
+
 import PaypalBtn from "./PaypalBtn";
 import CheckoutBtn from "./CheckoutBtn";
 import dynamic from "next/dynamic";
@@ -69,7 +69,7 @@ function Main({ paypalID }: Props) {
   //   }
   // };
 
-  const fetchtest = async function (e: Date) {
+  const fetchHours = async function (e: Date) {
     setAvailableHours([]);
     setSelectedHour(0);
     try {
@@ -109,7 +109,7 @@ function Main({ paypalID }: Props) {
   // console.log(data.toUTCString());
   return (
     <div className="flex gap-4 w-full flex-col items-center justify-center ">
-      <div className="flex gap-4 w-full justify-center relative">
+      <div className="flex flex-col md:flex-row gap-4 w-full justify-center relative">
         {" "}
         <div>
           <Calendar
@@ -121,7 +121,7 @@ function Main({ paypalID }: Props) {
             value={data}
             minDetail="month"
             onClickDay={(e: Date) => {
-              fetchtest(e), setSelected(9999);
+              fetchHours(e), setSelected(9999);
             }}
             minDate={minDaysDate()}
             maxDate={maxDaysDate()}

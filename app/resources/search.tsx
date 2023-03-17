@@ -26,7 +26,7 @@ function Search({ data }: Props) {
         onClick={() => {
           setOpen(!open);
         }}
-        className=" w-10 h-10 inline absolute left-0 top-0 "
+        className=" w-10 h-10 absolute left-0 top-0 "
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >

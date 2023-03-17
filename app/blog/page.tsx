@@ -41,7 +41,7 @@ async function Page({}: Props) {
               <p className=" text-black self-end text-lg">
                 Posted at : {post.createdAT.toLocaleString()}
               </p>
-              <article className="bg-white py-6 rounded-lg px-4 w-full ">
+              <article className="bg-white py-6 rounded-lg px-1 md:px-4 w-full ">
                 <ReactMarkdown
                   components={{
                     h1: H1,
@@ -62,7 +62,7 @@ async function Page({}: Props) {
                     p: PTag,
                   }}
                   remarkPlugins={[remarkGfm]}
-                  className="flex flex-col gap-1 px-10"
+                  className="flex flex-col gap-1 px-2 md:px-10"
                 >
                   {post.message}
                 </ReactMarkdown>
