@@ -14,7 +14,7 @@ export default async function DashboardLayout({
 
   return (
     <section className="min-h-screen flex flex-col py-28  mx-auto items-center justify-center z-[5] snap-start md:snap-center bg-gradient-to-b from-[#30bead]/30 to-[#ff7e84]/40">
-      <div className="font-mono max-w-7xl gap-8 flex flex-col items-center justify-center mx-auto  border-black rounded-xl pt-4 md:p-12 bg-zinc-200 w-screen relative">
+      <div className="max-w-7xl gap-8 flex flex-col items-center justify-center mx-auto  border-black rounded-xl pt-4 md:p-12 bg-zinc-200 w-screen relative">
         <div
           className="drawer drawer-mobile md:h-fit
 "
@@ -52,36 +52,36 @@ export default async function DashboardLayout({
                 </svg>
               </label>
               <Link href={"/dashboard"}>
-                <li className="border border-sky-300 py-2 px-10  hover:bg-sky-600">
+                <li className="border border-[#30bead]/40 py-2 px-10  hover:bg-[#30bead]/20">
                   DashBoard
                 </li>
               </Link>
               <Link href={"/dashboard/settings"}>
-                <li className="border border-sky-300 py-2 px-10   hover:bg-sky-600">
+                <li className="border border-[#30bead]/40 py-2 px-10   hover:bg-[#30bead]/20">
                   Settings
                 </li>
               </Link>
               <Link href={"/dashboard/lessons"}>
                 {" "}
-                <li className="border border-sky-300 py-2 px-10   hover:bg-sky-600">
+                <li className="border border-[#30bead]/40 py-2 px-10   hover:bg-[#30bead]/20">
                   Lessons
                 </li>
               </Link>{" "}
               <Link href="/dashboard/bookings">
                 {" "}
-                <li className="border border-sky-300 py-2 px-10   hover:bg-sky-600">
+                <li className="border border-[#30bead]/40 py-2 px-10   hover:bg-[#30bead]/20">
                   Bookings
                 </li>
               </Link>
               <Link href="/dashboard/codes">
                 {" "}
-                <li className="border border-sky-300 py-2 px-10   hover:bg-sky-600">
+                <li className="border border-[#30bead]/40 py-2 px-10   hover:bg-[#30bead]/20">
                   Codes
                 </li>
               </Link>
               <Link href="/dashboard/codesreddem">
                 {" "}
-                <li className="border border-sky-300 py-2 px-10   hover:bg-sky-600">
+                <li className="border border-[#30bead]/40 py-2 px-10   hover:bg-[#30bead]/20">
                   Code Redeem
                 </li>
               </Link>

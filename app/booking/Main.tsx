@@ -114,8 +114,7 @@ function Main({ paypalID }: Props) {
         <div>
           <Calendar
             onChange={(e: Date) => {
-              // console.log(e.getTime() - e.getTimezoneOffset() * 60 * 1000);
-              console.log(e.getTime(), e.getTimezoneOffset());
+              // console.log(e.getTime() - e.getTimezoneOffset() * 60 * 1000)
               setDate(new Date(e));
             }}
             value={data}
