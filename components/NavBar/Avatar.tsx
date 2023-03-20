@@ -44,24 +44,31 @@ export default function Avatar({}: Props) {
             tabIndex={0}
             className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-fit"
           >
-            <li>
+            <li className="hover:bg-blue-300">
               <div className="flex flex-col items-start">
                 <p>{session.user?.name}</p>
                 <p>{session.user?.email}</p>
               </div>
             </li>
             <hr className=" my-1" />
-            <li>
+            <li className="hover:bg-blue-300">
               <Link href="/dashboard">Dashboard</Link>
             </li>
-            <li>
+            <li className="hover:bg-blue-300">
               <Link href="/dashboard/codes">Codes</Link>
             </li>
-            <li>
+            <li className="hover:bg-blue-300">
               <Link href="/dashboard/lessons">Lessons</Link>
             </li>
+            {/* @ts-expect-error */}
+            {session.user.isAdmin && (
+              <li className="hover:bg-blue-300">
+                <Link href="/admin">Admin</Link>
+              </li>
+            )}
             <hr className=" my-1" />
             <li
+              className="hover:bg-blue-300"
               onClick={() => {
                 signOut();
                 useStore.setState({ count: Math.random() });

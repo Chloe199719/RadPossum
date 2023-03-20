@@ -13,7 +13,7 @@ function Booking({ bookingData }: Props) {
       onClick={() => {
         setIsOpen(!isOpen);
       }}
-      className="flex flex-col gap-3 border border-black rounded-lg bg-[#30bead]/30 w-full  px-4 py-2 hover:bg-[#30bead] hover:cursor-pointer"
+      className="flex flex-col gap-3 border border-black rounded-lg bg-blue-200 w-full  px-4 py-2 hover:bg-blue-300 hover:cursor-pointer"
     >
       <div className="flex gap-3 justify-between w-full">
         <h4 className=" hidden md:block text-lg uppercase">

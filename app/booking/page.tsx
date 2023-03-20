@@ -28,6 +28,7 @@ type Props = {};
 //     console.log(e, "Error");
 //   }
 // };
+// This is the same as the above function, but it uses Prisma instead of the DB_URL to fetch the data. Only the fetchPaypalPublic function is used in the page.
 const fetchPaypalPublic = async function () {
   try {
     // const res = await fetch(

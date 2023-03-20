@@ -54,6 +54,7 @@ model User {
   comments      comments[]
   commentsOLD   commentsOLD[]
   Like          Like[]
+  isAdmin       Boolean       @default(false)
 }
 
 model VerificationToken {

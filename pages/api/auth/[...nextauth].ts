@@ -34,6 +34,7 @@ export const Auth = {
     },
     async session({ session, token, user }: any) {
       session.user.id = user.id;
+      session.user.isAdmin = user.isAdmin;
       return session;
     },
   },

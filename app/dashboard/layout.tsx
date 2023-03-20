@@ -52,36 +52,36 @@ export default async function DashboardLayout({
                 </svg>
               </label>
               <Link href={"/dashboard"}>
-                <li className="border border-[#30bead]/40 py-2 px-10  hover:bg-[#30bead]/20">
+                <li className="border border-blue-200 py-2 px-10  hover:bg-blue-300">
                   DashBoard
                 </li>
               </Link>
               <Link href={"/dashboard/settings"}>
-                <li className="border border-[#30bead]/40 py-2 px-10   hover:bg-[#30bead]/20">
+                <li className="border border-blue-200 py-2 px-10   hover:bg-blue-300">
                   Settings
                 </li>
               </Link>
               <Link href={"/dashboard/lessons"}>
                 {" "}
-                <li className="border border-[#30bead]/40 py-2 px-10   hover:bg-[#30bead]/20">
+                <li className="border border-blue-200 py-2 px-10   hover:bg-blue-300">
                   Lessons
                 </li>
               </Link>{" "}
               <Link href="/dashboard/bookings">
                 {" "}
-                <li className="border border-[#30bead]/40 py-2 px-10   hover:bg-[#30bead]/20">
+                <li className="border border-blue-200 py-2 px-10   hover:bg-blue-300">
                   Bookings
                 </li>
               </Link>
               <Link href="/dashboard/codes">
                 {" "}
-                <li className="border border-[#30bead]/40 py-2 px-10   hover:bg-[#30bead]/20">
+                <li className="border border-blue-200 py-2 px-10   hover:bg-blue-300">
                   Codes
                 </li>
               </Link>
               <Link href="/dashboard/codesreddem">
                 {" "}
-                <li className="border border-[#30bead]/40 py-2 px-10   hover:bg-[#30bead]/20">
+                <li className="border border-blue-200 py-2 px-10   hover:bg-blue-300">
                   Code Redeem
                 </li>
               </Link>

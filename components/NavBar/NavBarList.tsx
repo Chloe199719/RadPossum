@@ -12,15 +12,15 @@ function NavBarList({}: Props) {
       </Link>
       <Link className="link link-hover" href="/booking">
         {" "}
-        <li className="text-red-800 uppercase">Booking</li>
+        <li className="uppercase">Booking</li>
       </Link>
       <Link className="link link-hover" href="/shop">
         {" "}
-        <li className="text-blue-800 uppercase">Shop</li>
+        <li className=" uppercase">Shop</li>
       </Link>
       <Link className="link link-hover" href="/blog">
         {" "}
-        <li className="text-orange-800 uppercase">Blog</li>
+        <li className=" uppercase">Blog</li>
       </Link>
       <Link className="link link-hover" href="/contact">
         {" "}

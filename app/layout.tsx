@@ -19,6 +19,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(Auth);
+
   return (
     <html lang="en" data-theme="winter">
       {/*
