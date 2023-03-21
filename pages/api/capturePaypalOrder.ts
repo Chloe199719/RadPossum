@@ -20,6 +20,7 @@ export default async function handler(
     res.status(405).end("Method Not Allowed");
     return;
   }
+
   if (!req.body.orderID || !req.body.time || !req.body.discordID) {
     res.status(400).json({ message: `Bad Request` });
     return;
@@ -29,6 +30,7 @@ export default async function handler(
     res.status(400).json({ message: `Bad Request` });
     return;
   }
+
   const orderData = new paypal.orders.OrdersCaptureRequest(req.body.orderID);
   const requestDetails = new paypal.orders.OrdersGetRequest(req.body.orderID);
   orderData.prefer("return=representation");

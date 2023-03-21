@@ -151,7 +151,7 @@ model LessonCodes {
 
 model booking {
   id                String             @id @unique @default(cuid())
-  time              String // Change to Required Later
+  time              String
   transactionID     String?
   public_or_private String
   User              User               @relation(fields: [userID], references: [id])

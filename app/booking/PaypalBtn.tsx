@@ -1,3 +1,4 @@
+"use client";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { RefObject, useRef, useState } from "react";
 
@@ -5,7 +6,7 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { paypal_items } from "@prisma/client";
 type Props = {
-  time: number | undefined;
+  time: number;
   paypalID: paypal_items[] | undefined;
   privacyCur: RefObject<HTMLSelectElement>;
   durationCur: RefObject<HTMLSelectElement>;
@@ -32,6 +33,7 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
     if (!discordIDRef.current?.value.trim()) {
       return Promise.reject(`Fill Discord ID`);
     }
+
     try {
       const res = await fetch(`/api/createPayPalOrder`, {
         method: "POST",
@@ -47,12 +49,12 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
       const data = await res.json();
       return data.id;
     } catch (error: any) {
-      return Promise.reject(error.message);
+      return Promise.reject(`Error`);
     }
   };
 
   const onApprove = async function (orderID: string) {
-    if (!discordID.trim()) {
+    if (!discordIDRef.current?.value.trim()) {
       toast.error(`Fill Discord ID and try again u didn't get charged`);
       return;
     }
@@ -64,14 +66,14 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
           orderID: orderID,
           time: time,
           offset: new Date().getTimezoneOffset(),
-          discordID: discordID,
+          discordID: discordIDRef.current.value,
           message: messageRef.current?.value,
         }),
       });
       const data = await res.json();
       return data.id;
     } catch (error: any) {
-      return Promise.reject(error.message);
+      return Promise.reject(`Error`);
     }
   };
   const check = function () {
@@ -99,6 +101,7 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
               setDiscordID(e.target.value);
             }}
             id="discordID"
+            ref={discordIDRef}
             placeholder="Discord ID"
             required
           />
@@ -107,10 +110,10 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
       </div>
       <PayPalButtons
         onError={(e) => {
-          /* @ts-expect-error */
-          toast.error(e);
+          toast.error(`error ${e.message}`);
         }}
         disabled={check()}
+        forceReRender={[time, discordID]}
         fundingSource="paypal"
         style={{ shape: `pill`, label: `buynow`, height: 55 }}
         createOrder={createOrder}

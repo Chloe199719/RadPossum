@@ -18,6 +18,7 @@ export default async function handler(
     res.status(405).end("Method Not Allowed");
     return;
   }
+  console.log(req.body);
   if (
     !req.body.item ||
     !req.body.time ||

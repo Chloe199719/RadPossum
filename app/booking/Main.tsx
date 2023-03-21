@@ -7,7 +7,7 @@ import { useRef, useState } from "react";
 import PaypalBtn from "./PaypalBtn";
 import CheckoutBtn from "./CheckoutBtn";
 import dynamic from "next/dynamic";
-
+// import { Calendar } from "react-calendar";
 const Calendar = dynamic(() => import("react-calendar"), {
   ssr: false,
 });
@@ -37,6 +37,7 @@ function Main({ paypalID }: Props) {
     curDate.setDate(curDate.getDate() + 3);
     return curDate;
   };
+  const time = selectedHour;
   // Sets How many Days In Advance You can Book // Also Probably Change 34 for ENV Variable
   const maxDaysDate = function () {
     const curDate = new Date();
@@ -107,6 +108,7 @@ function Main({ paypalID }: Props) {
     }
   }
   // console.log(data.toUTCString());
+
   return (
     <div className="flex gap-4 w-full flex-col items-center justify-center ">
       <div className="flex flex-col md:flex-row gap-4 w-full justify-center relative">
@@ -135,6 +137,7 @@ function Main({ paypalID }: Props) {
           <div className="grid grid-rows-4 grid-flow-col gap-2 p-2 flex-1">
             {availableHours?.length !== 0 ? (
               availableHours?.map((e, i) => {
+                console.log(selected === i);
                 return (
                   <button
                     className={`btn bg-white px-7 text-base font-sans text-gray-900 hover:text-white ${
@@ -206,7 +209,7 @@ function Main({ paypalID }: Props) {
           /> */}
         <PaypalBtn
           paypalID={paypalID}
-          time={selectedHour}
+          time={time as number}
           privacyCur={privacy}
           durationCur={duration}
         />
