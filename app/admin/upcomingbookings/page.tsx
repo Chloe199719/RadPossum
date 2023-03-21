@@ -12,6 +12,9 @@ async function fetchBookingData() {
     include: {
       User: true,
     },
+    orderBy: {
+      time: "asc",
+    },
   });
   return data;
 }
