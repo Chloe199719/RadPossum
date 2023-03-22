@@ -1,5 +1,5 @@
 import prismaClient from "@/lib/prisma/prismaClient";
-import Booking from "./Booking";
+import Booking from "./UpBooking";
 
 type Props = {};
 async function fetchBookingData() {

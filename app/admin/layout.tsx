@@ -21,7 +21,7 @@ export default async function DashboardLayout({
           <ul className="text-lg flex gap-2">
             <li>
               <Link className="link link-hover" href={`/`}>
-                Bookings
+                Posts
               </Link>
             </li>
             <li>
@@ -39,14 +39,14 @@ export default async function DashboardLayout({
                     </Link>
                   </li>
                   <li>
-                    <a>Past Bookings</a>
+                    <Link href={"/admin/pastbookings"}>Past Bookings</Link>
                   </li>
                 </ul>
               </div>
             </li>
             <li>
               <Link className="link link-hover" href={`/`}>
-                Bookings
+                Resources
               </Link>
             </li>
           </ul>

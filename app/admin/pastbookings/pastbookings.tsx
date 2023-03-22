@@ -10,7 +10,7 @@ function UpComingBookings({ data }: Props) {
   const [page, setPage] = useState(1);
   return (
     <div className="w-full space-y-5 flex flex-col items-center">
-      <h2 className="text-center text-3xl">Next Upcoming</h2>
+      <h2 className="text-center text-3xl">Past Bookings</h2>
       <ul className="space-y-2 w-full">
         {data.map((booking, index) => {
           if (index >= (page - 1) * 10 && index < page * 10) {

@@ -1,13 +1,12 @@
 import prismaClient from "@/lib/prisma/prismaClient";
-
-import UpComingBookings from "./upcomingbookings";
+import Booking from "../UpBooking";
+import UpComingBookings from "./pastbookings";
 
 type Props = {};
 async function fetchBookingData() {
   const data = await prismaClient.booking.findMany({
     where: {
-      canceled: false,
-      completed: true,
+      OR: [{ canceled: true }, { completed: true }],
     },
     include: {
       User: true,
