@@ -1,3 +1,5 @@
+import { User } from "@prisma/client";
+
 export type lessons1 = {
   id: string;
   userID: string;
@@ -46,3 +48,33 @@ export type session = {
     };
   } | null;
 };
+
+export interface DiscordData {
+  id: string;
+  username: string;
+  global_name: string | null;
+  discriminator: string;
+  avatar: string;
+  avatar_description: string | null;
+
+  public_flags: number;
+  banner: string;
+  accent_color: number;
+  display_names: string | null;
+}
+
+export interface UpcomingBookings {
+  id: string;
+  time: string;
+  transactionID: string | null;
+  public_or_private: string;
+  userID: string;
+  canceled: boolean;
+  bookedTime: string;
+  discordID: string;
+  message: string | null;
+  completed: boolean;
+  email: string | null;
+  discordInfo: DiscordData;
+  User: User;
+}

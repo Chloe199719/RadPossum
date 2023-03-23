@@ -1,5 +1,4 @@
 import { transporter } from "@/lib/email/nodemailer";
-import pb from "../pocketbase";
 import prismaClient from "../prisma/prismaClient";
 
 type info = {
@@ -30,6 +29,7 @@ export default async function bookingLesson({
         discordID: discordID,
         message: message,
         bookedTime: bookedTime,
+        email: email,
       },
     });
     await transporter.sendMail({

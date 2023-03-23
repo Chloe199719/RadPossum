@@ -48,7 +48,7 @@ export default async function handler(
       locale: itemData?.privacy!,
 
       bookedTime: itemData?.duration!,
-      discordID: req.body.discordID,
+      discordID: userId.discord!,
       message: req.body.message,
       email: userId.email!,
     });

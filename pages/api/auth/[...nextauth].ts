@@ -24,6 +24,7 @@ export const Auth = {
           emailVerified: profile.verified,
           image: profile.image_url,
           discriminator: profile.discriminator,
+          discord: profile.id,
         };
       },
     }),
@@ -48,6 +49,12 @@ export const Auth = {
           refresh_token: message.account.refresh_token,
           expires_at: message.account.expires_at,
           access_token: message.account.access_token,
+        },
+      });
+      await prismaClient.user.update({
+        where: { id: message.user.id },
+        data: {
+          discord: message.profile.id as string,
         },
       });
     },

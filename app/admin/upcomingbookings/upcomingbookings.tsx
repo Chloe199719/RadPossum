@@ -1,9 +1,10 @@
 "use client";
-import { booking } from "@prisma/client";
+import { DiscordData, UpcomingBookings } from "@/types";
+import { booking, User } from "@prisma/client";
 import { useState } from "react";
-import Booking from "../UpBooking";
+import Booking from "./UpBooking";
 type Props = {
-  data: booking[];
+  data: UpcomingBookings[];
 };
 
 function UpComingBookings({ data }: Props) {

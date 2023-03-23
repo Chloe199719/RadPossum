@@ -14,7 +14,12 @@ const fetchUserID = async function (token: string) {
     if (!id) {
       return Promise.reject({ status: 500, message: `Server Error` });
     }
-    return { userID: id.userId, email: id.user.email };
+    return {
+      userID: id.userId,
+      email: id.user.email,
+      discord: id.user.discord,
+      isAdmin: id.user.isAdmin,
+    };
   } catch (error) {
     return Promise.reject({ status: 500, message: `Server Error` });
   }

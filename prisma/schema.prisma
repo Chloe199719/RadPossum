@@ -13,7 +13,7 @@ datasource db {
 //  Required for Next/Auth
 model Account {
   id                String  @id @unique @default(cuid())
-  userId            String
+  userId            String  @unique
   type              String
   provider          String
   providerAccountId String  @unique
@@ -43,6 +43,7 @@ model User {
   name          String?
   email         String?       @unique
   emailVerified Boolean?
+  discord       String?       @unique
   image         String?
   discriminator String?
   accounts      Account[]
@@ -154,7 +155,7 @@ model booking {
   time              String
   transactionID     String?
   public_or_private String
-  User              User               @relation(fields: [userID], references: [id])
+  User              User               @relation(fields: [userID], references: [id], onDelete: Cascade)
   userID            String
   canceled          Boolean            @default(false)
   bookedTime        String
@@ -162,6 +163,7 @@ model booking {
   message           String?
   completed         Boolean            @default(false)
   paypal_order_logs paypal_order_logs?
+  email             String?
 }
 
 // Booking needs user and more 
