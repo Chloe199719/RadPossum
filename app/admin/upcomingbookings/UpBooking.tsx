@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/24/solid";
 import { UpcomingBookings } from "@/types";
+import Actions from "./Actions";
 
 type Props = {
   bookingData: UpcomingBookings;
@@ -9,13 +10,13 @@ type Props = {
 function Booking({ bookingData }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div
-      onClick={() => {
-        setIsOpen(!isOpen);
-      }}
-      className="flex flex-col gap-3 border border-black rounded-lg bg-blue-200 w-full  px-4 py-2 hover:bg-blue-300 hover:cursor-pointer"
-    >
-      <div className="flex gap-3 justify-between w-full">
+    <div className="flex flex-col gap-3 border border-black rounded-lg bg-blue-200 w-full  px-4 py-2 hover:bg-blue-300 hover:cursor-pointer">
+      <div
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
+        className="flex gap-3 justify-between w-full"
+      >
         <h4 className=" hidden md:block text-lg uppercase">
           {bookingData.bookedTime}
         </h4>
@@ -59,6 +60,11 @@ function Booking({ bookingData }: Props) {
           <div className="flex justify-between flex-1 gap-6">
             <h5>Message</h5>
             <p>{bookingData.message}</p>
+          </div>
+          <hr className="border-1 border-gray-600  flex-1  " />
+          <div className="flex justify-between flex-1 gap-6 items-center">
+            <h5>Actions</h5>
+            <Actions bookingData={bookingData} />
           </div>
         </div>
       ) : null}

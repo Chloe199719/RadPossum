@@ -24,6 +24,7 @@ async function Account(id: string) {
   try {
     const data = await prismaClient.account.findUnique({
       where: { userId: id },
+      select: { providerAccountId: true },
     });
     const discordInfo = await axios({
       url: `https://discord.com/api/users/${data?.providerAccountId}`,
