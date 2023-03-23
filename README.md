@@ -1,6 +1,6 @@
 This the repository of the RAD Posum Website
 ## Technologys Used
-```bash
+```
 Next.js
 React.js
 TailwindCss
@@ -8,7 +8,7 @@ DaisyUI
 Prisma
 PostgreSQL
 
-
+```
 First, run the development server:
 
 ```bash
