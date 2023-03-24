@@ -1,7 +1,9 @@
 "use client";
 import { Booking, SendMessage } from "@/types";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
 type Props = {
   bookingData: Booking | null | undefined;
@@ -10,12 +12,13 @@ function Form({ bookingData }: Props) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<SendMessage>();
 
-  async function onSubmit(data: SendMessage) {
-    try {
-      const res = await axios({
+  const mutation = useMutation({
+    mutationFn: (data: SendMessage) => {
+      return axios({
         url: `/api/admin/upcomingbookings/sendMessage`,
         method: `post`,
         data: {
@@ -24,11 +27,19 @@ function Form({ bookingData }: Props) {
           email: bookingData?.email,
         },
       });
-    } catch (error) {
-      console.log(error);
-    }
-  }
+    },
+    onSuccess: () => {
+      toast.success(`Message sent to ${bookingData?.User.name}`);
+      reset();
+    },
+    onError: () => {
+      toast.error(`Error sending message to ${bookingData?.User.name}`);
+    },
+  });
 
+  const onSubmit: SubmitHandler<SendMessage> = (data) => {
+    mutation.mutate(data);
+  };
   return (
     <div onSubmit={handleSubmit(onSubmit)} className="w-full">
       <form className="flex flex-col gap-3">
@@ -49,7 +60,9 @@ function Form({ bookingData }: Props) {
             {...register(`message`)}
           />
         </div>
-        <button className="btn">Send Message</button>
+        <button className="btn" type="submit" disabled={mutation.isLoading}>
+          {mutation.isLoading ? "Sending..." : "Send Message"}
+        </button>
       </form>
     </div>
   );

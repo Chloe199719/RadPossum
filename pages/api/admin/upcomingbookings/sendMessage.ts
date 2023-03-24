@@ -19,17 +19,24 @@ export default async function handler(
   try {
     const token = getCookie(cookie, { req, res });
     const userId = await fetchUserID(token as string);
+
     if (!userId.isAdmin) {
       throw new Error("Not Admin");
     }
+
     const emailData = await sendMail({
       message: req.body.message,
       subject: req.body.subject,
       email: req.body.email,
     });
+
     res.status(200).json({ message: `Email Sent` });
     return;
-  } catch (error) {
+  } catch (error: any) {
+    if (error.status === 401 || error.message === "Not Admin") {
+      res.status(401).json({ message: "Unauthorized" });
+      return;
+    }
     res.status(500).json({ message: `Error Sending Email` });
     return;
   }

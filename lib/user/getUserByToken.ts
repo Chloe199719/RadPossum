@@ -12,7 +12,7 @@ const fetchUserID = async function (token: string) {
       },
     });
     if (!id) {
-      return Promise.reject({ status: 500, message: `Server Error` });
+      return Promise.reject({ status: 401, message: `User doesn't Exit` });
     }
     return {
       userID: id.userId,
@@ -21,7 +21,7 @@ const fetchUserID = async function (token: string) {
       isAdmin: id.user.isAdmin,
     };
   } catch (error) {
-    return Promise.reject({ status: 500, message: `Server Error` });
+    return Promise.reject({ status: 401, message: `Server Error` });
   }
 };
 
