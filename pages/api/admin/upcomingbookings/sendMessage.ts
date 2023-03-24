@@ -13,7 +13,7 @@ export default async function handler(
     return;
   }
   if (!req.body.message || !req.body.subject || !req.body.email) {
-    res.status(400).json({ message: `Bad Request1` });
+    res.status(400).json({ message: `Bad Request` });
     return;
   }
   try {

@@ -1,6 +1,7 @@
 "use client";
 import { DiscordData, UpcomingBookings } from "@/types";
 import { booking, User } from "@prisma/client";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import Booking from "./UpBooking";
 type Props = {
@@ -8,6 +9,8 @@ type Props = {
 };
 
 function UpComingBookings({ data }: Props) {
+  // const searchParams = useSearchParams();
+  // console.log(searchParams?.get("page"));
   const [page, setPage] = useState(1);
   return (
     <div className="w-full space-y-5 flex flex-col items-center">

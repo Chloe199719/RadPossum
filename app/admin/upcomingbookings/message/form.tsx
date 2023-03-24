@@ -4,11 +4,12 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-hot-toast";
-
+import { useRouter } from "next/navigation";
 type Props = {
   bookingData: Booking | null | undefined;
 };
 function Form({ bookingData }: Props) {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -30,6 +31,7 @@ function Form({ bookingData }: Props) {
     },
     onSuccess: () => {
       toast.success(`Message sent to ${bookingData?.User.name}`);
+      router.push(`/admin/upcomingbookings`);
       reset();
     },
     onError: () => {
@@ -41,22 +43,31 @@ function Form({ bookingData }: Props) {
     mutation.mutate(data);
   };
   return (
-    <div onSubmit={handleSubmit(onSubmit)} className="w-full">
-      <form className="flex flex-col gap-3">
+    <div onSubmit={handleSubmit(onSubmit)} className="w-full mt-3">
+      <form className="form-control  gap-3">
         <div className="flex flex-col gap-1">
-          <label className="text-center" htmlFor="subject">
+          <label className="label text-center" htmlFor="subject">
             Subject
           </label>
-          <input type="text" id="subject" required {...register(`subject`)} />
+          <input
+            className="input"
+            type="text"
+            id="subject"
+            required
+            {...register(`subject`)}
+            placeholder="Subject"
+          />
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-center" htmlFor="message">
             Message
           </label>
           <textarea
-            className=""
+            className="textarea"
             id="message"
             required
+            rows={5}
+            placeholder="Message"
             {...register(`message`)}
           />
         </div>
