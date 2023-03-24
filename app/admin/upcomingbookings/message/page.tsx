@@ -24,7 +24,7 @@ async function Page({ searchParams }: any) {
   const data = await fetchBooking(searchParams.data);
   return (
     <div className="flex flex-col items-center w-full">
-      <h2>Messaging : {`${data?.User.name}`}</h2>
+      <h2 className="text-3xl">Messaging : {`${data?.User.name}`}</h2>
       <Form bookingData={data} />
     </div>
   );

@@ -94,10 +94,10 @@ export interface Booking {
   User: User;
 }
 
-export interface SendMessage {
-  message: string;
-  subject: string;
-}
+// export interface SendMessage {
+//   message: string;
+//   subject: string;
+// }
 
 export interface SendMessage {
   message: string;

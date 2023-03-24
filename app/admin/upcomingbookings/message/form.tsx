@@ -21,7 +21,7 @@ function Form({ bookingData }: Props) {
         data: {
           subject: data.subject,
           message: data.message,
-          email: bookingData?.User.email,
+          email: bookingData?.email,
         },
       });
     } catch (error) {
