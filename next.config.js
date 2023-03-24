@@ -2,7 +2,7 @@
 const nextConfig = {
   experimental: {
     appDir: true,
-    typedRoutes: true,
+    // typedRoutes: true,
   },
   images: {
     domains: ["cdn.discordapp.com"],
