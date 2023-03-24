@@ -78,3 +78,29 @@ export interface UpcomingBookings {
   discordInfo: DiscordData;
   User: User;
 }
+
+export interface Booking {
+  id: string;
+  time: string;
+  transactionID: string | null;
+  public_or_private: string;
+  userID: string;
+  canceled: boolean;
+  bookedTime: string;
+  discordID: string;
+  message: string | null;
+  completed: boolean;
+  email: string | null;
+  User: User;
+}
+
+export interface SendMessage {
+  message: string;
+  subject: string;
+}
+
+export interface SendMessage {
+  message: string;
+  subject: string;
+  email: string;
+}
