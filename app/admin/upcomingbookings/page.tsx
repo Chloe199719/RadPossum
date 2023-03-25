@@ -33,7 +33,6 @@ async function Account(id: string) {
     });
     return discordInfo.data;
   } catch (error) {
-    console.log(`Not Found`);
     return `not found`;
   }
 }
