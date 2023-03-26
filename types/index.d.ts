@@ -125,3 +125,20 @@ export interface createLesson {
   notes: string;
   homework: string;
 }
+
+export interface EmailLesson {
+  email: string;
+  title: string;
+  time: string;
+  recording: string;
+  notes: string;
+  homework: string;
+}
+
+export interface CancelData {
+  reason: string;
+}
+export interface CancelBooking {
+  data: CancelData;
+  booking: Booking;
+}

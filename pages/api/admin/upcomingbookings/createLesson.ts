@@ -1,6 +1,7 @@
 import createLessonData from "@/lib/admin/createLesson";
 import completeBooking from "@/lib/admin/setBookingCompleted";
 import cookie from "@/lib/cookie";
+import emailLesson from "@/lib/email/emailLesson";
 import fetchUserID from "@/lib/user/getUserByToken";
 import { getCookie } from "cookies-next";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -40,8 +41,15 @@ export default async function handler(
       homework: req.body.homework,
       user: req.body.user,
     });
-    const bookingUpdate = completeBooking(req.body.id);
-
+    const bookingUpdate = await completeBooking(req.body.id);
+    const email = await emailLesson({
+      email: bookingUpdate.email!,
+      title: req.body.title,
+      time: req.body.time,
+      recording: req.body.recording,
+      notes: req.body.notes,
+      homework: req.body.homework,
+    });
     res.status(200).json({ message: `Lesson Created` });
     return;
   } catch (error: any) {
