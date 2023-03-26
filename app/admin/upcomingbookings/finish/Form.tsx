@@ -36,12 +36,12 @@ function Form({ BookingData }: Props) {
       });
     },
     onSuccess: () => {
-      toast.success(`Message sent to ${BookingData?.User.name}`);
+      toast.success(`Created Lesson for ${BookingData?.User.name}`);
       router.push(`/admin/upcomingbookings`);
       reset();
     },
     onError: () => {
-      toast.error(`Error sending message to ${BookingData?.User.name}`);
+      toast.error(`Error Creating Lesson for ${BookingData?.User.name}`);
     },
   });
 
