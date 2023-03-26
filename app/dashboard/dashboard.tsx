@@ -7,22 +7,7 @@ import React from "react";
 import Booking from "./Booking";
 import Lesson from "./Lesson";
 type Props = {
-  lesson:
-    | {
-        id: string;
-        userID: string;
-        lessonTitle: string;
-        recording: string;
-        notes: string | null;
-        homework: string | null;
-        time: string | undefined;
-        exercises: {
-          id: string;
-          name: string;
-          desc: string;
-        }[];
-      }[]
-    | null;
+  lesson: lessons[] | null;
   bookings: booking[] | null;
 };
 function Dashboard({ lesson, bookings }: Props) {

@@ -104,3 +104,24 @@ export interface SendMessage {
   subject: string;
   email: string;
 }
+
+export interface Lesson {
+  title: string;
+  recording: string;
+  notes: string;
+  homework: string;
+}
+
+export interface LessonData {
+  data: Lesson;
+  booking: Booking;
+}
+
+export interface createLesson {
+  user: string;
+  title: string;
+  time: string;
+  recording: string;
+  notes: string;
+  homework: string;
+}

@@ -2,22 +2,10 @@
 import React, { useState } from "react";
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import { lessons } from "@prisma/client";
 
 type Props = {
-  lessonData: {
-    id: string;
-    userID: string;
-    lessonTitle: string;
-    recording: string;
-    notes: string | null;
-    homework: string | null;
-    time: string | undefined;
-    exercises: {
-      id: string;
-      name: string;
-      desc: string;
-    }[];
-  };
+  lessonData: lessons;
 };
 function Lesson({ lessonData }: Props) {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +19,7 @@ function Lesson({ lessonData }: Props) {
       <div className="flex gap-3 justify-between ">
         <h4 className="  text-lg uppercase">{lessonData.lessonTitle}</h4>
         <span className="text-lg hidden md:block">{`${new Date(
-          lessonData.time!
+          parseInt(lessonData.time)
         ).toLocaleString()}`}</span>
         <Link
           className=" font-bold text-lg text-red-500"
@@ -56,7 +44,7 @@ function Lesson({ lessonData }: Props) {
           <hr className="border-1 border-gray-600  flex-1  " />
           <div className="flex justify-between flex-1">
             <h5>Time</h5>
-            <p>{lessonData.time}</p>
+            <p>{new Date(parseInt(lessonData.time)).toLocaleString()}</p>
           </div>{" "}
           <hr className="border-1 border-gray-600  flex-1  " />
           <div className="flex justify-between flex-1">

@@ -37,20 +37,21 @@ async function Page({}: Props) {
     if (cookieStore.get(cookie)?.value) {
       const data = await fetchLesson(cookieStore.get(cookie)?.value);
 
-      const returnData: lessons1[] = [];
-      data?.forEach((obj) => {
-        returnData.push({
-          id: obj.id,
-          userID: obj.userID,
-          lessonTitle: obj.lessonTitle,
-          recording: obj.recording,
-          notes: obj.notes,
-          homework: obj.homework,
-          time: obj.time?.toUTCString(),
-          exercises: obj.exercises,
-        });
-      });
-      return returnData;
+      // const returnData: lessons1[] = [];
+      // data?.forEach((obj) => {
+      //   returnData.push({
+      //     id: obj.id,
+      //     userID: obj.userID,
+      //     lessonTitle: obj.lessonTitle,
+      //     recording: obj.recording,
+      //     notes: obj.notes,
+      //     homework: obj.homework,
+      //     time: obj.time?.toUTCString(),
+      //     exercises: obj.exercises,
+      //   });
+      // });
+      // return returnData;
+      return data;
     }
     return null;
   };

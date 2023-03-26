@@ -17,7 +17,10 @@ function Actions({ bookingData }: Props) {
         <AiFillMessage title="Email" className="w-6 h-6" />
       </Link>
       <GiCancel title="Cancel" className="w-6 h-6" />
-      <AiOutlineCheck title="Finish" className="w-6 h-6" />
+      <Link href={`/admin/upcomingbookings/finish/?data=${bookingData.id}`}>
+        {" "}
+        <AiOutlineCheck title="Finish" className="w-6 h-6" />
+      </Link>
     </div>
   );
 }
