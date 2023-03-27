@@ -31,5 +31,10 @@ const nextConfig = {
     ];
   },
 };
-
+// const removeImports = require("next-remove-imports")();
+// module.exports = (phase, { defaultConfig }) => {
+//   return removeImports({
+//     ...defaultConfig,
+//   });
+// };
 module.exports = nextConfig;

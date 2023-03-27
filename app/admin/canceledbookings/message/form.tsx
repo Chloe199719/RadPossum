@@ -5,10 +5,18 @@ import axios from "axios";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
+import "easymde/dist/easymde.min.css";
+import dynamic from "next/dynamic";
+import { useState } from "react";
+
 type Props = {
   bookingData: Booking | null | undefined;
 };
 function Form({ bookingData }: Props) {
+  const [message, setMessage] = useState("");
   const router = useRouter();
   const {
     register,
@@ -70,6 +78,12 @@ function Form({ bookingData }: Props) {
             placeholder="Message"
             {...register(`message`)}
           />
+          {/* <SimpleMDE
+            value={message}
+            onChange={(e) => {
+              setMessage(e);
+            }}
+          /> */}
         </div>
         <button className="btn" type="submit" disabled={mutation.isLoading}>
           {mutation.isLoading ? "Sending..." : "Send Message"}

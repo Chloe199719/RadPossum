@@ -11,7 +11,7 @@ function Actions({ bookingData }: Props) {
     <div className="flex gap-2">
       <BsDiscord title="Discord Message" className="w-6 h-6" />
       <Link
-        href={`/admin/pastbookings/message/?data=${encodeURIComponent(
+        href={`/admin/canceledbookings/message/?data=${encodeURIComponent(
           bookingData.id
         )}`}
       >
