@@ -25,7 +25,7 @@ function Form({ BookingData }: Props) {
     mutationFn: (data: CancelBooking) => {
       return axios({
         url: `/api/admin/upcomingbookings/cancelBooking`,
-        method: `post`,
+        method: `put`,
         data: {
           id: data.booking.id,
           reason: data.data.reason,

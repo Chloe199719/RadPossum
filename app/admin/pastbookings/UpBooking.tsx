@@ -1,8 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/24/solid";
-import { UpcomingBookings } from "@/types";
+import { booking } from "@prisma/client";
 import Actions from "./Actions";
+import { UpcomingBookings } from "@/types";
 
 type Props = {
   bookingData: UpcomingBookings;
@@ -62,7 +63,7 @@ function Booking({ bookingData }: Props) {
             <p>{bookingData.message}</p>
           </div>
           <hr className="border-1 border-gray-600  flex-1  " />
-          <div className="flex justify-between flex-1 gap-6 items-center">
+          <div className="flex justify-between flex-1 gap-6">
             <h5>Actions</h5>
             <Actions bookingData={bookingData} />
           </div>

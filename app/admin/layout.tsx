@@ -34,12 +34,28 @@ export default async function DashboardLayout({
                   className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-fit"
                 >
                   <li>
-                    <Link href={"/admin/upcomingbookings"}>
+                    <Link
+                      className="whitespace-nowrap"
+                      href={"/admin/upcomingbookings"}
+                    >
                       UpComing Bookings{" "}
                     </Link>
                   </li>
                   <li>
-                    <Link href={"/admin/pastbookings"}>Past Bookings</Link>
+                    <Link
+                      className="whitespace-nowrap"
+                      href={"/admin/pastbookings"}
+                    >
+                      Past Bookings
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="whitespace-nowrap"
+                      href={"/admin/canceledbookings"}
+                    >
+                      Canceled Bookings
+                    </Link>
                   </li>
                 </ul>
               </div>
