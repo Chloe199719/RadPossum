@@ -1,8 +1,6 @@
 import cancelBooking from "@/lib/admin/cancelBooking";
 import rebookCode from "@/lib/admin/RebookCode";
 import cookie from "@/lib/cookie";
-
-import emailLesson from "@/lib/email/emailLesson";
 import emailRebookCodes from "@/lib/email/emailrebookCode";
 import fetchUserID from "@/lib/user/getUserByToken";
 import { getCookie } from "cookies-next";
