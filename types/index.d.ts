@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { booking, User } from "@prisma/client";
 
 export type lessons1 = {
   id: string;
@@ -141,4 +141,16 @@ export interface CancelData {
 export interface CancelBooking {
   data: CancelData;
   booking: Booking;
+}
+
+export interface LessonCode {
+  public_or_private: string;
+  time: string;
+  userID: string;
+}
+
+export interface emailCodes {
+  code: string;
+  reason: string;
+  oldBooking: booking;
 }

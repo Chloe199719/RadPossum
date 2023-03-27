@@ -50,7 +50,7 @@ function Form({ BookingData }: Props) {
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div className="flex flex-col gap-1">
           <label htmlFor="reason">Reason</label>
-          <input type="text" id="reason" {...register(`reason`)} />
+          <input type="text" id="reason" {...register(`reason`)} required />
         </div>
 
         {!confirm && (
@@ -73,10 +73,10 @@ function Form({ BookingData }: Props) {
             {" "}
             <button
               type="submit"
-              disabled={disable}
+              disabled={disable || mutation.isLoading ? true : false}
               className="btn btn-warning bg-red-600 flex-1"
             >
-              Are you Sure?
+              {mutation.isLoading ? `Loading...` : `Are you Sure?`}
             </button>
             <button
               type="button"
