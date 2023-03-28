@@ -20,9 +20,40 @@ export default async function DashboardLayout({
         <nav>
           <ul className="text-lg flex gap-2">
             <li>
-              <Link className="link link-hover" href={`/`}>
-                Posts
-              </Link>
+              <div className="dropdown">
+                <label tabIndex={0} className="link link-hover m-1">
+                  Posts
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-fit"
+                >
+                  <li>
+                    <Link
+                      className="whitespace-nowrap"
+                      href={"/admin/Post/New"}
+                    >
+                      New
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="whitespace-nowrap"
+                      href={"/admin/pastbookings"}
+                    >
+                      View Posts
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="whitespace-nowrap"
+                      href={"/admin/canceledbookings"}
+                    >
+                      Canceled Bookings
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </li>
             <li>
               <div className="dropdown">

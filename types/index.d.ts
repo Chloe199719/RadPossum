@@ -154,3 +154,18 @@ export interface emailCodes {
   reason: string;
   oldBooking: booking;
 }
+
+export interface PostForm {
+  title: string;
+}
+
+export interface PostMutation {
+  formData: PostForm;
+  message: string;
+}
+
+export interface CreatePost {
+  title: string;
+  content: string;
+  userID: string;
+}

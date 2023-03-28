@@ -31,7 +31,7 @@ async function Page({ searchParams }: Props) {
       <div className="flex justify-center w-full items-center relative">
         <Link
           className="absolute left-1 p-2 hover:bg-slate-400 rounded-full"
-          href={"/admin/upcomingbookings"}
+          href={"/admin/canceledbookings"}
         >
           <AiOutlineArrowLeft className=" w-8 h-8 " />
         </Link>
