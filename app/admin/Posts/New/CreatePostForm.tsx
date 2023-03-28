@@ -23,8 +23,8 @@ function CreatePostForm({}: Props) {
   } = useForm<PostForm>();
 
   const mutation = useMutation({
-    mutationFn: ({ formData, message }: PostMutation) => {
-      return axios({
+    mutationFn: async ({ formData, message }: PostMutation) => {
+      return await axios({
         url: `/api/admin/posts/createPost`,
         method: `post`,
         data: {
@@ -35,8 +35,8 @@ function CreatePostForm({}: Props) {
     },
     onSuccess: () => {
       toast.success(`Message sent to `);
-      console.log(mutation.data);
-      //   router.push(`/blog/${mutation.data?.data.id}`);
+
+      router.push(`/blog/${mutation.data?.data.id}`);
       reset();
     },
     onError: () => {
@@ -58,6 +58,7 @@ function CreatePostForm({}: Props) {
           type="text"
           id="title"
           {...register("title")}
+          required
         />
       </div>
       <div className="flex flex-col gap-2 items-center">
