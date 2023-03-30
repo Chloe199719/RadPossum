@@ -169,3 +169,12 @@ export interface CreatePost {
   content: string;
   userID: string;
 }
+
+export interface Post {
+  id: string;
+  title: string;
+  message: string;
+  userID: string;
+  createdAT: Date | number;
+  updatedAT: Date | number;
+}
