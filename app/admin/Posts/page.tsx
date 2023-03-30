@@ -3,14 +3,23 @@ import Link from "next/link";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import PostLists from "./PostLists";
 
-async function fetchPosts() {
-  const res = await prismaClient.posts.findMany({});
+async function fetchPosts(page: number) {
+  const res = await prismaClient.posts.findMany({
+    take: 3,
+    skip: (page - 1) * 3,
+  });
   return res;
 }
 
-type Props = {};
-async function Page({}: Props) {
-  const data = await fetchPosts();
+type Props = {
+  searchParams: {
+    page: string;
+  };
+};
+async function Page({ searchParams }: Props) {
+  const data = await fetchPosts(
+    searchParams.page ? parseInt(searchParams.page) : 1
+  );
   return (
     <div className="w-full flex flex-col gap-3 relative">
       <h2 className="text-3xl text-center">Create New Post</h2>
@@ -20,7 +29,7 @@ async function Page({}: Props) {
       >
         <AiOutlineArrowLeft className=" w-8 h-8 " />
       </Link>{" "}
-      <PostLists posts={data} />
+      <PostLists searchParams={searchParams} posts={data} />
     </div>
   );
 }
