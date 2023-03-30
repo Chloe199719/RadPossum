@@ -25,7 +25,7 @@ function PostLists({ searchParams, posts }: Props) {
           className="btn"
         >
           <Link
-            className="w-full h-full flex items-center justify-center"
+            className=" flex-1 w-full h-full flex items-center justify-center"
             href={`/admin/Posts?page=${page === 1 ? page : page - 1}`}
           >
             {" "}
@@ -40,7 +40,7 @@ function PostLists({ searchParams, posts }: Props) {
           className="btn"
         >
           <Link
-            className="w-full h-full flex items-center justify-center"
+            className="flex-1 w-full h-full flex items-center justify-center"
             href={`/admin/Posts?page=${page + 1}`}
           >
             {" "}
