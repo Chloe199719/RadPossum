@@ -93,6 +93,11 @@ export default async function DashboardLayout({
                 Resources
               </Link>
             </li>
+            <li>
+              <Link className="link link-hover" href={`/admin/inbox`}>
+                Inbox
+              </Link>
+            </li>
           </ul>
         </nav>
         {children}

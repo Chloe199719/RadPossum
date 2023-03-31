@@ -99,6 +99,7 @@ model messages {
   pronouns   String?
   message    String
   readSolved Boolean @default(false)
+  createdAt  DateTime @default(now()) @db.Timestamptz()
 }
 
 model lessons {

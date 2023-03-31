@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "messages" ALTER COLUMN "createdAt" SET DATA TYPE TIMESTAMPTZ;
