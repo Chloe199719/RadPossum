@@ -178,3 +178,16 @@ export interface Post {
   createdAT: Date | number;
   updatedAT: Date | number;
 }
+
+export interface EditPostSubmit {
+  title: string;
+  message: string;
+  e: React.FormEvent<HTMLFormElement>;
+  postID: string;
+}
+
+export interface EditPost {
+  title: string;
+  content: string;
+  id: string;
+}
