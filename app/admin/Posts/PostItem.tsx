@@ -1,5 +1,4 @@
 import { Post } from "@/types";
-import { posts } from "@prisma/client";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { H1, H2, H3, H4, H6, H5 } from "@/components/ReactMarkDown/Headings";
@@ -37,7 +36,9 @@ function PostItem({ post }: Props) {
           remarkPlugins={[remarkGfm]}
           className="flex flex-col gap-1 px-2 md:px-10"
         >
-          {post.message}
+          {`${post.message.split(" ").slice(0, 200).join(" ")}${
+            post.message.split(" ").length > 200 ? "..." : ""
+          }`}
         </ReactMarkdown>
       </article>
       <Actions postID={post.id} />
