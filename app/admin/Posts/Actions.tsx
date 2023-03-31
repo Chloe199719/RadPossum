@@ -5,12 +5,13 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineCheck, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { GiCancel } from "react-icons/gi";
-
+import { useRouter } from "next/navigation";
 type Props = {
   postID: string;
 };
 function Actions({ postID }: Props) {
   const [show, setShow] = useState(false);
+  const router = useRouter();
   const mutation = useMutation({
     mutationFn: async ({ id }: any) => {
       return await axios({
@@ -20,6 +21,7 @@ function Actions({ postID }: Props) {
     },
     onSuccess: () => {
       toast.success(`Post Deleted`);
+      router.refresh();
       setShow(false);
     },
     onError: () => {
