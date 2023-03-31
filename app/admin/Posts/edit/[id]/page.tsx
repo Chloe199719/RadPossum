@@ -33,7 +33,7 @@ async function Page({ params }: Props) {
           <h1 className=" text-5xl text-center">Post Not Found</h1>
           <Link
             className="absolute left-1 p-2 hover:bg-slate-400 rounded-full"
-            href={"/admin"}
+            href={"/admin/Posts"}
           >
             <AiOutlineArrowLeft className=" w-8 h-8 " />
           </Link>

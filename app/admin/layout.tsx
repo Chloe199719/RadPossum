@@ -31,7 +31,7 @@ export default async function DashboardLayout({
                   <li>
                     <Link
                       className="whitespace-nowrap"
-                      href={"/admin/Post/New"}
+                      href={"/admin/Posts/New"}
                     >
                       New
                     </Link>

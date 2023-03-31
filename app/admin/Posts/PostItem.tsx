@@ -5,7 +5,10 @@ import { H1, H2, H3, H4, H6, H5 } from "@/components/ReactMarkDown/Headings";
 import { Li, Ol, Ul } from "@/components/ReactMarkDown/Lists";
 import { A, IMG } from "@/components/ReactMarkDown/LinksImages";
 import { PTag } from "@/components/ReactMarkDown/Paragraph";
-import Actions from "./Actions";
+import dynamic from "next/dynamic";
+const Actions = dynamic(() => import("./Actions"), {
+  ssr: false,
+});
 type Props = {
   post: Post;
 };
