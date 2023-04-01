@@ -28,7 +28,7 @@ async function Page({ searchParams }: Props) {
 
   if (!data) return <div>Error Getting Messages or No Messages </div>;
   return (
-    <div className=" space-y-6">
+    <div className=" space-y-6 w-full">
       <h2 className="text-center text-4xl">Messages List</h2>{" "}
       <MessageList
         searchParams={searchParams}

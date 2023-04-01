@@ -2,6 +2,7 @@
 
 import { Message } from "@/types";
 import { useRouter } from "next/navigation";
+import MessageItem from "./MessageItem";
 
 type Props = {
   messages: Message[];
@@ -17,7 +18,9 @@ function MessageList({ messages, searchParams }: Props) {
     <div className="w-full space-y-6 ">
       <div className="flex flex-col gap-2">
         {messages.length !== 0 ? (
-          JSON.stringify(messages)
+          messages.map((message) => {
+            return <MessageItem key={message.id} message={message} />;
+          })
         ) : (
           <div className="w-full flex justify-center items-center">
             <h2 className="text-3xl">No Messages</h2>
