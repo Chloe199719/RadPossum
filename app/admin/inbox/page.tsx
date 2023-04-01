@@ -1,8 +1,11 @@
 import prismaClient from "@/lib/prisma/prismaClient";
+import MessageList from "./Messagelist";
 
-async function fetchMessages() {
+async function fetchMessages(index: number) {
   try {
     const data = await prismaClient.messages.findMany({
+      take: 10,
+      skip: (index - 1) * 10,
       orderBy: {
         createdAt: "desc",
       },
@@ -12,14 +15,36 @@ async function fetchMessages() {
     return null;
   }
 }
+type Props = {
+  searchParams: {
+    page: string;
+  };
+};
 
-type Props = {};
-async function Page({}: Props) {
-  const data = await fetchMessages();
+async function Page({ searchParams }: Props) {
+  const data = await fetchMessages(
+    searchParams.page ? parseInt(searchParams.page) : 1
+  );
+
   if (!data) return <div>Error Getting Messages or No Messages </div>;
   return (
-    <div>
+    <div className=" space-y-6">
       <h2 className="text-center text-4xl">Messages List</h2>{" "}
+      <MessageList
+        searchParams={searchParams}
+        messages={data.map((e) => {
+          return {
+            id: e.id,
+            name: e.name,
+            email: e.email,
+            message: e.message,
+            pronouns: e.pronouns,
+            readSolved: e.readSolved,
+            createdAt: e.createdAt.getTime(),
+            discordID: e.discordID,
+          };
+        })}
+      />
     </div>
   );
 }

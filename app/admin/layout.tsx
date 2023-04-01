@@ -89,7 +89,7 @@ export default async function DashboardLayout({
               </div>
             </li>
             <li>
-              <Link className="link link-hover" href={`/`}>
+              <Link className="link link-hover text-red-600" href={`/`}>
                 Resources
               </Link>
             </li>

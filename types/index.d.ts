@@ -191,3 +191,13 @@ export interface EditPost {
   content: string;
   id: string;
 }
+export interface Message {
+  id: string;
+  message: string;
+  email: string;
+  name: string;
+  discordID: string;
+  createdAt: number;
+  pronouns: string | null;
+  readSolved: boolean;
+}
