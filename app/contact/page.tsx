@@ -16,6 +16,7 @@ interface formData {
   other: boolean;
   otherInput: string;
   message: string;
+  subject: string;
 }
 
 type Props = {};
@@ -40,6 +41,7 @@ function Page({}: Props) {
         data: {
           name: data.name,
           email: data.email,
+          subject: data.subject,
           discordID: data.discordID,
           pronouns: checkPronouns(data),
           message: data.message,
@@ -138,6 +140,22 @@ function Page({}: Props) {
                 className="input border-transparent focus:border-transparent focus:ring-0 focus:outline-primary"
                 placeholder="Ex: Chloe#1231"
                 {...register("discordID")}
+                required
+              />
+            </div>
+          </div>
+          <div className="w-full">
+            <div className="flex flex-col">
+              <label htmlFor="subject">
+                <span className=" label-text">Subject</span>{" "}
+                <span className="text-red-600 label-text">*</span>
+              </label>
+              <input
+                id="subject"
+                type="text"
+                className="input border-transparent focus:border-transparent focus:ring-0 focus:outline-primary"
+                placeholder="Ex: I have a question"
+                {...register("subject")}
                 required
               />
             </div>

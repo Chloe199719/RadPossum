@@ -39,6 +39,7 @@ async function Page({ searchParams }: Props) {
             email: e.email,
             message: e.message,
             pronouns: e.pronouns,
+            Subject: e.Subject!,
             readSolved: e.readSolved,
             createdAt: e.createdAt.getTime(),
             discordID: e.discordID,

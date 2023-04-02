@@ -14,7 +14,8 @@ export default async function handler(
     !req.body.name ||
     !req.body.email ||
     !req.body.discordID ||
-    !req.body.message
+    !req.body.message ||
+    !req.body.subject
   ) {
     res
       .status(400)
@@ -29,6 +30,7 @@ export default async function handler(
         discordID: req.body.discordID,
         pronouns: req.body.pronouns,
         message: req.body.message,
+        Subject: req.body.subject,
       },
     });
     res

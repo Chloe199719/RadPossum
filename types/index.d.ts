@@ -194,6 +194,7 @@ export interface EditPost {
 export interface Message {
   id: string;
   message: string;
+  Subject: string;
   email: string;
   name: string;
   discordID: string;

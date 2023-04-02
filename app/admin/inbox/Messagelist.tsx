@@ -17,6 +17,11 @@ function MessageList({ messages, searchParams }: Props) {
   return (
     <div className="w-full space-y-6 ">
       <div className="flex flex-col gap-2">
+        <div className="grid grid-cols-3 py-4 px-2">
+          <span>Name (Pronouns)</span>
+          <span>Subject</span>
+          <span className=" justify-self-end ml-2">Time</span>
+        </div>
         {messages.length !== 0 ? (
           messages.map((message) => {
             return <MessageItem key={message.id} message={message} />;
