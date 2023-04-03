@@ -202,3 +202,7 @@ export interface Message {
   pronouns: string | null;
   readSolved: boolean;
 }
+export interface MessageSolved {
+  id: string;
+  readSolved: boolean;
+}
