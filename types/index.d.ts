@@ -213,3 +213,10 @@ export interface FormHero {
   titleSec: string;
   mainText: string;
 }
+
+export interface FormAbout {
+  id0: string;
+  id1: string;
+  about0: string;
+  about1: string;
+}
