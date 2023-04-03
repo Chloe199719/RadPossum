@@ -206,3 +206,10 @@ export interface MessageSolved {
   id: string;
   readSolved: boolean;
 }
+
+export interface FormHero {
+  higlightText: string;
+  titleFirst: string;
+  titleSec: string;
+  mainText: string;
+}

@@ -98,6 +98,50 @@ export default async function DashboardLayout({
                 Inbox
               </Link>
             </li>
+            <li>
+              <div className="dropdown">
+                <label tabIndex={0} className="link link-hover m-1">
+                  Settings
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-fit"
+                >
+                  <li>
+                    <Link
+                      className="whitespace-nowrap"
+                      href={"/admin/settings/hero"}
+                    >
+                      Hero
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="whitespace-nowrap"
+                      href={"/admin/pastbookings"}
+                    >
+                      About
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="whitespace-nowrap"
+                      href={"/admin/canceledbookings"}
+                    >
+                      Questions & Answers
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="whitespace-nowrap"
+                      href={"/admin/canceledbookings"}
+                    >
+                      Social Media
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </li>
           </ul>
         </nav>
         {children}
