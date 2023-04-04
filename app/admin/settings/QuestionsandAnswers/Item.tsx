@@ -1,6 +1,8 @@
 import { Questions } from "@prisma/client";
-import ActionsQuestions from "./ActionsQuestions";
-
+import dynamic from "next/dynamic";
+const ActionsQuestions = dynamic(() => import("./ActionsQuestions"), {
+  ssr: false,
+});
 type Props = {
   item: Questions;
 };
