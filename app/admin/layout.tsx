@@ -126,7 +126,7 @@ export default async function DashboardLayout({
                   <li>
                     <Link
                       className="whitespace-nowrap"
-                      href={"/admin/canceledbookings"}
+                      href={"/admin/settings/QuestionsandAnswers"}
                     >
                       Questions & Answers
                     </Link>
