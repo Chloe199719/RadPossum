@@ -66,7 +66,9 @@ function FormQA({}: Props) {
           {...register("answer")}
         />
       </div>
-      <button className="btn w-full">Create New Q&A</button>
+      <button disabled={mutation.isLoading} className="btn w-full">
+        Create New Q&A
+      </button>
     </form>
   );
 }
