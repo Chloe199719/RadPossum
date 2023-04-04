@@ -71,7 +71,9 @@ function QuestionForm({ item }: Props) {
           rows={5}
         />
       </div>
-      <button className="btn w-full">Update</button>
+      <button disabled={mutation.isLoading} className="btn w-full">
+        Update
+      </button>
     </form>
   );
 }

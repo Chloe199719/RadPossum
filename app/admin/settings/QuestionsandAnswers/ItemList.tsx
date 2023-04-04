@@ -1,5 +1,6 @@
 "use client";
 import { Questions } from "@prisma/client";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Item from "./Item";
 
@@ -18,6 +19,12 @@ function ItemList({ data, searchParams }: Props) {
       {data.map((item) => {
         return <Item key={item.id} item={item} />;
       })}
+      <div>
+        {" "}
+        <Link href={`/admin/settings/QuestionsandAnswers/new`}>
+          <button className="btn w-full">Create New Q&A</button>
+        </Link>
+      </div>
       <div className="btn-group flex justify-center">
         <button
           onClick={() => {

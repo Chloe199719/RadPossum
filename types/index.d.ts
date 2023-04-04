@@ -226,3 +226,7 @@ export interface FormItem {
   question: string;
   answer: string;
 }
+export interface FormQA {
+  question: string;
+  answer: string;
+}
