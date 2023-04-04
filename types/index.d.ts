@@ -220,3 +220,9 @@ export interface FormAbout {
   about0: string;
   about1: string;
 }
+
+export interface FormItem {
+  id: string;
+  question: string;
+  answer: string;
+}

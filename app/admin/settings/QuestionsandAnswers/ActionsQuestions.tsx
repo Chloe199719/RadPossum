@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -15,21 +16,23 @@ function ActionsQuestions({ id }: Props) {
   const mutation = useMutation({
     mutationFn: async ({ id }: { id: string }) => {
       return await axios({
-        url: `/api/admin/settings/QuestionsandAnswers?id=${id}`,
+        url: `/api/admin/settings/QuestionsandAnswers/delete?id=${id}`,
         method: `DELETE`,
       });
     },
     onSuccess: () => {
       toast.success(`Item Deleted`);
-      router.refresh();
+      router.push("/admin/settings/QuestionsandAnswers/");
     },
     onError: () => {
-      toast.error(`Item Deleted`);
+      toast.error(`Error Deleting Item`);
     },
   });
   return (
     <div className="flex justify-end w-full space-x-3">
-      <BsPencilFill className="h-6 w-6 hover:text-slate-600 active:text-blue-600" />
+      <Link href={`/admin/settings/QuestionsandAnswers/edit/${id}`}>
+        <BsPencilFill className="h-6 w-6 hover:text-slate-600 active:text-blue-600" />
+      </Link>
       {!confirm ? (
         <BsFillEraserFill
           onClick={() => {
