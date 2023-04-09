@@ -247,3 +247,7 @@ export interface SocialMediaShort {
   name: string;
   socialmedia_url: string;
 }
+export interface FormSocialCreate {
+  name: string;
+  socialmedia_url: string;
+}

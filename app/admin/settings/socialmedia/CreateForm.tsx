@@ -1,5 +1,4 @@
-import { FormSocial, FormSocialEdit, SocialMediaShort } from "@/types";
-import { SocialMedia } from "@prisma/client";
+import { FormSocialCreate } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -10,42 +9,38 @@ import { GiConfirmed } from "react-icons/gi";
 import { HiBan } from "react-icons/hi";
 
 type Props = {
-  item: SocialMediaShort;
-  setEdit: Dispatch<SetStateAction<boolean>>;
+  setCreate: Dispatch<SetStateAction<boolean>>;
 };
-function Form({ item, setEdit }: Props) {
-  const [name, setName] = useState(item.name);
-  const [socialmedia_url, setSocialmedia_url] = useState(item.socialmedia_url);
+function CreateForm({ setCreate }: Props) {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormSocial>();
+  } = useForm<FormSocialCreate>();
   const router = useRouter();
   const mutation = useMutation({
-    mutationFn: async ({ id, name, socialmedia_url }: FormSocialEdit) => {
+    mutationFn: async (data: FormSocialCreate) => {
       return await axios({
-        url: `/api/admin/settings/socialmedia/edit`,
-        method: `PATCH`,
+        url: `/api/admin/settings/socialmedia/create`,
+        method: `POST`,
         data: {
-          id,
-          name,
-          socialmedia_url,
+          name: data.name,
+          socialmedia_url: data.socialmedia_url,
         },
       });
     },
     onSuccess: () => {
-      toast.success(`@${item.name} Updated`);
+      toast.success(`Created New Social Media`);
+      setCreate(false);
       router.refresh();
-      setEdit(false);
     },
     onError: () => {
-      toast.error(`Failed to Update @${item.name}`);
+      toast.error(`Failed to Create New Social Media`);
     },
   });
-  const onSubmit: SubmitHandler<FormSocial> = (data) => {
-    mutation.mutate({ id: item.id, name, socialmedia_url });
+  const onSubmit: SubmitHandler<FormSocialCreate> = (data) => {
+    mutation.mutate(data);
   };
   return (
     <div className="border-2 rounded-lg border-black grid grid-cols-3 px-4 py-5">
@@ -58,26 +53,16 @@ function Form({ item, setEdit }: Props) {
           <label className="label-text ml-3" htmlFor="name">
             Social Name
           </label>
-          <input
-            className="input"
-            type="text"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-          />
+          <input className="input" type="text" {...register("name")} />
         </div>
         <div className="flex flex-col gap-2">
           <label className="label-text ml-3" htmlFor="name">
-            Social Url
-          </label>{" "}
+            Social URL
+          </label>
           <input
             className="input"
             type="text"
-            value={socialmedia_url}
-            onChange={(e) => {
-              setSocialmedia_url(e.target.value);
-            }}
+            {...register("socialmedia_url")}
           />
         </div>
       </form>
@@ -94,7 +79,7 @@ function Form({ item, setEdit }: Props) {
         </button>
         <HiBan
           onClick={() => {
-            setEdit(false);
+            setCreate(false);
           }}
           className="h-6 w-6 text-red-600 hover:text-red-400 active:text-red-800"
         />
@@ -102,4 +87,4 @@ function Form({ item, setEdit }: Props) {
     </div>
   );
 }
-export default Form;
+export default CreateForm;
