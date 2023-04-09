@@ -16,7 +16,7 @@ function ItemSocial({ item }: Props) {
           <span>{item.name}</span>
           <span>{item.socialmedia_url}</span>
           <span className=" justify-self-end">
-            <Actions setEdit={setEdit} />
+            <Actions item={item} setEdit={setEdit} />
           </span>
         </div>
       ) : (
