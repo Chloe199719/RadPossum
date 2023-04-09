@@ -3,7 +3,11 @@ import ListSocial from "./listsocial";
 
 async function fetchSocials() {
   try {
-    const res = await prismaClient.socialMedia.findMany();
+    const res = await prismaClient.socialMedia.findMany({
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
     return res;
   } catch (error) {
     return null;

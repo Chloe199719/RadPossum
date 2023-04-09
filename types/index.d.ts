@@ -230,3 +230,14 @@ export interface FormQA {
   question: string;
   answer: string;
 }
+
+export interface FormSocialEdit {
+  id: string;
+  name: string;
+  socialmedia_url: string;
+}
+
+export interface FormSocial {
+  name: string;
+  socialmedia_url: string;
+}
