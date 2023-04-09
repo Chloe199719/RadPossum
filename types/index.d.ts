@@ -241,3 +241,9 @@ export interface FormSocial {
   name: string;
   socialmedia_url: string;
 }
+
+export interface SocialMediaShort {
+  id: string;
+  name: string;
+  socialmedia_url: string;
+}

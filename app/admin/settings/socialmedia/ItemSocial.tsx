@@ -2,9 +2,10 @@ import { SocialMedia } from "@prisma/client";
 import { useState } from "react";
 import Actions from "./Actions";
 import Form from "./Form";
+import { SocialMediaShort } from "@/types";
 
 type Props = {
-  item: SocialMedia;
+  item: SocialMediaShort;
 };
 function ItemSocial({ item }: Props) {
   const [edit, setEdit] = useState(false);

@@ -2,9 +2,10 @@
 
 import { SocialMedia } from "@prisma/client";
 import ItemSocial from "./ItemSocial";
+import { SocialMediaShort } from "@/types";
 
 type Props = {
-  data: SocialMedia[];
+  data: SocialMediaShort[];
 };
 function ListSocial({ data }: Props) {
   return (

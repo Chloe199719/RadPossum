@@ -7,6 +7,11 @@ async function fetchSocials() {
       orderBy: {
         createdAt: "asc",
       },
+      select: {
+        id: true,
+        name: true,
+        socialmedia_url: true,
+      },
     });
     return res;
   } catch (error) {

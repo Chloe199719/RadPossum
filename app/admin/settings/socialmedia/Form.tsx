@@ -1,4 +1,4 @@
-import { FormSocial, FormSocialEdit } from "@/types";
+import { FormSocial, FormSocialEdit, SocialMediaShort } from "@/types";
 import { SocialMedia } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -10,7 +10,7 @@ import { GiConfirmed } from "react-icons/gi";
 import { HiBan } from "react-icons/hi";
 
 type Props = {
-  item: SocialMedia;
+  item: SocialMediaShort;
   setEdit: Dispatch<SetStateAction<boolean>>;
 };
 function Form({ item, setEdit }: Props) {
