@@ -99,6 +99,15 @@ export default async function DashboardLayout({
               </Link>
             </li>
             <li>
+              <Link
+                className="link link-hover text-red-600"
+                href={`/admin/shop`}
+              >
+                Shop
+              </Link>
+            </li>
+
+            <li>
               <div className="dropdown">
                 <label tabIndex={0} className="link link-hover m-1">
                   Settings
@@ -137,6 +146,14 @@ export default async function DashboardLayout({
                       href={"/admin/settings/socialmedia"}
                     >
                       Social Media
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="whitespace-nowrap"
+                      href={"/admin/settings/booking"}
+                    >
+                      Booking Settings
                     </Link>
                   </li>
                 </ul>
