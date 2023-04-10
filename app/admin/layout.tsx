@@ -106,7 +106,42 @@ export default async function DashboardLayout({
                 Shop
               </Link>
             </li>
-
+            <li>
+              <div className="dropdown">
+                <label tabIndex={0} className="link link-hover m-1">
+                  Booking Settings
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-fit"
+                >
+                  <li>
+                    <Link
+                      className="whitespace-nowrap"
+                      href={"/admin/bookingssettings/price"}
+                    >
+                      Prices & Services
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="whitespace-nowrap"
+                      href={"/admin/settings/about"}
+                    >
+                      Available Hours
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="whitespace-nowrap"
+                      href={"/admin/settings/QuestionsandAnswers"}
+                    >
+                      Block Hours
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </li>
             <li>
               <div className="dropdown">
                 <label tabIndex={0} className="link link-hover m-1">
@@ -146,14 +181,6 @@ export default async function DashboardLayout({
                       href={"/admin/settings/socialmedia"}
                     >
                       Social Media
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="whitespace-nowrap"
-                      href={"/admin/settings/booking"}
-                    >
-                      Booking Settings
                     </Link>
                   </li>
                 </ul>
