@@ -5,7 +5,11 @@ import Items from "./items";
 type Props = {};
 async function fetchData() {
   try {
-    const data = await prismaClient.paypal_items.findMany({});
+    const data = await prismaClient.paypal_items.findMany({
+      orderBy: {
+        title: "asc",
+      },
+    });
     return data;
   } catch (error) {
     return null;

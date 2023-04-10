@@ -8,7 +8,6 @@ type Props = {
 };
 
 function Items({ items }: Props) {
-  console.log(items);
   return (
     <div className="w-full flex flex-col gap-2">
       <div className=" rounded-lg  grid grid-cols-4 px-4">

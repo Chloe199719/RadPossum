@@ -251,3 +251,9 @@ export interface FormSocialCreate {
   name: string;
   socialmedia_url: string;
 }
+
+export interface FormPrice {
+  id: string;
+  price_saturday: string;
+  price_standard: string;
+}

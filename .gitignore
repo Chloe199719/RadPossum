@@ -37,3 +37,5 @@ yarn-error.log*
 /.vscode
 .env
 /oldCode
+
+paypal.txt
