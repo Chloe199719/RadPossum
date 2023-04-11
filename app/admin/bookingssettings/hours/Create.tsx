@@ -75,7 +75,11 @@ function Create({ hours }: Props) {
             })}
           </select>
           <div className="btn-group w-full flex">
-            <button type="submit" className="btn btn-success flex-1">
+            <button
+              disabled={mutation.isLoading}
+              type="submit"
+              className="btn btn-success flex-1"
+            >
               Create
             </button>{" "}
             <button
