@@ -134,7 +134,7 @@ export default async function DashboardLayout({
                   <li>
                     <Link
                       className="whitespace-nowrap"
-                      href={"/admin/settings/QuestionsandAnswers"}
+                      href={"/admin/bookingssettings/block"}
                     >
                       Block Hours
                     </Link>
