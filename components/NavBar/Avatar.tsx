@@ -32,7 +32,6 @@ export default function Avatar({}: Props) {
                   alt={
                     session?.user ? session.user.name! : "Default Profile Pic"
                   }
-                  loader={myLoader}
                   width={96}
                   height={96}
                 />{" "}

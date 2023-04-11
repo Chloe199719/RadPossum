@@ -24,11 +24,11 @@ function Actions({ hour }: Props) {
       });
     },
     onSuccess: () => {
-      toast.success(`Deleted ${hour.hour} `);
+      toast.success(`Deleted ${hour.hour / 3600000}:00 `);
       router.refresh();
     },
     onError: () => {
-      toast.error(`Failed to delete ${hour.hour}`);
+      toast.error(`Failed to delete ${hour.hour / 3600000}:00`);
     },
   });
   return (

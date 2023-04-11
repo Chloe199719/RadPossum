@@ -2,6 +2,10 @@ import prismaClient from "@/lib/prisma/prismaClient";
 import React from "react";
 import Items from "./items";
 
+import dynamic from "next/dynamic";
+const Create = dynamic(() => import("./Create"), {
+  ssr: false,
+});
 type Props = {};
 
 async function fetchHours() {
@@ -42,6 +46,7 @@ async function Page({}: Props) {
           </tbody>
         </table>
       </div>
+      <Create hours={data} />
     </div>
   );
 }

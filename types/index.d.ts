@@ -257,3 +257,7 @@ export interface FormPrice {
   price_saturday: string;
   price_standard: string;
 }
+
+export interface hourForm {
+  hour: number;
+}
