@@ -126,7 +126,7 @@ export default async function DashboardLayout({
                   <li>
                     <Link
                       className="whitespace-nowrap"
-                      href={"/admin/settings/about"}
+                      href={"/admin/bookingssettings/hours"}
                     >
                       Available Hours
                     </Link>
