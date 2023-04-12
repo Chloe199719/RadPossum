@@ -112,22 +112,15 @@ function Calendar({}: Props) {
           </div>
         </div>
       </div>
-      <div>
-        {" "}
-        {selectedHour ? (
-          <h3 className=" text-xl md:text-4xl underline">
-            You Selected:{new Date(selectedHour).toLocaleString()}
-          </h3>
-        ) : null}
-      </div>
+
       <button
         disabled={!selectedHour ? true : mutation.isLoading}
         onClick={() => {
           mutation.mutate({ selectedDate: selectedHour! });
         }}
-        className="btn w-full"
+        className="btn w-full text-lg"
       >
-        Block
+        Block {selectedHour ? `${new Date(selectedHour).toLocaleString()}` : ""}
       </button>
     </div>
   );
