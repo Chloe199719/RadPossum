@@ -90,8 +90,8 @@ function Calendar({}: Props) {
               availableHours?.map((e, i) => {
                 return (
                   <button
-                    className={`btn bg-white px-7 text-base font-sans text-gray-900 hover:text-white ${
-                      selected === i && `bg-slate-400`
+                    className={`btn  px-7 text-base font-sans text-gray-900 hover:text-white ${
+                      selected === i ? "bg-slate-400" : "bg-white"
                     }`}
                     onClick={() => {
                       setSelectedHour(e);
