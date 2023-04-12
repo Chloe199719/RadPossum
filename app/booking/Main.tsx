@@ -137,11 +137,10 @@ function Main({ paypalID }: Props) {
           <div className="grid grid-rows-4 grid-flow-col gap-2 p-2 flex-1">
             {availableHours?.length !== 0 ? (
               availableHours?.map((e, i) => {
-                console.log(selected === i);
                 return (
                   <button
-                    className={`btn bg-white px-7 text-base font-sans text-gray-900 hover:text-white ${
-                      selected === i && `bg-slate-400`
+                    className={`btn  px-7 text-base font-sans text-gray-900 hover:text-white ${
+                      selected === i ? `bg-slate-400` : `bg-white`
                     }`}
                     onClick={() => {
                       setSelectedHour(e);

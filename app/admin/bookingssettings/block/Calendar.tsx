@@ -24,7 +24,7 @@ function Calendar({}: Props) {
   // Sets How many Days In Advance You can Book // Also Probably Change 34 for ENV Variable
   const maxDaysDate = function () {
     const curDate = new Date();
-    curDate.setDate(curDate.getDate() + 100);
+    curDate.setDate(curDate.getDate() + 200);
     return curDate;
   };
   const fetchHours = async function (e: Date) {
