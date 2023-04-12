@@ -84,7 +84,7 @@ function Calendar({}: Props) {
         </div>
         <div>
           {" "}
-          <p>Times Displayed in Local Time</p>
+          <p className="p-2 ">Times Displayed in Local Time</p>
           <div className="grid grid-rows-4 grid-flow-col gap-2 p-2 flex-1">
             {availableHours?.length !== 0 ? (
               availableHours?.map((e, i) => {

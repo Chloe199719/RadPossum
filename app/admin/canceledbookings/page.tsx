@@ -8,7 +8,7 @@ type Props = {};
 async function fetchBookingData() {
   const data = await prismaClient.booking.findMany({
     where: {
-      completed: true,
+      canceled: true,
     },
     include: {
       User: true,
