@@ -261,3 +261,7 @@ export interface FormPrice {
 export interface hourForm {
   hour: number;
 }
+
+export interface BlockBooking {
+  selectedDate: Number;
+}
