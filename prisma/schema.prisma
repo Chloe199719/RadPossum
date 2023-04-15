@@ -210,7 +210,7 @@ model shop {
   title                   String
   desc                    String
   paypal_price            String
-  stripes_ID              String
+  stripes_ID              String?
   image                   String
   privacy                 String
   duration                String

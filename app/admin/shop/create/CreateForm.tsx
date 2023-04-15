@@ -1,53 +1,37 @@
 "use client";
-import { ShopItem } from "@/types";
-import { shop } from "@prisma/client";
+import { CreateShopItem } from "@/types";
+
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-type Props = {
-  item: shop;
-};
+type Props = {};
 
-function EditForm({ item }: Props) {
-  const [title, setTitle] = useState(item.title);
-  const [desc, setDesc] = useState(item.desc);
-  const [price, setPrice] = useState(item.paypal_price);
-  const [image, setImage] = useState(item.image);
-  const [privacy, setPrivacy] = useState(item.privacy);
-  const [duration, setDuration] = useState(item.duration);
+function CreateForm({}: Props) {
   const router = useRouter();
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<any>();
+  } = useForm<CreateShopItem>();
 
   const mutation = useMutation({
-    mutationFn: async ({
-      id,
-      title,
-      description,
-      price,
-      image,
-      privacy,
-      duration,
-    }: ShopItem) => {
+    mutationFn: async (data: CreateShopItem) => {
+      console.log(data);
       return await axios({
-        url: `/api/admin/shop/update`,
-        method: `PUT`,
+        url: `/api/admin/shop/create`,
+        method: `POST`,
         data: {
-          id,
-          title,
-          desc: description,
-          paypal_price: price,
-          image,
-          privacy,
-          duration,
+          title: data.title,
+          desc: data.description,
+          paypal_price: data.price,
+          image: data.image,
+          privacy: data.privacy,
+          duration: data.duration,
         },
       });
     },
@@ -61,16 +45,8 @@ function EditForm({ item }: Props) {
     },
   });
 
-  const onSubmit: SubmitHandler<any> = () => {
-    mutation.mutate({
-      id: item.id,
-      title,
-      description: desc,
-      price,
-      image,
-      privacy,
-      duration,
-    });
+  const onSubmit: SubmitHandler<CreateShopItem> = (data) => {
+    mutation.mutate(data);
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
@@ -80,10 +56,7 @@ function EditForm({ item }: Props) {
           Title
         </label>
         <input
-          value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
+          {...register("title")}
           id="title"
           className="input"
           type="text"
@@ -98,10 +71,7 @@ function EditForm({ item }: Props) {
           Description
         </label>
         <textarea
-          value={desc}
-          onChange={(e) => {
-            setDesc(e.target.value);
-          }}
+          {...register("description")}
           rows={6}
           className="input"
           id="description"
@@ -114,10 +84,7 @@ function EditForm({ item }: Props) {
         <div className=" input-group w-full">
           <span className="bg-gray-400">Price</span>
           <input
-            value={price}
-            onChange={(e) => {
-              setPrice(e.target.value);
-            }}
+            {...register("price")}
             id="price"
             className="input flex-1 text-right p-3"
             type="number"
@@ -131,28 +98,22 @@ function EditForm({ item }: Props) {
           Image Url
         </label>
         <input
-          value={image}
-          onChange={(e) => {
-            setImage(e.target.value);
-          }}
+          {...register(`image`)}
           id="imageUrl"
           className="input"
           type="text"
         />
       </div>
       <div className="flex flex-col gap-2">
-        <label className=" label-text text-lg text-center" htmlFor="privacy">
+        <label className=" label-text text-lg text-center" htmlFor="duration">
           {" "}
           Duration
         </label>
         <select
-          value={duration}
-          onChange={(e) => {
-            setDuration(e.target.value);
-          }}
+          {...register("duration")}
           className="select w-full"
-          name="privacy"
-          id="privacy"
+          name="duration"
+          id="duration"
         >
           <option value="50min">50min</option>
           <option value="30min">30min</option>
@@ -164,10 +125,7 @@ function EditForm({ item }: Props) {
           Privacy
         </label>
         <select
-          value={privacy}
-          onChange={(e) => {
-            setPrivacy(e.target.value);
-          }}
+          {...register("privacy")}
           className="select w-full"
           name="privacy"
           id="privacy"
@@ -176,9 +134,9 @@ function EditForm({ item }: Props) {
           <option value="Public">Public</option>
         </select>
       </div>
-      <button className="btn w-full">Edit</button>
+      <button className="btn w-full">Create new Article</button>
     </form>
   );
 }
 
-export default EditForm;
+export default CreateForm;

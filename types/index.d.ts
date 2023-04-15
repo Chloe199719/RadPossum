@@ -275,3 +275,12 @@ export interface ShopItem {
   privacy: string;
   duration: string;
 }
+
+export interface CreateShopItem {
+  title: string;
+  description: string;
+  price: string;
+  image: string;
+  privacy: string;
+  duration: string;
+}
