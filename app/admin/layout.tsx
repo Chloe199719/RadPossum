@@ -99,10 +99,7 @@ export default async function DashboardLayout({
               </Link>
             </li>
             <li>
-              <Link
-                className="link link-hover text-red-600"
-                href={`/admin/shop`}
-              >
+              <Link className="link link-hover " href={`/admin/shop`}>
                 Shop
               </Link>
             </li>
