@@ -19,7 +19,7 @@ function Items({ shop }: Props) {
       <td>{shop.duration}</td>
 
       <td>
-        <Actions />
+        <Actions shop={shop} />
       </td>
     </tr>
   );
