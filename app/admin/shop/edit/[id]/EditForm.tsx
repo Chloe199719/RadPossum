@@ -1,6 +1,12 @@
 "use client";
+import { ShopItem } from "@/types";
 import { shop } from "@prisma/client";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 type Props = {
   item: shop;
@@ -13,9 +19,60 @@ function EditForm({ item }: Props) {
   const [image, setImage] = useState(item.image);
   const [privacy, setPrivacy] = useState(item.privacy);
   const [duration, setDuration] = useState(item.duration);
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<any>();
 
+  const mutation = useMutation({
+    mutationFn: async ({
+      id,
+      title,
+      description,
+      price,
+      image,
+      privacy,
+      duration,
+    }: ShopItem) => {
+      return await axios({
+        url: `/api/admin/shop/update`,
+        method: `PUT`,
+        data: {
+          id,
+          title,
+          desc: description,
+          paypal_price: price,
+          image,
+          privacy,
+          duration,
+        },
+      });
+    },
+    onSuccess: () => {
+      toast.success(`Product updated`);
+      router.push(`/admin/shop`);
+    },
+    onError: () => {
+      toast.error(`Error updating product`);
+    },
+  });
+
+  const onSubmit: SubmitHandler<any> = () => {
+    mutation.mutate({
+      id: item.id,
+      title,
+      description: desc,
+      price,
+      image,
+      privacy,
+      duration,
+    });
+  };
   return (
-    <form className="w-full space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
       <div className="flex flex-col gap-2">
         {" "}
         <label className=" label-text text-lg text-center" htmlFor="title">
@@ -72,14 +129,30 @@ function EditForm({ item }: Props) {
         <label className=" label-text text-lg text-center" htmlFor="imageUrl">
           Image Url
         </label>
-        <input id="imageUrl" className="input" type="text" />
+        <input
+          value={image}
+          onChange={(e) => {
+            setImage(e.target.value);
+          }}
+          id="imageUrl"
+          className="input"
+          type="text"
+        />
       </div>
       <div className="flex flex-col gap-2">
         <label className=" label-text text-lg text-center" htmlFor="privacy">
           {" "}
           Duration
         </label>
-        <select className="select w-full" name="privacy" id="privacy">
+        <select
+          value={duration}
+          onChange={(e) => {
+            setDuration(e.target.value);
+          }}
+          className="select w-full"
+          name="privacy"
+          id="privacy"
+        >
           <option value="50min">50min</option>
           <option value="30min">30min</option>
         </select>
@@ -89,7 +162,15 @@ function EditForm({ item }: Props) {
           {" "}
           Privacy
         </label>
-        <select className="select w-full" name="privacy" id="privacy">
+        <select
+          value={privacy}
+          onChange={(e) => {
+            setPrivacy(e.target.value);
+          }}
+          className="select w-full"
+          name="privacy"
+          id="privacy"
+        >
           <option value="Private">Private</option>
           <option value="Public">Public</option>
         </select>

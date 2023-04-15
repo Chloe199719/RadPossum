@@ -6,7 +6,11 @@ type Props = {};
 
 async function fetchShop() {
   try {
-    const res = await prismaClient.shop.findMany({});
+    const res = await prismaClient.shop.findMany({
+      orderBy: {
+        title: "asc",
+      },
+    });
     return res;
   } catch (error) {
     return null;

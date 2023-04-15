@@ -265,3 +265,13 @@ export interface hourForm {
 export interface BlockBooking {
   selectedDate: Number;
 }
+
+export interface ShopItem {
+  id: string;
+  title: string;
+  description: string;
+  price: string;
+  image: string;
+  privacy: string;
+  duration: string;
+}
