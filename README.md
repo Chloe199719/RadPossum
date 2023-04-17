@@ -1,12 +1,16 @@
 # RadPossum
 
-RadPossum is a Next.js application that provides a platform for [description of your app's purpose or functionality]. It includes features such as:
+This is an eCommerce website project for voice training that includes a booking system, a shop, a user dashboard, and an admin dashboard. The website allows users to book voice training appointments, access their appointments and teacher's notes from past appointments through the user dashboard, and allows admin users to manage the website content, user information, and appointments through the admin dashboard.
 
-- User authentication and authorization using Next.js authentication library.
-- Integration with Stripe for handling payments.
-- Markdown editor for creating and editing content.
-- Email notification using nodemailer for sending emails.
-- Social media icons for easy sharing and social media integration.
+## Usage
+
+Users can access the website and browse the shop, book voice training appointments, and view their appointments and teacher's notes from past appointments through the user dashboard.
+
+Admin users can access the admin dashboard to manage website content, user information, and appointments. They can also view and manage orders placed by users through the shop.
+
+Users can make payments for voice training appointments using PayPal or Stripe payment gateways integrated into the website.
+
+Email notifications are sent to users and admins for appointment confirmation, cancellation, and order notifications using the configured nodemailer settings.
 
 ## Installation
 
