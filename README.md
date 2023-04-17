@@ -26,13 +26,15 @@ cd RadPossum
 
 3. Install the dependencies:
 
-```npm install
+```
+npm install
 
 ```
 
 4. Start the development server:
 
-```npm run dev
+```
+npm run dev
 
 ```
 
@@ -58,4 +60,4 @@ RadPossum uses the following main dependencies:
 - [react-simplemde-editor](https://www.npmjs.com/package/react-simplemde-editor) - A wrapper around the SimpleMDE Markdown editor for use in React applications.
 - [react-social-icons](https://www.npmjs.com/package/react-social-icons) - A library for displaying social media icons in React applications.
 - [stripe](https://www.npmjs.com/package/stripe) - Stripe's official Node.js library for interacting with their APIs.
-- [typescript](https://www.npmjs.com/package/typescript) - A typed superset of JavaScript that
+- [typescript](https://www.npmjs.com/package/typescript) - A typed superset of JavaScript that compiles to plain JavaScript.
