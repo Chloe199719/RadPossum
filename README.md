@@ -1,45 +1,61 @@
-This the repository of the RAD Posum Website
-## Technologys Used
-```
-Next.js
-React.js
-TailwindCss
-DaisyUI
-Prisma
-PostgreSQL
+# RadPossum
+
+RadPossum is a Next.js application that provides a platform for [description of your app's purpose or functionality]. It includes features such as:
+
+- User authentication and authorization using Next.js authentication library.
+- Integration with Stripe for handling payments.
+- Markdown editor for creating and editing content.
+- Email notification using nodemailer for sending emails.
+- Social media icons for easy sharing and social media integration.
+
+## Installation
+
+To get started with RadPossum, follow these steps:
+
+1. Clone this repository to your local machine:
 
 ```
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+git clone https://github.com/your-username/RadPossum.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Change into the RadPossum directory:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+cd RadPossum
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+3. Install the dependencies:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```
 
-## Learn More
+4. Start the development server:
 
-To learn more about Next.js, take a look at the following resources:
+```npm run dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+5. Open your web browser and go to [http://localhost:3000](http://localhost:3000) to see RadPossum running locally.
 
-## Deploy on Vercel
+## Dependencies
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+RadPossum uses the following main dependencies:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [@next-auth/prisma-adapter](https://www.npmjs.com/package/@next-auth/prisma-adapter) - Next.js adapter for Prisma, a modern database toolkit for Node.js.
+- [@prisma/client](https://www.npmjs.com/package/@prisma/client) - Prisma's client library for connecting to databases from Node.js applications.
+- [@stripe/stripe-js](https://www.npmjs.com/package/@stripe/stripe-js) - Stripe's JavaScript library for client-side payment processing.
+- [@uiw/react-md-editor](https://www.npmjs.com/package/@uiw/react-md-editor) - A markdown editor for React that allows users to edit and preview markdown content.
+- [axios](https://www.npmjs.com/package/axios) - A promise-based HTTP client for making API requests.
+- [next](https://www.npmjs.com/package/next) - A popular framework for building server-rendered React applications.
+- [next-auth](https://www.npmjs.com/package/next-auth) - A complete authentication solution for Next.js applications.
+- [nodemailer](https://www.npmjs.com/package/nodemailer) - A module for sending emails using Node.js.
+- [react](https://www.npmjs.com/package/react) - A JavaScript library for building user interfaces.
+- [react-dom](https://www.npmjs.com/package/react-dom) - The entry point for using React with the DOM.
+- [react-hook-form](https://www.npmjs.com/package/react-hook-form) - A library for managing form state and validation in React applications.
+- [react-icons](https://www.npmjs.com/package/react-icons) - A collection of popular icons for React applications.
+- [react-markdown](https://www.npmjs.com/package/react-markdown) - A component for rendering Markdown as React components.
+- [react-simplemde-editor](https://www.npmjs.com/package/react-simplemde-editor) - A wrapper around the SimpleMDE Markdown editor for use in React applications.
+- [react-social-icons](https://www.npmjs.com/package/react-social-icons) - A library for displaying social media icons in React applications.
+- [stripe](https://www.npmjs.com/package/stripe) - Stripe's official Node.js library for interacting with their APIs.
+- [typescript](https://www.npmjs.com/package/typescript) - A typed superset of JavaScript that
