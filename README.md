@@ -28,14 +28,12 @@ cd RadPossum
 
 ```
 npm install
-
 ```
 
 4. Start the development server:
 
 ```
 npm run dev
-
 ```
 
 5. Open your web browser and go to [http://localhost:3000](http://localhost:3000) to see RadPossum running locally.
