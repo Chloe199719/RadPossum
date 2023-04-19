@@ -39,7 +39,6 @@ function CommentProvider({ children, postID }: Props) {
       return fetchComments(stateRef.current as string);
     },
   });
-
   const commentsByParentI = useMemo(() => {
     if (!comments.isSuccess) return {};
     const group: any = {};

@@ -142,6 +142,34 @@ export default async function DashboardLayout({
             <li>
               <div className="dropdown">
                 <label tabIndex={0} className="link link-hover m-1">
+                  Users
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-fit"
+                >
+                  <li>
+                    <Link
+                      className="whitespace-nowrap"
+                      href={"/admin/users/search"}
+                    >
+                      Search User
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="whitespace-nowrap"
+                      href={"/admin/settings/about"}
+                    >
+                      User list
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <div className="dropdown">
+                <label tabIndex={0} className="link link-hover m-1">
                   Settings
                 </label>
                 <ul
