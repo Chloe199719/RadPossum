@@ -17,7 +17,6 @@ export default async function handler(
     res.status(400).json({ message: `Bad Request` });
     return;
   }
-  console.log(req.query.searchTerm);
 
   try {
     const token = getCookie(cookie, { req, res });
@@ -47,7 +46,7 @@ export default async function handler(
         ],
       },
     });
-    console.log(search);
+
     res.status(200).json(search);
     return;
   } catch (error: any) {
