@@ -5,16 +5,28 @@ import React from "react";
 
 type Props = {
   user: UserALL;
+  discord: string;
 };
 
-function UserInfo({ user }: Props) {
+function UserInfo({ user, discord }: Props) {
   return (
-    <div className="grid grid-cols-4 place-items-center gap-4">
-      <div>{user.name}</div>
-      <div>{user.email}</div>
-      <div>{user.discord}</div>
-      <div className=" ">
-        <Image src={user.image!} width={60} height={60} alt="User Info" />
+    <div className="flex justify-center item gap-2">
+      <div className="">
+        <Image
+          className="rounded-full"
+          src={user.image!}
+          width={100}
+          height={100}
+          alt="User Info"
+        />
+      </div>
+      <div className="flex flex-col">
+        <div>
+          {user.name}{" "}
+          <span className=" text-sm text-gray-500">{user.discord}</span>
+        </div>
+        <div>{user.email}</div>
+        <div>{discord}</div>
       </div>
     </div>
   );
