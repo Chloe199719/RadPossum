@@ -55,6 +55,7 @@ export const Auth = {
         where: { id: message.user.id },
         data: {
           discord: message.profile.id as string,
+          image: message.profile.image as string,
         },
       });
     },

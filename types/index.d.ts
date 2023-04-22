@@ -1,4 +1,10 @@
-import { booking, User } from "@prisma/client";
+import {
+  booking,
+  comments as dbComments,
+  lessons,
+  User,
+  LessonCodes,
+} from "@prisma/client";
 
 export type lessons1 = {
   id: string;
@@ -283,4 +289,19 @@ export interface CreateShopItem {
   image: string;
   privacy: string;
   duration: string;
+}
+
+export interface UserALL {
+  id: string;
+  name: string | null;
+  email: string | null;
+  emailVerified: boolean | null;
+  image: string | null;
+  discriminator: string | null;
+  isAdmin: boolean;
+  comments: dbComments[];
+  lessons: lessons[];
+  booking: booking[];
+  LessonCodes: LessonCodes[];
+  discord: string | null;
 }

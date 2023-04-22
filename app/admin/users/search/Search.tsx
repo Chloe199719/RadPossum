@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 import React, { useState } from "react";
-import useDebounce from "./useDebounce";
+import useDebounce from "../../../../components/hooks/useDebounce";
 import { User } from "@prisma/client";
 import UserItem from "./UserItem";
 
