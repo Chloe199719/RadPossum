@@ -49,12 +49,11 @@ async function Page({ params }: Props) {
       </div>
     );
   const discordInfo = await Account(user.discord!);
-  console.log(discordInfo);
 
   return (
     <div className="w-full flex flex-col gap-6">
       <h2 className="text-3xl text-center">User Page : {user.name}</h2>
-      <div className="w-full space-y-6  py-4 rounded-lg">
+      <div className="flex flex-col items-center space-y-6  py-4 rounded-lg">
         <h3 className="text-center text-3xl">User Info</h3>
         <UserInfo
           user={user}

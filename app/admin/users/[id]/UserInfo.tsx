@@ -10,7 +10,7 @@ type Props = {
 
 function UserInfo({ user, discord }: Props) {
   return (
-    <div className="flex justify-center item gap-2">
+    <div className="flex justify-center items-center gap-2 bg-gradient-to-t from-[#30bead]/30 to-[#ff7e84]/40 px-6 py-10 rounded-lg">
       <div className="">
         <Image
           className="rounded-full"
@@ -20,7 +20,7 @@ function UserInfo({ user, discord }: Props) {
           alt="User Info"
         />
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col ">
         <div>
           {user.name}{" "}
           <span className=" text-sm text-gray-500">{user.discord}</span>
