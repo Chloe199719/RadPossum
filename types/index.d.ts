@@ -312,3 +312,14 @@ export interface LessonEditForm {
   homework: string;
   recording: string;
 }
+
+export interface LessonCodesUser {
+  id: string;
+  public_or_private: string;
+  time: string;
+  userID: string;
+  isValid: boolean;
+  timeCreated: number;
+  used: boolean;
+  code: string;
+}

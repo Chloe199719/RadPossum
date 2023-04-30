@@ -3,6 +3,7 @@ import React from "react";
 import UserInfo from "./UserInfo";
 import axios from "axios";
 import Lessons from "./Lessons";
+import LessonCodes from "./LessonCodes";
 
 type Props = {
   params: {
@@ -17,9 +18,21 @@ async function getUser(id: string) {
       },
       include: {
         comments: true,
-        lessons: true,
-        LessonCodes: true,
-        booking: true,
+        lessons: {
+          orderBy: {
+            time: "desc",
+          },
+        },
+        LessonCodes: {
+          orderBy: {
+            timeCreated: "desc",
+          },
+        },
+        booking: {
+          orderBy: {
+            time: "desc",
+          },
+        },
       },
     });
 
@@ -50,6 +63,18 @@ async function Page({ params }: Props) {
       </div>
     );
   const discordInfo = await Account(user.discord!);
+  const codes = user.LessonCodes.map((code) => {
+    return {
+      id: code.id,
+      code: code.code,
+      used: code.used,
+      public_or_private: code.public_or_private,
+      time: code.time,
+      isValid: code.isValid,
+      timeCreated: code.timeCreated.getTime(),
+      userID: code.userID,
+    };
+  });
 
   return (
     <div className="w-full flex flex-col gap-6">
@@ -65,6 +90,7 @@ async function Page({ params }: Props) {
         <Lessons lesson={user.lessons} />
         <hr className="w-full h-[2px] bg-gray-600 rounded-3xl" />
         <h3 className="text-center text-3xl">Codes</h3>{" "}
+        <LessonCodes codes={codes} />
       </div>
     </div>
   );
