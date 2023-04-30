@@ -2,6 +2,7 @@ import prismaClient from "@/lib/prisma/prismaClient";
 import React from "react";
 import UserInfo from "./UserInfo";
 import axios from "axios";
+import Lessons from "./Lessons";
 
 type Props = {
   params: {
@@ -53,12 +54,15 @@ async function Page({ params }: Props) {
   return (
     <div className="w-full flex flex-col gap-6">
       <h2 className="text-3xl text-center">User Page : {user.name}</h2>
-      <div className="flex flex-col items-center space-y-6  py-4 rounded-lg">
+      <div className="flex flex-col items-center gap-6  py-4 rounded-lg">
         <h3 className="text-center text-3xl">User Info</h3>
         <UserInfo
           user={user}
           discord={`${discordInfo.username}#${discordInfo.discriminator}`}
         />
+        <hr className="w-full h-[2px] bg-gray-600 rounded-3xl" />
+        <h3 className="text-center text-3xl">Lessons</h3>{" "}
+        <Lessons lesson={user.lessons} />
       </div>
     </div>
   );

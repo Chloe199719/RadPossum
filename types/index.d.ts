@@ -299,7 +299,7 @@ export interface UserALL {
   image: string | null;
   discriminator: string | null;
   isAdmin: boolean;
-  comments: dbComments[];
+  // comments: dbComments[];
   lessons: lessons[];
   booking: booking[];
   LessonCodes: LessonCodes[];
