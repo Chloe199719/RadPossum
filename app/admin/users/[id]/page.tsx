@@ -63,6 +63,8 @@ async function Page({ params }: Props) {
         <hr className="w-full h-[2px] bg-gray-600 rounded-3xl" />
         <h3 className="text-center text-3xl">Lessons</h3>{" "}
         <Lessons lesson={user.lessons} />
+        <hr className="w-full h-[2px] bg-gray-600 rounded-3xl" />
+        <h3 className="text-center text-3xl">Codes</h3>{" "}
       </div>
     </div>
   );

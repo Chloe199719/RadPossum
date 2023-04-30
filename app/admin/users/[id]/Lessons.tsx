@@ -3,6 +3,7 @@ import { lessons } from "@prisma/client";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useState } from "react";
+import ActionsLessons from "./ActionsLessons";
 const Time = dynamic(() => import("./GeTTime"), {
   ssr: false,
 });
@@ -41,7 +42,9 @@ function Lessons({ lesson }: Props) {
                     <td>{lesson.notes}</td>
                     <td>{lesson.homework}</td>
                     <Time time={lesson.time} />
-                    <td>123124</td>
+                    <td className="flex justify-center items-center">
+                      <ActionsLessons id={lesson.id} />{" "}
+                    </td>
                   </tr>
                 );
               } else {

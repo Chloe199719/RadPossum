@@ -305,3 +305,10 @@ export interface UserALL {
   LessonCodes: LessonCodes[];
   discord: string | null;
 }
+
+export interface LessonEditForm {
+  title: string;
+  notes: string;
+  homework: string;
+  recording: string;
+}
