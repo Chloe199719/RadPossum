@@ -119,7 +119,12 @@ function LessonEditingForm({ lesson }: Props) {
           />
         </label>
       </div>
-      <button className="w-full btn btn-primary mt-3">Update</button>
+      <button
+        disabled={mutation.isLoading}
+        className="w-full btn btn-primary mt-3"
+      >
+        Update
+      </button>
     </form>
   );
 }

@@ -323,3 +323,8 @@ export interface LessonCodesUser {
   used: boolean;
   code: string;
 }
+
+export interface LessonCodesGift {
+  privacy: string;
+  duration: string;
+}

@@ -1,14 +1,40 @@
 "use client";
 import { LessonCodesUser } from "@/types";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { Button } from "flowbite-react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 const Time = dynamic(() => import("./GeTTime"), {
   ssr: false,
 });
 type Props = {
   codes: LessonCodesUser[];
+  userID: string;
 };
-function LessonCodes({ codes }: Props) {
+function LessonCodes({ codes, userID }: Props) {
+  // const router = useRouter();
+  // const mutation = useMutation({
+  //   mutationFn: async (userID: string) => {
+  //     return await axios({
+  //       url: `/api/admin/users/code/gift`,
+  //       method: `POST`,
+  //       data: {
+  //         userID: userID,
+  //       },
+  //     });
+  //   },
+  //   onSuccess: () => {
+  //     toast.success(`Code Created`);
+  //     router.refresh();
+  //   },
+  //   onError: () => {
+  //     toast.error(`Error updating product`);
+  //   },
+  // });
   const [page, setPage] = useState(1);
   return (
     <div className="flex flex-col w-full gap-3 items-center">
@@ -69,6 +95,9 @@ function LessonCodes({ codes }: Props) {
           »
         </button>
       </div>
+      <Link className="w-full" href={`/admin/users/${userID}/codes/gift/`}>
+        <button className="btn w-full">Gift Code to User</button>
+      </Link>
     </div>
   );
 }
