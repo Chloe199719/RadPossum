@@ -40,7 +40,7 @@ export default async function handler(
       },
     });
     const email = await giftAdminCode(hash, createdCode.user.email!);
-    console.log(createdCode);
+
     res.status(200).json({ message: `Code Created` });
     return;
   } catch (error: any) {
