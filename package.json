@@ -31,7 +31,7 @@
     "flowbite-react": "^0.3.8",
     "framer-motion": "^9.0.1",
     "micro": "^10.0.1",
-    "next": "^13.2.4",
+    "next": "^13.4.0",
     "next-auth": "^4.20.1",
     "next-remove-imports": "^1.0.10",
     "nextjs-cors": "^2.1.2",
