@@ -217,7 +217,7 @@ model shop {
   paypal_price            String
   stripes_ID              String?
   image                   String
-  privacy                 String
+  privacy                 Privacy @default(Public)
   duration                String
   paypal_order_codes_logs paypal_order_codes_logs[]
 }

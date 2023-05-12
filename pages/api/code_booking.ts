@@ -53,7 +53,7 @@ export default async function handler(
       time: body.time.toString(),
 
       client: userId.userID,
-      locale: codeRes.locale,
+      locale: codeRes.locale as "Public" | "Private",
       bookedTime: codeRes.time,
       discordID: body.discordID,
       message: body.message,

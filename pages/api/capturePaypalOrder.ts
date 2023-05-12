@@ -45,7 +45,7 @@ export default async function handler(
     const lessonBook = await bookingLesson({
       time: req.body.time.toString(),
       client: userId.userID,
-      locale: itemData?.privacy!,
+      locale: itemData?.privacy as "Public" | "Private",
 
       bookedTime: itemData?.duration!,
       discordID: userId.discord!,

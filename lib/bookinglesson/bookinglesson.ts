@@ -4,7 +4,7 @@ import prismaClient from "../prisma/prismaClient";
 type info = {
   time: string;
   client: string;
-  locale: string; // public or  Private
+  locale: "Public" | "Private"; // public or  Private
   bookedTime: string;
   discordID: string;
   message: string;

@@ -166,7 +166,7 @@ function EditForm({ item }: Props) {
         <select
           value={privacy}
           onChange={(e) => {
-            setPrivacy(e.target.value);
+            setPrivacy(e.target.value as "Private" | "Public");
           }}
           className="select w-full"
           name="privacy"
