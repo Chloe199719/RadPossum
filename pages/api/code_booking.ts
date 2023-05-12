@@ -32,9 +32,9 @@ export default async function handler(
     res.status(405).end("Method Not Allowed");
     return;
   }
-  const body: body = JSON.parse(req.body);
+  // const body: body = JSON.parse(req.body);
   // Checks if all Required Information Got Passed in the Request
-  if (!body.time || !body.code || !body.discordID) {
+  if (!req.body.time || !req.body.code) {
     res
       .status(400)
       .json({ message: `Bad Request a Required Parameter is missing` });
@@ -44,19 +44,19 @@ export default async function handler(
     const token = getCookie(cookie, { req, res });
     const userId = await fetchUserID(token as string);
     // Return a Resolved Promise if code is valid else throws a Rejected Promise
-    const codeRes: codeRes = await checkCode(body.code);
+    const codeRes: codeRes = await checkCode(req.body.code);
     // Return a Resolved Promise if time doesn't exist yet else throws a Rejected Promise // Server Check if time Exists
-    const checkTime = await checkTimeExist(body.time.toString());
+    const checkTime = await checkTimeExist(req.body.time.toString());
 
     //Books Lesson
     await bookingLesson({
-      time: body.time.toString(),
+      time: req.body.time.toString(),
 
       client: userId.userID,
       locale: codeRes.locale as "Public" | "Private",
       bookedTime: codeRes.time,
-      discordID: body.discordID,
-      message: body.message,
+      discordID: userId.discord!,
+      message: req.body.message,
       email: userId.email!,
     });
 

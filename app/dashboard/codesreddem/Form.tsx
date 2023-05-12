@@ -4,7 +4,6 @@ import { toast } from "react-hot-toast";
 
 interface formData {
   code: string;
-  discordID: string;
   message: string;
 }
 
@@ -18,11 +17,12 @@ function Form({ time }: Props) {
     try {
       const test = await fetch("/api/code_booking", {
         method: `POST`,
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
-          clientEmail: session?.user?.email,
-
           time: time,
-          discordID: data.discordID, // test data
+
           message: data.message, //test data
           code: data.code, // test date
         }),
@@ -33,6 +33,7 @@ function Form({ time }: Props) {
       }
       const res = await test.json();
       toast.success(res.message, { duration: 6000 });
+      reset();
     } catch (error: any) {
       toast.error(error.message, { duration: 6000 });
     }
@@ -40,28 +41,34 @@ function Form({ time }: Props) {
   return (
     <form
       onSubmit={handleSubmit(Submit)}
-      className="flex flex-col items-center justify-center gap-2"
+      className="flex flex-col items-center justify-center gap-2 w-full"
     >
-      <div className="flex gap-2">
+      <div className="flex flex-col gap-2 w-full">
         <div>
-          <label htmlFor="code">Your Code:</label>
-          <input id="code" type="text" required {...register("code")} />
-        </div>{" "}
-        <div>
-          <label htmlFor="discordID">DiscordID:</label>
+          <label className="text-center" htmlFor="code">
+            Your Code:
+          </label>
           <input
-            id="discordID"
+            className="w-full input "
+            id="code"
             type="text"
             required
-            {...register(`discordID`)}
+            {...register("code")}
           />
         </div>{" "}
         <div>
-          <label htmlFor="message">Message:</label>
-          <input id="message" type="text" {...register(`message`)} />
+          <label className="text-center" htmlFor="message">
+            Message:
+          </label>
+          <input
+            className="w-full input "
+            id="message"
+            type="text"
+            {...register(`message`)}
+          />
         </div>
       </div>
-      <button className=" bg-blue-600 px-6 py-2 rounded-sm">Book</button>
+      <button className="btn w-full">Book</button>
     </form>
   );
 }
