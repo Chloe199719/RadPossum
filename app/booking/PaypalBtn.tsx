@@ -15,7 +15,6 @@ type Props = {
 function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
   const discordIDRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
-  const [discordID, setDiscordID] = useState(``);
   const router = useRouter();
   const getProdID = function () {
     let id = "";
@@ -76,44 +75,19 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
       return Promise.reject(`Error`);
     }
   };
-  const check = function () {
-    if (time && discordID.trim()) {
-      return false;
-    } else {
-      return true;
-    }
-  };
+
   return (
-    <form className="flex flex-col gap-2">
-      <div className="flex flex-col gap-2 w-96">
-        <div
-          className="flex flex-col
-        "
-        >
-          <label htmlFor="discordID" className="label text-red-600">
-            Required*
-          </label>
-          <input
-            className="input"
-            type="text"
-            value={discordID}
-            onChange={(e) => {
-              setDiscordID(e.target.value);
-            }}
-            id="discordID"
-            ref={discordIDRef}
-            placeholder="Discord ID"
-            required
-          />
-        </div>
+    <form className="flex flex-col gap-2 w-full max-w-[750px] ">
+      <div className="flex flex-col gap-2 w-full">
         <textarea id="message" placeholder="Message" ref={messageRef} />
       </div>
       <PayPalButtons
+        className="w-full flex justify-center"
         onError={(e) => {
           toast.error(`error ${e.message}`);
         }}
-        disabled={check()}
-        forceReRender={[time, discordID]}
+        disabled={time === 0}
+        forceReRender={[time]}
         fundingSource="paypal"
         style={{ shape: `pill`, label: `buynow`, height: 55 }}
         createOrder={createOrder}
