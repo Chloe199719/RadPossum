@@ -150,7 +150,7 @@ export interface CancelBooking {
 }
 
 export interface LessonCode {
-  public_or_private: string;
+  public_or_private: "Public" | "Private";
   time: string;
   userID: string;
 }
