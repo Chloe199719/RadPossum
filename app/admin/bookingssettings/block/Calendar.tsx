@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import toast from "react-hot-toast";
 const CalendarApp = dynamic(() => import("react-calendar"), {
   ssr: false,
@@ -69,18 +69,20 @@ function Calendar({}: Props) {
     <div className="flex flex-col items-center gap-3">
       <div className="flex ">
         <div>
-          <CalendarApp
-            onChange={(e: Date) => {
-              setDate(new Date(e));
-            }}
-            value={data}
-            minDetail="month"
-            onClickDay={(e: Date) => {
-              fetchHours(e), setSelected(9999);
-            }}
-            minDate={minDaysDate()}
-            maxDate={maxDaysDate()}
-          />
+          <Suspense fallback={<div> Loading...</div>}>
+            <CalendarApp
+              onChange={(e: Date) => {
+                setDate(new Date(e));
+              }}
+              value={data}
+              minDetail="month"
+              onClickDay={(e: Date) => {
+                fetchHours(e), setSelected(9999);
+              }}
+              minDate={minDaysDate()}
+              maxDate={maxDaysDate()}
+            />
+          </Suspense>
         </div>
         <div>
           {" "}

@@ -100,6 +100,10 @@ function LessonCodes({ codes, userID }: Props) {
                           : "bg-yellow-400"
                       }`}
                       onClick={() => {
+                        if (code.used || !code.isValid)
+                          return toast.error(
+                            `Cannot change privacy of used or invalid code`
+                          );
                         mutation.mutate({
                           route: "privacy",
                           currentValue: code.public_or_private,
@@ -114,6 +118,10 @@ function LessonCodes({ codes, userID }: Props) {
                         code.time === "50min" ? " bg-rose-400" : "bg-purple-400"
                       }`}
                       onClick={() => {
+                        if (code.used || !code.isValid)
+                          return toast.error(
+                            `Cannot change duration of used or invalid code`
+                          );
                         mutation.mutate({
                           route: "duration",
                           currentValue: code.time,
