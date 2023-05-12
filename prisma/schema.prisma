@@ -162,7 +162,7 @@ model booking {
   id                String             @id @unique @default(cuid())
   time              String
   transactionID     String?
-  public_or_private String
+  public_or_private Privacy @default(Public)
   User              User               @relation(fields: [userID], references: [id], onDelete: Cascade)
   userID            String
   canceled          Boolean            @default(false)

@@ -4,6 +4,7 @@ import UserInfo from "./UserInfo";
 import axios from "axios";
 import Lessons from "./Lessons";
 import LessonCodes from "./LessonCodes";
+import Bookings from "./Bookings";
 
 type Props = {
   params: {
@@ -17,7 +18,6 @@ async function getUser(id: string) {
         id: id,
       },
       include: {
-        comments: true,
         lessons: {
           orderBy: {
             time: "desc",
@@ -93,6 +93,7 @@ async function Page({ params }: Props) {
         <LessonCodes codes={codes} userID={user.id} />
         <hr className="w-full h-[2px] bg-gray-600 rounded-3xl" />
         <h3 className="text-center text-3xl">Bookings</h3>{" "}
+        <Bookings bookings={user.booking} />
       </div>
     </div>
   );

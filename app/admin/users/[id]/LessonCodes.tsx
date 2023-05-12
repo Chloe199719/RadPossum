@@ -2,7 +2,6 @@
 import { LessonCodesUser } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { Button } from "flowbite-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -67,7 +66,9 @@ function LessonCodes({ codes, userID }: Props) {
                   <tr key={code.id}>
                     <td>{code.code}</td>
                     <td
-                      className="cursor-pointer link-hover link"
+                      className={`cursor-pointer link-hover link ${
+                        code.used ? " bg-red-400" : "bg-green-400"
+                      } `}
                       onClick={() => {
                         mutation.mutate({
                           route: "used",
@@ -79,7 +80,9 @@ function LessonCodes({ codes, userID }: Props) {
                       {code.used ? "Used" : "Not Used"}
                     </td>
                     <td
-                      className="cursor-pointer link-hover link"
+                      className={`cursor-pointer link-hover link ${
+                        code.isValid ? " bg-green-400" : "bg-red-400"
+                      }`}
                       onClick={() => {
                         mutation.mutate({
                           route: "valid",
@@ -91,7 +94,11 @@ function LessonCodes({ codes, userID }: Props) {
                       {code.isValid ? "Valid" : "Not Valid"}
                     </td>
                     <td
-                      className="cursor-pointer link-hover link"
+                      className={`cursor-pointer link-hover link ${
+                        code.public_or_private === "Public"
+                          ? " bg-blue-400"
+                          : "bg-yellow-400"
+                      }`}
                       onClick={() => {
                         mutation.mutate({
                           route: "privacy",
@@ -103,7 +110,9 @@ function LessonCodes({ codes, userID }: Props) {
                       {code.public_or_private}
                     </td>
                     <td
-                      className="cursor-pointer link-hover link"
+                      className={`cursor-pointer link-hover link ${
+                        code.time === "50min" ? " bg-rose-400" : "bg-purple-400"
+                      }`}
                       onClick={() => {
                         mutation.mutate({
                           route: "duration",
