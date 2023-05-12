@@ -73,7 +73,7 @@ export interface UpcomingBookings {
   id: string;
   time: string;
   transactionID: string | null;
-  public_or_private: string;
+  public_or_private: "Public" | "Private";
   userID: string;
   canceled: boolean;
   bookedTime: string;
@@ -89,7 +89,7 @@ export interface Booking {
   id: string;
   time: string;
   transactionID: string | null;
-  public_or_private: string;
+  public_or_private: "Public" | "Private";
   userID: string;
   canceled: boolean;
   bookedTime: string;
@@ -315,7 +315,7 @@ export interface LessonEditForm {
 
 export interface LessonCodesUser {
   id: string;
-  public_or_private: string;
+  public_or_private: "Public" | "Private";
   time: string;
   userID: string;
   isValid: boolean;
