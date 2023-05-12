@@ -325,6 +325,6 @@ export interface LessonCodesUser {
 }
 
 export interface LessonCodesGift {
-  privacy: string;
-  duration: string;
+  privacy: "public" | "private";
+  duration: "30min" | "50min";
 }

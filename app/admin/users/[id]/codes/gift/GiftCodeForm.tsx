@@ -69,8 +69,8 @@ function GiftCodeForm({ id }: Props) {
             className="select select-bordered w-full  "
             {...register("duration")}
           >
-            <option value="Public">50min</option>
-            <option value="Private">30min</option>
+            <option value="50min">50min</option>
+            <option value="30min">30min</option>
           </select>
         </label>
       </div>

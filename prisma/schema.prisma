@@ -139,12 +139,17 @@ model Audio {
   url      String
   resource Resources[]
 }
+enum Privacy{
+  Public 
+  Private
+
+}
 
 model LessonCodes {
   id                      String                   @id @unique @default(cuid())
   code                    String                   @unique
   used                    Boolean                  @default(false)
-  public_or_private       String
+  public_or_private       Privacy  @default(Public)
   time                    String
   isValid                 Boolean                  @default(true)
   timeCreated             DateTime                 @default(now())

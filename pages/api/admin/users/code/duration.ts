@@ -1,6 +1,4 @@
 import cookie from "@/lib/cookie";
-import giftAdminCode from "@/lib/email/Admingiftcode";
-import Hash from "@/lib/hashgenerator";
 import prismaClient from "@/lib/prisma/prismaClient";
 import fetchUserID from "@/lib/user/getUserByToken";
 import { getCookie } from "cookies-next";
@@ -9,13 +7,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
+  if (req.method !== "PUT") {
+    res.setHeader("Allow", "PUT");
     res.status(405).end("Method Not Allowed");
     return;
   }
 
-  if (!req.body.userID || !req.body.privacy || !req.body.duration) {
+  if (!req.body.value || !req.body.id) {
     res.status(400).json({ message: `Bad Request` });
     return;
   }
@@ -27,30 +25,22 @@ export default async function handler(
     if (!userId.isAdmin) {
       throw new Error("Not Admin");
     }
-    const hash: string = Hash();
-    const createdCode = await prismaClient.lessonCodes.create({
-      data: {
-        code: hash,
-        public_or_private: req.body.privacy,
-        time: req.body.duration,
-        userID: req.body.userID,
+    const code = await prismaClient.lessonCodes.update({
+      where: {
+        id: req.body.id,
       },
-      include: {
-        user: true,
+      data: {
+        time: (req.body.value as string) === "50min" ? "30min" : "50min",
       },
     });
-    console.log(createdCode, req.body);
-
-    const email = await giftAdminCode(hash, createdCode.user.email!);
-
-    res.status(200).json({ message: `Code Created` });
+    res.status(200).json({ message: `Code Update` });
     return;
   } catch (error: any) {
     if (error.status === 401 || error.message === "Not Admin") {
       res.status(401).json({ message: "Unauthorized" });
       return;
     }
-    res.status(500).json({ message: `Error Deleting Item` });
+    res.status(500).json({ message: `Error Updating Item` });
     console.log(error);
     return;
   }
