@@ -6,13 +6,18 @@ type Props = {};
 function NavBarList({}: Props) {
   return (
     <>
-      <Link className="link link-hover" href="/resources">
+      {/* <Link className="link link-hover" href="/resources">
         {" "}
         <li>RESOURCES</li>
-      </Link>
+      </Link> */}
+
       <Link className="link link-hover" href="/booking">
         {" "}
         <li className="uppercase">Booking</li>
+      </Link>
+      <Link className="link link-hover" href="/faq">
+        {" "}
+        <li>FAQ</li>
       </Link>
       <Link className="link link-hover" href="/shop">
         {" "}

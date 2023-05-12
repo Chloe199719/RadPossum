@@ -5,10 +5,9 @@ import NavBarList from "./NavBarList";
 import Modal from "../../app/Portal";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import pb from "@/lib/pocketbase";
-import dynamic from "next/dynamic";
+
 import Link from "next/link";
-const Avatar = dynamic(() => import(`./Avatar`), { ssr: false });
+import Avatar from "./Avatar";
 
 type Props = {};
 
