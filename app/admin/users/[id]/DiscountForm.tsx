@@ -12,7 +12,7 @@ type Props = {
 };
 
 interface Discount {
-  discount: number;
+  discount: string;
 }
 function DiscountForm({ discount, user }: Props) {
   const router = useRouter();
@@ -27,7 +27,7 @@ function DiscountForm({ discount, user }: Props) {
       user,
       discount,
     }: {
-      discount: number;
+      discount: string;
       user: string;
     }) => {
       return await axios({
@@ -35,7 +35,7 @@ function DiscountForm({ discount, user }: Props) {
         method: `PUT`,
         data: {
           user,
-          discount,
+          discount: parseFloat(discount),
         },
       });
     },

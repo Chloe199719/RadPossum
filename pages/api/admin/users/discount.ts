@@ -3,6 +3,7 @@ import prismaClient from "@/lib/prisma/prismaClient";
 import fetchUserID from "@/lib/user/getUserByToken";
 import { getCookie } from "cookies-next";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -19,9 +20,12 @@ export default async function handler(
   }
 
   try {
+    z.object({
+      user: z.string(),
+      discount: z.number().min(0).max(1),
+    }).parse(req.body);
     const token = getCookie(cookie, { req, res });
     const userId = await fetchUserID(token as string);
-
     if (!userId.isAdmin) {
       throw new Error("Not Admin");
     }
@@ -40,8 +44,13 @@ export default async function handler(
       res.status(401).json({ message: "Unauthorized" });
       return;
     }
-    res.status(500).json({ message: `Error Deleting Item` });
-    console.log(error);
+    if (error.name === "ZodError") {
+      res.status(400).json({ message: error.message });
+      console.log(error);
+      return;
+    }
+    res.status(500).json({ message: `Internal Server Error` });
+    // console.log(error);
     return;
   }
 }
