@@ -5,6 +5,7 @@ import axios from "axios";
 import Lessons from "./Lessons";
 import LessonCodes from "./LessonCodes";
 import Bookings from "./Bookings";
+import DiscountForm from "./DiscountForm";
 
 type Props = {
   params: {
@@ -94,6 +95,9 @@ async function Page({ params }: Props) {
         <hr className="w-full h-[2px] bg-gray-600 rounded-3xl" />
         <h3 className="text-center text-3xl">Bookings</h3>{" "}
         <Bookings bookings={user.booking} />
+        <hr className="w-full h-[2px] bg-gray-600 rounded-3xl" />
+        <h3 className="text-center text-3xl">Settings</h3>
+        <DiscountForm user={user.id} discount={user.discount} />
       </div>
     </div>
   );

@@ -56,7 +56,7 @@ model User {
   commentsOLD   commentsOLD[]
   Like          Like[]
   isAdmin       Boolean       @default(false)
-  discount     Float           @default(1)
+  discount     Float          @default(1)
 }
 
 model VerificationToken {
