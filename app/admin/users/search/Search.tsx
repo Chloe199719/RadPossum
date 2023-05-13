@@ -44,17 +44,18 @@ function Search({}: Props) {
           type="search"
         />
       </div>
-      <div className="w-full flex flex-col gap-2 border-2 border-gray-800 mx-2 px-2 py-4 rounded-lg">
-        {search.isLoading ? (
-          <p>is Loading</p>
-        ) : search.data && search.data.length !== 0 ? (
-          search.data.map((user: User) => {
-            return <UserItem key={user.id} user={user} />;
-          })
-        ) : (
-          <p>no data</p>
-        )}
-      </div>
+
+      {(search.data && search.data.length > 0) || search.isFetching ? (
+        <div className="w-full flex flex-col gap-2 border-2 border-gray-800 mx-2 px-2 py-4 rounded-lg">
+          {search.isFetching ? (
+            <p>is Loading</p>
+          ) : search.data && search.data.length !== 0 && search.isSuccess ? (
+            search.data.map((user: User) => {
+              return <UserItem key={user.id} user={user} />;
+            })
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }

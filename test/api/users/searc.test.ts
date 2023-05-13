@@ -2,18 +2,19 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 import prismaClient from "@/lib/prisma/prismaClient";
 import fetchUserID from "@/lib/user/getUserByToken";
-import handler from "../pages/api/admin/users/discount";
+import handler from "@/pages/api/admin/users/search";
 import { createMocks } from "node-mocks-http";
 
-const mockedPrismaClient = prismaClient.user.update as jest.Mock;
-jest.mock("../lib/prisma/prismaClient", () => ({
+// Explicitly type the mocks
+const mockPrismaFindMany = prismaClient.user.findMany as jest.Mock;
+jest.mock("../../../lib/prisma/prismaClient", () => ({
   user: {
-    update: jest.fn(),
+    findMany: jest.fn(),
   },
 }));
 
 const mockedFetchUserID = fetchUserID as jest.Mock;
-jest.mock("../lib/user/getUserByToken", () => jest.fn());
+jest.mock("../../../lib/user/getUserByToken", () => jest.fn());
 
 const server = setupServer();
 
@@ -22,9 +23,9 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe("handler", () => {
-  it("should return 405 when request method is not PUT", async () => {
+  it("should return 405 when request method is not GET", async () => {
     const { req, res } = createMocks({
-      method: "GET",
+      method: "POST",
     });
 
     await handler(req, res);
@@ -32,10 +33,10 @@ describe("handler", () => {
     expect(res._getStatusCode()).toBe(405);
   });
 
-  it("should return 400 when body is not correct", async () => {
+  it("should return 400 when no search term is provided", async () => {
     const { req, res } = createMocks({
-      method: "PUT",
-      body: {},
+      method: "GET",
+      query: {},
     });
 
     await handler(req, res);
@@ -43,11 +44,11 @@ describe("handler", () => {
     expect(res._getStatusCode()).toBe(400);
   });
 
-  it("should return 400 when body is partial incorrect", async () => {
+  it("should return 400 when only a simple space is provided", async () => {
     const { req, res } = createMocks({
-      method: "PUT",
-      body: {
-        user: "test",
+      method: "GET",
+      query: {
+        searchTerm: " ",
       },
     });
 
@@ -55,13 +56,12 @@ describe("handler", () => {
 
     expect(res._getStatusCode()).toBe(400);
   });
-
   it("should return 401 when user is not admin", async () => {
     mockedFetchUserID.mockResolvedValue({ isAdmin: false });
 
     const { req, res } = createMocks({
-      method: "PUT",
-      body: { user: "test", discount: 0.1 },
+      method: "GET",
+      query: { searchTerm: "test" },
     });
 
     await handler(req, res);
@@ -69,44 +69,36 @@ describe("handler", () => {
     expect(res._getStatusCode()).toBe(401);
   });
 
-  it("should return 400 when body does not pass zod validation", async () => {
+  it("should return 200 and the search results when everything is correct", async () => {
     mockedFetchUserID.mockResolvedValue({ isAdmin: true });
+    mockPrismaFindMany.mockResolvedValue([
+      { name: "test", email: "test@test.com", discord: "test" },
+    ]);
 
     const { req, res } = createMocks({
-      method: "PUT",
-      body: { user: "test", discount: -1 },
-    });
-
-    await handler(req, res);
-
-    expect(res._getStatusCode()).toBe(400);
-  });
-
-  it("should return 500 when there is an internal server error", async () => {
-    mockedFetchUserID.mockResolvedValue({ isAdmin: true });
-    mockedPrismaClient.mockRejectedValue(new Error());
-
-    const { req, res } = createMocks({
-      method: "PUT",
-      body: { user: "test", discount: 0.1 },
-    });
-
-    await handler(req, res);
-
-    expect(res._getStatusCode()).toBe(500);
-  });
-
-  it("should return 200 when request is successful", async () => {
-    mockedFetchUserID.mockResolvedValue({ isAdmin: true });
-    mockedPrismaClient.mockResolvedValue({});
-
-    const { req, res } = createMocks({
-      method: "PUT",
-      body: { user: "test", discount: 0.1 },
+      method: "GET",
+      query: { searchTerm: "test" },
     });
 
     await handler(req, res);
 
     expect(res._getStatusCode()).toBe(200);
+    expect(JSON.parse(res._getData())).toEqual([
+      { name: "test", email: "test@test.com", discord: "test" },
+    ]);
+  });
+
+  it("should return 500 when there is an internal server error", async () => {
+    mockedFetchUserID.mockResolvedValue({ isAdmin: true });
+    mockPrismaFindMany.mockRejectedValue(new Error());
+
+    const { req, res } = createMocks({
+      method: "GET",
+      query: { searchTerm: "test" },
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(500);
   });
 });
