@@ -3,7 +3,10 @@ import React, { useState } from "react";
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { lessons } from "@prisma/client";
-
+import dynamic from "next/dynamic";
+const Time = dynamic(() => import("../../components/time/Time"), {
+  ssr: false,
+});
 type Props = {
   lessonData: lessons;
 };
@@ -16,22 +19,24 @@ function Lesson({ lessonData }: Props) {
       }}
       className="flex flex-col gap-3 border border-black rounded-lg bg-blue-200 w-full  px-4 py-2 hover:bg-blue-300 hover:cursor-pointer"
     >
-      <div className="flex gap-3 justify-between ">
-        <h4 className="  text-lg uppercase">{lessonData.lessonTitle}</h4>
-        <span className="text-lg hidden md:block">{`${new Date(
-          parseInt(lessonData.time)
-        ).toLocaleString()}`}</span>
+      <div className="grid grid-cols-3 md:grid-cols-4 gap-2 justify-between  items-center">
+        <h4 className=" overflow-clip  text-lg uppercase">
+          {lessonData.lessonTitle}
+        </h4>
+        <span className="text-lg hidden md:block">
+          <Time time={lessonData.time} />
+        </span>
         <Link
-          className=" font-bold text-lg text-red-500"
+          className=" font-bold text-lg text-red-500 justify-self-center"
           target="_blank"
           href={lessonData.recording}
         >
           Recoding
         </Link>
         {isOpen ? (
-          <ArrowDownIcon className="w-6 h-6" />
+          <ArrowDownIcon className="w-6 h-6 justify-self-end" />
         ) : (
-          <ArrowUpIcon className="w-6 h-6" />
+          <ArrowUpIcon className="w-6 h-6 justify-self-end" />
         )}
       </div>
       {isOpen ? (
@@ -44,7 +49,9 @@ function Lesson({ lessonData }: Props) {
           <hr className="border-1 border-gray-600  flex-1  " />
           <div className="flex justify-between flex-1">
             <h5>Time</h5>
-            <p>{new Date(parseInt(lessonData.time)).toLocaleString()}</p>
+            <p>
+              <Time time={lessonData.time} />
+            </p>
           </div>{" "}
           <hr className="border-1 border-gray-600  flex-1  " />
           <div className="flex justify-between flex-1">

@@ -280,3 +280,8 @@ model Like {
 
   @@id([userId, commentId])
 }
+
+model Terms{
+  id        String   @id @unique @default(cuid())
+  text      String
+}

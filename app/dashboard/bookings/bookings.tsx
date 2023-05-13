@@ -100,7 +100,7 @@ async function Bookings({}: Props) {
 
   const PastBookings = function () {
     if (data?.bookingPast === null || data?.bookingPast.length === 0)
-      return <p className=" text-center">No Lesson Taken yet </p>;
+      return <p className=" text-center">You have no Bookings </p>;
     return (
       <>
         {data?.bookingPast.map((data) => {
@@ -111,7 +111,7 @@ async function Bookings({}: Props) {
   };
   const UpcomingBookings = function () {
     if (data?.bookingUpcoming === null || data?.bookingUpcoming.length === 0)
-      return <p className=" text-center">No Lesson Taken yet </p>;
+      return <p className=" text-center">You have no Bookings </p>;
     return (
       <>
         {data?.bookingUpcoming.map((data) => {
