@@ -27,7 +27,7 @@ async function Hero({}: Props) {
           <Link href={`/booking`} className="w-full flex">
             {" "}
             <button className=" text-lg uppercase bg-[#30bead]/60 rounded-md py-3 font-bold  flex-1">
-              book a lesson now
+              Book a lesson now
             </button>
           </Link>
         </div>
