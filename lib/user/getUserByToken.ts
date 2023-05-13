@@ -19,6 +19,7 @@ const fetchUserID = async function (token: string) {
       email: id.user.email,
       discord: id.user.discord,
       isAdmin: id.user.isAdmin,
+      discount: id.user.discount,
     };
   } catch (error) {
     return Promise.reject({ status: 401, message: `Server Error` });

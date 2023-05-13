@@ -13,7 +13,6 @@ type Props = {
 };
 
 function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
-  const discordIDRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
   const getProdID = function () {
@@ -29,10 +28,6 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
     return id;
   };
   const createOrder = async function () {
-    if (!discordIDRef.current?.value.trim()) {
-      return Promise.reject(`Fill Discord ID`);
-    }
-
     try {
       const res = await fetch(`/api/createPayPalOrder`, {
         method: "POST",
@@ -41,7 +36,6 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
           item: getProdID(),
           time: time,
           offset: new Date().getTimezoneOffset(),
-          discordID: discordIDRef.current.value,
           message: messageRef.current?.value,
         }),
       });
@@ -53,10 +47,6 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
   };
 
   const onApprove = async function (orderID: string) {
-    if (!discordIDRef.current?.value.trim()) {
-      toast.error(`Fill Discord ID and try again u didn't get charged`);
-      return;
-    }
     try {
       const res = await fetch(`/api/capturePaypalOrder`, {
         method: "POST",
@@ -65,7 +55,6 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
           orderID: orderID,
           time: time,
           offset: new Date().getTimezoneOffset(),
-          discordID: discordIDRef.current.value,
           message: messageRef.current?.value,
         }),
       });

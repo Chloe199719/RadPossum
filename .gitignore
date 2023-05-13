@@ -39,3 +39,4 @@ yarn-error.log*
 /oldCode
 
 paypal.txt
+backup.sql

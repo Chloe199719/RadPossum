@@ -23,8 +23,8 @@ function Form({ time }: Props) {
         body: JSON.stringify({
           time: time,
 
-          message: data.message, //test data
-          code: data.code, // test date
+          message: data.message,
+          code: data.code,
         }),
       });
       if (!test.ok) {

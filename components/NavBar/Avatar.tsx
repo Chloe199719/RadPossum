@@ -1,16 +1,12 @@
 "use client";
 import React from "react";
-
-import { Avatar as Pic, Button } from "flowbite-react";
-import { Dropdown } from "flowbite-react";
 import { useStore } from "../useStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getSession, signIn, signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import myLoader from "@/lib/imageloader";
-import { session } from "@/types";
+
 type Props = {};
 
 export default function Avatar({}: Props) {

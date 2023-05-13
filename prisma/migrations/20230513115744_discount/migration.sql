@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "discount" DOUBLE PRECISION NOT NULL DEFAULT 1;

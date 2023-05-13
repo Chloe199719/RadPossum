@@ -32,31 +32,6 @@ function Main({}: Props) {
     curDate.setDate(curDate.getDate() + 100);
     return curDate;
   };
-  // const fetch1 = async function (e: Date) {
-  //   setAvailableHours([]);
-  //   setSelectedHour(``);
-  //   try {
-  //     const res = await fetch(
-  //       `/api/availableHours/?date=${e.getFullYear()}-${
-  //         e.getMonth() + 1
-  //       }-${e.getDate()}`,
-  //       {
-  //         cache: "default",
-  //         method: "GET",
-  //       }
-  //     );
-  //     const date = await res.json();
-  //     const hoursav = hours.filter((hour) => {
-  //       return !date.some((e: any) => {
-  //         return e.hour.includes(hour);
-  //       });
-  //     });
-  //     setAvailableHours(hoursav);
-  //     return data;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const fetchHours = async function (e: Date) {
     setAvailableHours([]);
@@ -83,20 +58,6 @@ function Main({}: Props) {
   if (status === "loading") {
     return <p>Loading... </p>;
   }
-  function Time(e: Date) {
-    console.log(e.getTimezoneOffset());
-
-    if (e.getTimezoneOffset() > 0) {
-      console.log(e.getTimezoneOffset());
-      return e.getTime() - e.getTimezoneOffset() * 60 * 1000;
-    } else if (e.getTimezoneOffset() < 0) {
-      return e.getTime() - e.getTimezoneOffset() * 60 * 1000;
-    } else {
-      return e.getTime();
-    }
-  }
-  // console.log(data.toUTCString());
-
   return (
     <div className="flex gap-4 w-full flex-col items-center justify-center ">
       <div className="flex flex-col md:flex-row gap-4 w-full justify-center relative">

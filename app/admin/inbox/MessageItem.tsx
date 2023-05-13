@@ -28,7 +28,7 @@ function MessageItem({ message }: Props) {
         </span>
       </div>{" "}
       {isOpen ? (
-        <div className="w-full mt-5 space-y-4 bg-zinc-200">
+        <div className="w-full p-5 mt-5 space-y-4 bg-zinc-200">
           <hr className="h-[2px] w-full bg-slate-500" />
           <p className="text-center">Message</p>
           <p className="bg-white px-2 py-6 rounded-md">{message.message}</p>

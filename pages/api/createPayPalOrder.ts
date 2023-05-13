@@ -19,13 +19,8 @@ export default async function handler(
     return;
   }
   console.log(req.body);
-  if (
-    !req.body.item ||
-    !req.body.time ||
-    !req.body.discordID ||
-    !req.body.offset
-  ) {
-    res.status(400).json({ message: `Bad Request1` });
+  if (!req.body.item || !req.body.time || !req.body.offset) {
+    res.status(400).json({ message: `Bad Request` });
     return;
   }
   const time = new Date(req.body.time);
@@ -38,6 +33,9 @@ export default async function handler(
     const token = getCookie(cookie, { req, res });
     const userId = await fetchUserID(token as string);
     const itemData = await fetchPaypal(req.body.item);
+    if (itemData === null) {
+      throw new Error("Item not found");
+    }
     const timeValid = await checkTimeExist(req.body.time.toString());
     const request = new paypal.orders.OrdersCreateRequest();
     const hash = Hash();
@@ -52,9 +50,13 @@ export default async function handler(
             currency_code: process.env.CURRENCY!,
 
             value:
-              time.getUTCDay() === 6 /* @ts-expect-error */
-                ? itemData.price_saturday /* @ts-expect-error */
-                : itemData.price_standard,
+              time.getUTCDay() === 6
+                ? (
+                    parseFloat(itemData.price_saturday) * userId.discount
+                  ).toString()
+                : (
+                    parseFloat(itemData.price_standard) * userId.discount
+                  ).toString(),
             /* @ts-expect-error */
             breakdown: {
               item_total: {
@@ -62,26 +64,30 @@ export default async function handler(
 
                 value:
                   time.getUTCDay() === 6
-                    ? /* @ts-expect-error */
-                      itemData.price_saturday
-                    : /* @ts-expect-error */
-                      itemData.price_standard,
+                    ? (
+                        parseFloat(itemData.price_saturday) * userId.discount
+                      ).toString()
+                    : (
+                        parseFloat(itemData.price_standard) * userId.discount
+                      ).toString(),
               },
             },
           },
           items: [
             {
               category: `DIGITAL_GOODS`,
-              /* @ts-expect-error */
+
               name: itemData.title,
               unit_amount: {
                 currency_code: process.env.CURRENCY!,
                 value:
                   time.getUTCDay() === 6
-                    ? /* @ts-expect-error */
-                      itemData.price_saturday
-                    : /* @ts-expect-error */
-                      itemData.price_standard,
+                    ? (
+                        parseFloat(itemData.price_saturday) * userId.discount
+                      ).toString()
+                    : (
+                        parseFloat(itemData.price_standard) * userId.discount
+                      ).toString(),
               },
               quantity: `1`,
             },
@@ -102,5 +108,4 @@ export default async function handler(
     res.status(error.status).json(error.message);
     return;
   }
-  // const body = JSON.parse(req.body);
 }
