@@ -4,6 +4,8 @@ import prismaClient from "@/lib/prisma/prismaClient";
 
 import cookie from "@/lib/cookie";
 import Dashboard from "./dashboard";
+import axios from "axios";
+import { DiscordData } from "@/types";
 type lessons1 = {
   id: string;
   userID: string;
@@ -95,11 +97,28 @@ async function Page({}: Props) {
     }
     return null;
   };
-  return (
-    <Dashboard
-      lesson={await lessonData()}
-      bookings={await lessonBookingData()}
-    />
-  );
+  const bookings = await lessonBookingData();
+  let procesedBookings = null;
+  if (bookings) {
+    procesedBookings = Promise.all(
+      bookings.map(async (booking) => {
+        try {
+          const discordInfo = await axios({
+            url: `https://discord.com/api/users/${booking.discordID}`,
+            method: "GET",
+            headers: { Authorization: `Bot ${process.env.DISCORD_BOT}` },
+          });
+          return {
+            ...booking,
+            discordID: `${discordInfo.data.username}# ${discordInfo.data.discriminator}`,
+          };
+        } catch (error) {
+          return { ...booking };
+        }
+      })
+    );
+  }
+  const data = await procesedBookings;
+  return <Dashboard lesson={await lessonData()} bookings={data!} />;
 }
 export default Page;

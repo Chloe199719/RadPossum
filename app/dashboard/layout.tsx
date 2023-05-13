@@ -41,7 +41,7 @@ export default async function DashboardLayout({
               htmlFor="my-drawer-2"
               className="drawer-overlay md:hidden"
             ></label>
-            <ul className="menu p-4 w-80 bg-base-100 md:bg-transparent text-xl text-base-content gap-2  md:h-fit">
+            <ul className="menu p-4 w-60 bg-base-100 md:bg-transparent text-xl text-base-content gap-2  md:h-fit">
               <label htmlFor="my-drawer-2">
                 <svg
                   className=" w-10 h-10 inline md:hidden "

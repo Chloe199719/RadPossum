@@ -2,6 +2,7 @@ import cookie from "@/lib/cookie";
 import prismaClient from "@/lib/prisma/prismaClient";
 import Booking from "../Booking";
 import { cookies } from "next/headers";
+import axios from "axios";
 
 const fetchBookings = async function (token: string | undefined) {
   const id = await prismaClient.session.findUnique({
@@ -39,8 +40,49 @@ const fetchBookings = async function (token: string | undefined) {
     },
     orderBy: [{ time: `asc` }],
   });
+  const processedUpComing = Promise.all(
+    bookingUpcoming.map(async (data) => {
+      try {
+        const discordInfo = await axios({
+          url: `https://discord.com/api/users/${data?.discordID}`,
+          method: "GET",
+          headers: {
+            Authorization: `Bot ${process.env.DISCORD_BOT}`,
+          },
+        });
 
-  return { bookingUpcoming, bookingPast };
+        return {
+          ...data,
+          discordID: `${discordInfo.data.username}# ${discordInfo.data.discriminator}`,
+        };
+      } catch (error) {
+        return { ...data };
+      }
+    })
+  );
+  const processedPast = Promise.all(
+    bookingPast.map(async (data) => {
+      try {
+        const discordInfo = await axios({
+          url: `https://discord.com/api/users/${data?.discordID}`,
+          method: "GET",
+          headers: {
+            Authorization: `Bot ${process.env.DISCORD_BOT}`,
+          },
+        });
+
+        return {
+          ...data,
+          discordID: `${discordInfo.data.username}# ${discordInfo.data.discriminator}`,
+        };
+      } catch (error) {
+        return { ...data };
+      }
+    })
+  );
+  const data1 = (await processedUpComing) ? await processedUpComing : null;
+  const data2 = (await processedPast) ? await processedPast : null;
+  return { bookingUpcoming: data1, bookingPast: data2 };
 };
 
 type Props = {};
@@ -53,7 +95,9 @@ async function Bookings({}: Props) {
     }
     return null;
   };
+
   const data = await lessonBookingData();
+
   const PastBookings = function () {
     if (data?.bookingPast === null || data?.bookingPast.length === 0)
       return <p className=" text-center">No Lesson Taken yet </p>;
