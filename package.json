@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "npx prisma generate"
+    "postinstall": "npx prisma generate",
+    "test": "jest --watchAll --verbose"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.14",
@@ -31,12 +32,13 @@
     "flowbite-react": "^0.3.8",
     "framer-motion": "^9.0.1",
     "micro": "^10.0.1",
+    "msw": "^1.2.1",
     "next": "^13.4.0",
     "next-auth": "^4.22.1",
     "next-remove-imports": "^1.0.10",
     "nextjs-cors": "^2.1.2",
+    "node-mocks-http": "^1.12.2",
     "nodemailer": "^6.9.1",
-    "pocketbase": "^0.10.1",
     "random-hash": "^4.0.1",
     "react": "^18.2.0",
     "react-calendar": "^4.0.0",
@@ -55,10 +57,16 @@
     "zustand": "^4.3.3"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
+    "@types/jest": "^29.5.1",
     "@types/nodemailer": "^6.4.7",
     "@types/paypal__checkout-server-sdk": "^1.0.5",
     "@types/react-calendar": "^3.9.0",
     "autoprefixer": "^10.4.13",
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0",
+    "jest-mock": "^29.5.0",
     "postcss": "^8.4.21",
     "prisma": "^4.14.0",
     "tailwindcss": "^3.2.4"

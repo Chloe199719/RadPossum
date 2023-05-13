@@ -46,7 +46,6 @@ export default async function handler(
     }
     if (error.name === "ZodError") {
       res.status(400).json({ message: error.message });
-      console.log(error);
       return;
     }
     res.status(500).json({ message: `Internal Server Error` });
