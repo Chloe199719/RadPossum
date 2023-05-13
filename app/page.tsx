@@ -16,7 +16,7 @@ export default async function Home() {
   // const faqList = await fetchQA();
 
   return (
-    <main className="h-screen snap-y snap-mandatory overflow-y-scroll">
+    <main className="min-h-screen snap-y snap-mandatory  overflow-y-scroll flex-grow">
       {/* @ts-expect-error */}
       <Hero />
       {/* @ts-expect-error */}
