@@ -17,7 +17,6 @@ function ChangeDisplayName({}: Props) {
   const onSubmit = async (data: formData) => {
     setLoading(true);
     try {
-      // @ts-ignore
       await axios({
         method: `put`,
         url: `/api/user/changename`,

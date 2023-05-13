@@ -1,4 +1,3 @@
-import pb from "../pocketbase";
 import prismaClient from "../prisma/prismaClient";
 
 export default async function setCodeUsed(id: string) {

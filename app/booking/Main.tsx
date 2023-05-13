@@ -5,7 +5,6 @@ import { useSession } from "next-auth/react";
 import { useRef, useState } from "react";
 
 import PaypalBtn from "./PaypalBtn";
-import CheckoutBtn from "./CheckoutBtn";
 import dynamic from "next/dynamic";
 // import { Calendar } from "react-calendar";
 const Calendar = dynamic(() => import("react-calendar"), {

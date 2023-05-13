@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { transporter } from "../../lib/email/nodemailer";
 /* @ts-expect-error */
 import { RandomHash } from "random-hash";
-import fetchProdId from "@/lib/fetchProdID";
+
 import test from "@/lib/testLog";
 import generateTime from "@/lib/bookinglesson/generatetime";
 import axios from "axios";
