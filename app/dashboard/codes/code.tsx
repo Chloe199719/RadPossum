@@ -1,5 +1,3 @@
-import { isValid } from "zod";
-
 type Props = {
   code: {
     userID: string;

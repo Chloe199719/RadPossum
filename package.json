@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev ",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -33,7 +33,7 @@
     "framer-motion": "^9.0.1",
     "micro": "^10.0.1",
     "msw": "^1.2.1",
-    "next": "^13.4.0",
+    "next": "^13.4.2",
     "next-auth": "^4.22.1",
     "next-remove-imports": "^1.0.10",
     "nextjs-cors": "^2.1.2",

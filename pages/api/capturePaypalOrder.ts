@@ -21,7 +21,7 @@ export default async function handler(
     return;
   }
 
-  if (!req.body.orderID || !req.body.time || !req.body.discordID) {
+  if (!req.body.orderID || !req.body.time) {
     res.status(400).json({ message: `Bad Request` });
     return;
   }
@@ -63,7 +63,6 @@ export default async function handler(
     // Add Logging to Order to DB
     return;
   } catch (error: any) {
-    console.log(error);
     // If no status or message are Present throw a Default Bad Request
     if (!error.status) {
       res.status(400).json({ message: ` Bad Request` });

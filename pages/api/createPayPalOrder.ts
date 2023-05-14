@@ -8,6 +8,7 @@ import cookie from "@/lib/cookie";
 
 import { getCookie } from "cookies-next";
 import fetchUserID from "@/lib/user/getUserByToken";
+import { z } from "zod";
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,7 +19,7 @@ export default async function handler(
     res.status(405).end("Method Not Allowed");
     return;
   }
-  console.log(req.body);
+
   if (!req.body.item || !req.body.time || !req.body.offset) {
     res.status(400).json({ message: `Bad Request` });
     return;
@@ -30,13 +31,21 @@ export default async function handler(
   }
 
   try {
+    const body = z
+      .object({
+        item: z.string(),
+        time: z.number(),
+        offset: z.number(),
+      })
+      .parse(req.body);
+
     const token = getCookie(cookie, { req, res });
     const userId = await fetchUserID(token as string);
-    const itemData = await fetchPaypal(req.body.item);
+    const itemData = await fetchPaypal(body.item);
     if (itemData === null) {
       throw new Error("Item not found");
     }
-    const timeValid = await checkTimeExist(req.body.time.toString());
+    const timeValid = await checkTimeExist(body.time.toString());
     const request = new paypal.orders.OrdersCreateRequest();
     const hash = Hash();
     request.prefer("return=representation");
@@ -44,7 +53,7 @@ export default async function handler(
       intent: `CAPTURE`,
       purchase_units: [
         {
-          reference_id: req.body.item,
+          reference_id: body.item,
           invoice_id: hash,
           amount: {
             currency_code: process.env.CURRENCY!,
@@ -99,7 +108,6 @@ export default async function handler(
     res.status(200).json({ id: order.result.id });
     return;
   } catch (error: any) {
-    console.log(error);
     // If no status or message are Present throw a Default Bad Request
     if (!error.status) {
       res.status(400).json({ message: ` Bad Request` });
