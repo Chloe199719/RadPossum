@@ -1,5 +1,6 @@
 import prismaClient from "@/lib/prisma/prismaClient";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
 
 export default async function handler(
   req: NextApiRequest,
@@ -16,12 +17,18 @@ export default async function handler(
     return;
   }
   try {
+    const query = z
+      .object({
+        time: z.string(),
+        offset: z.string(),
+      })
+      .parse(req.query);
     const dayInMilliseconds = 86400000;
     // const dbArrayWorkingTimes = [
     //   50400000, 54000000, 57600000, 61200000, 64800000,
     // ];
-    const time: number = parseInt(req.query.time as string);
-    const offset: number = parseInt(req.query.offset as string);
+    const time: number = parseInt(query.time);
+    const offset: number = parseInt(query.offset);
     const UTCTime = new Date(time).getTime() - offset * 60 * 1000;
     const dayBefore = UTCTime - dayInMilliseconds;
     const nextDay = UTCTime + dayInMilliseconds;

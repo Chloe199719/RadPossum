@@ -13,6 +13,7 @@ type Props = {
 };
 
 function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
+  const [temrs, setTerms] = useState(false);
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
   const getProdID = function () {
@@ -64,19 +65,34 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
       return Promise.reject(`Error`);
     }
   };
-
   return (
-    <form className="flex flex-col gap-2 w-full max-w-[750px] ">
+    <form className="flex flex-col gap-4 w-full max-w-[750px] ">
       <div className="flex flex-col gap-2 w-full">
         <textarea id="message" placeholder="Message" ref={messageRef} />
+      </div>
+      <div className="flex items-center gap-2">
+        <input
+          checked={temrs}
+          onChange={() => {
+            setTerms(!temrs);
+          }}
+          type="checkbox"
+        />{" "}
+        <span>
+          Accept{" "}
+          <label htmlFor="my-modal-4" className="text-blue-600 underline">
+            {" "}
+            Terms of Service{" "}
+          </label>
+        </span>
       </div>
       <PayPalButtons
         className="w-full flex justify-center"
         onError={(e) => {
           toast.error(`error ${e.message}`);
         }}
-        disabled={time === 0}
-        forceReRender={[time]}
+        disabled={time === 0 || !temrs}
+        forceReRender={[time, temrs]}
         fundingSource="paypal"
         style={{ shape: `pill`, label: `buynow`, height: 55 }}
         createOrder={createOrder}
@@ -86,6 +102,24 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
           return onApprove(data.orderID);
         }}
       />
+      <input type="checkbox" id="my-modal-4" className="modal-toggle" />
+      <label htmlFor="my-modal-4" className="modal cursor-pointer">
+        <label className="modal-box relative" htmlFor="">
+          <h3 className="text-lg font-bold">Terms of Service</h3>
+          <p className="py-4">
+            You ve been selected for a chance to get one year of subscription to
+            use Wikipedia for free! (placeholder)
+          </p>
+          <p className="py-4">
+            You ve been selected for a chance to get one year of subscription to
+            use Wikipedia for free! (placeholder)
+          </p>
+          <p className="py-4">
+            You ve been selected for a chance to get one year of subscription to
+            use Wikipedia for free! (placeholder)
+          </p>
+        </label>
+      </label>
     </form>
   );
 }

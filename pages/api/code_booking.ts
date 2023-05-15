@@ -1,5 +1,4 @@
 import bookingLesson from "@/lib/bookinglesson/bookinglesson";
-import generateTime from "@/lib/bookinglesson/generatetime";
 import checkTimeExist from "@/lib/bookinglesson/timeValidation";
 import checkCode from "@/lib/codesProcesss/checkcode";
 import setCodeUsed from "@/lib/codesProcesss/setCodeUsed";
@@ -7,16 +6,8 @@ import cookie from "@/lib/cookie";
 import fetchUserID from "@/lib/user/getUserByToken";
 import { getCookie } from "cookies-next";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
 
-interface body {
-  clientID: string;
-  clientEmail: string;
-  bookedHour: string;
-  time: string;
-  discordID: string;
-  message: string;
-  code: string;
-}
 type codeRes = {
   id: string;
   time: string;
@@ -41,6 +32,13 @@ export default async function handler(
     return;
   }
   try {
+    const body = z
+      .object({
+        time: z.string(),
+        code: z.string(),
+        message: z.string().optional(),
+      })
+      .parse(req.body);
     const token = getCookie(cookie, { req, res });
     const userId = await fetchUserID(token as string);
     // Return a Resolved Promise if code is valid else throws a Rejected Promise
