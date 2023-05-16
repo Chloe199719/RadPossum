@@ -4,6 +4,7 @@ import cookie from "@/lib/cookie";
 import fetchUserID from "@/lib/user/getUserByToken";
 import { getCookie } from "cookies-next";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,21 +21,26 @@ export default async function handler(
     res.status(401).json({ message: `Not Authorized` });
     return;
   }
-  if (!req.body.commentID) {
-    res.status(400).json({ message: `Bad Request` });
-    return;
-  }
   try {
+    const body = z
+      .object({
+        commentID: z.string(),
+      })
+      .parse(req.body);
     const userId = await fetchUserID(token as string);
     const data = await toggleLikeOnComment({
       userID: userId.userID,
-      commentID: req.body.commentID,
+      commentID: body.commentID,
     });
 
     res.status(200).json({ success: "Comment Successfully Created" });
     return;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    if (error.name === "ZodError") {
+      res.status(400).json({ message: error.message });
+      return;
+    }
+
     res.status(500).json({ message: `Error Updating Like Status ` });
   }
 }

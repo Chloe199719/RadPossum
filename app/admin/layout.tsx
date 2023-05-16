@@ -208,6 +208,14 @@ export default async function DashboardLayout({
                       Social Media
                     </Link>
                   </li>
+                  <li>
+                    <Link
+                      className="whitespace-nowrap"
+                      href={"/admin/settings/tos"}
+                    >
+                      Terms of Service
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </li>

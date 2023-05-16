@@ -13,7 +13,7 @@ type Props = {
 };
 
 function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
-  const [temrs, setTerms] = useState(false);
+  const [terms, setTerms] = useState(false);
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
   const getProdID = function () {
@@ -72,9 +72,9 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
       </div>
       <div className="flex items-center gap-2">
         <input
-          checked={temrs}
+          checked={terms}
           onChange={() => {
-            setTerms(!temrs);
+            setTerms(!terms);
           }}
           type="checkbox"
         />{" "}
@@ -91,8 +91,8 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
         onError={(e) => {
           toast.error(`error ${e.message}`);
         }}
-        disabled={time === 0 || !temrs}
-        forceReRender={[time, temrs]}
+        disabled={time === 0 || !terms}
+        forceReRender={[time, terms]}
         fundingSource="paypal"
         style={{ shape: `pill`, label: `buynow`, height: 55 }}
         createOrder={createOrder}
