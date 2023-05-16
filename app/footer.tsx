@@ -28,6 +28,9 @@ function Footer({}: Props) {
           <Link href={`/contact`} className="link link-hover">
             Contact
           </Link>
+          <Link href={`/pricing`} className="link link-hover">
+            Pricing
+          </Link>
         </div>
         <div>
           <span className="footer-title">Legal</span>

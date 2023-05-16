@@ -3,6 +3,7 @@ import React from "react";
 import prismaClient from "@/lib/prisma/prismaClient";
 
 import Main from "./Main";
+import Link from "next/link";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -58,6 +59,12 @@ async function Page({}: Props) {
     <main className="min-h-screen  flex flex-col py-24  mx-auto items-center justify-center z-[5] snap-start md:snap-center bg-gradient-to-b from-[#30bead]/30 to-[#ff7e84]/40">
       <div className=" max-w-7xl gap-8 flex flex-col items-center justify-center mx-auto  border-black rounded-xl p-12 bg-zinc-200 w-screen">
         <h2 className="text-2xl md:text-4xl">Booking Calendar</h2>
+        <Link
+          href={`/pricing`}
+          className="link link-hover text-blue-600  text-4xl"
+        >
+          <h3>Pricing </h3>
+        </Link>
         <Main
           // btnData={btnData.items}
 
