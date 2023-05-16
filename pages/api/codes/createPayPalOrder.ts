@@ -8,6 +8,7 @@ import cookie from "@/lib/cookie";
 
 import { getCookie } from "cookies-next";
 import fetchShopItem from "@/lib/codesProcesss/fetchPaypalItems";
+import { z } from "zod";
 
 export default async function handler(
   req: NextApiRequest,
@@ -24,8 +25,15 @@ export default async function handler(
   }
 
   try {
-    const itemData = await fetchShopItem(req.body.id);
-    const amount = req.body.amount * parseFloat(itemData?.paypal_price!);
+    const body = z
+      .object({
+        amount: z.string(),
+        id: z.string(),
+      })
+      .parse(req.body);
+
+    const itemData = await fetchShopItem(body.id);
+    const amount = parseInt(body.amount) * parseFloat(itemData?.paypal_price!);
     const request = new paypal.orders.OrdersCreateRequest();
     const hash = Hash();
     request.prefer("return=representation");
@@ -33,7 +41,7 @@ export default async function handler(
       intent: `CAPTURE`,
       purchase_units: [
         {
-          reference_id: req.body.id,
+          reference_id: body.id,
           invoice_id: hash,
           amount: {
             currency_code: process.env.CURRENCY!,
@@ -57,7 +65,7 @@ export default async function handler(
 
                 value: itemData?.paypal_price!,
               },
-              quantity: req.body.amount,
+              quantity: body.amount,
             },
           ],
         },
@@ -76,5 +84,5 @@ export default async function handler(
     res.status(error.status).json(error.message);
     return;
   }
-  // const body = JSON.parse(req.body);
+  // const body = JSON.parse(body);
 }

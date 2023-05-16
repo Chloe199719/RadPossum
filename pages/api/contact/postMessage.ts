@@ -1,5 +1,6 @@
 import prismaClient from "@/lib/prisma/prismaClient";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,27 +11,25 @@ export default async function handler(
     res.status(405).end("Method Not Allowed");
     return;
   }
-  if (
-    !req.body.name ||
-    !req.body.email ||
-    !req.body.discordID ||
-    !req.body.message ||
-    !req.body.subject
-  ) {
-    res
-      .status(400)
-      .json({ message: `Bad Request , Please Fill all Required Fields` });
-    return;
-  }
   try {
+    const body = z
+      .object({
+        name: z.string().min(1).max(20),
+        email: z.string().email(),
+        discordID: z.string().min(1).max(20),
+        pronouns: z.string(),
+        message: z.string().min(1).max(200),
+        subject: z.string().min(1).max(20),
+      })
+      .parse(req.body);
     const data = await prismaClient.messages.create({
       data: {
-        name: req.body.name,
-        email: req.body.email,
-        discordID: req.body.discordID,
-        pronouns: req.body.pronouns,
-        message: req.body.message,
-        Subject: req.body.subject,
+        name: body.name,
+        email: body.email,
+        discordID: body.discordID,
+        pronouns: body.pronouns,
+        message: body.message,
+        Subject: body.subject,
       },
     });
     res

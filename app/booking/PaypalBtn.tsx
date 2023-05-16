@@ -87,7 +87,7 @@ function PaypalBtn({ time, paypalID, privacyCur, durationCur }: Props) {
         </span>
       </div>
       <PayPalButtons
-        className="w-full flex justify-center"
+        className="w-full flex justify-center z-0"
         onError={(e) => {
           toast.error(`error ${e.message}`);
         }}

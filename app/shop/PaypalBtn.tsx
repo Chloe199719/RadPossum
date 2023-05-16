@@ -45,7 +45,7 @@ function PaypalBtn({ value, card }: Props) {
   };
   return (
     <PayPalButtons
-      className="w-full"
+      className="w-full z-0"
       fundingSource="paypal"
       style={{ shape: `pill` }}
       createOrder={createOrder}
