@@ -3,6 +3,7 @@ import cookie from "@/lib/cookie";
 import fetchUserID from "@/lib/user/getUserByToken";
 import { getCookie } from "cookies-next";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -18,24 +19,30 @@ export default async function handler(
     res.status(401).json({ message: `Not Authorized` });
     return;
   }
-  if (!req.body.message || !req.body.postID) {
-    res.status(400).json({ message: `Bad Request` });
-    return;
-  }
+
   try {
+    const body = z
+      .object({
+        message: z.string().min(1).max(200),
+        postID: z.string(),
+        parentID: z.string().nullish(),
+      })
+      .parse(req.body);
+
     const userId = await fetchUserID(token as string);
-    console.log(userId.userID);
     const returnData = await postComment(
-      req.body.postID,
+      body.postID,
       userId.userID,
-      req.body.message,
-      req.body.parentID ? req.body.parentID : null
+      body.message,
+      body.parentID ? body.parentID : null
     );
-    console.log(returnData);
     res.status(200).json({ success: "Comment Successfully Created" });
     return;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    if (error.name === "ZodError") {
+      res.status(400).json({ message: error.message });
+      return;
+    }
     res.status(500).json({ message: `Error Creating Your Post ` });
   }
 }

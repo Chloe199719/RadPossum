@@ -5,6 +5,7 @@ import fetchUserID from "@/lib/user/getUserByToken";
 import { getCookie } from "cookies-next";
 import type { NextApiRequest, NextApiResponse } from "next";
 import fetchCommentUser from "../../../lib/blog/fetchComment";
+import { z } from "zod";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -25,6 +26,12 @@ export default async function handler(
     return;
   }
   try {
+    const body = z
+      .object({
+        message: z.string().min(1).max(200),
+        commentID: z.string(),
+      })
+      .parse(req.body);
     const userId = await fetchUserID(token as string);
     const fetchComment = await fetchCommentUser(req.body.commentID);
     if (fetchComment?.userID !== userId.userID!) {
@@ -32,12 +39,15 @@ export default async function handler(
       return;
     }
     const storeOldCom = await storeOldComments(fetchComment);
-    const returnData = await editComment(req.body.commentID, req.body.message);
-    console.log(returnData);
+    const returnData = await editComment(body.commentID, body.message);
+
     res.status(200).json({ success: "Comment Successfully Created" });
     return;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    if (error.name === "ZodError") {
+      res.status(400).json({ message: error.message });
+      return;
+    }
     res.status(500).json({ message: `Error Creating Your Post ` });
   }
 }

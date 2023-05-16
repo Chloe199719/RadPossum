@@ -26,7 +26,7 @@ export default async function handler(
   try {
     const body = z
       .object({
-        name: z.string(),
+        name: z.string().max(12),
       })
       .parse(req.body);
     const data = await prismaClient.user.update({

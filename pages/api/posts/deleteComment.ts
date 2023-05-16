@@ -6,6 +6,7 @@ import storeOldComments from "@/lib/logs/storeOldComments";
 import fetchUserID from "@/lib/user/getUserByToken";
 import { getCookie } from "cookies-next";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -16,28 +17,32 @@ export default async function handler(
     return;
   }
 
-  if (!req.query.commentID) {
-    res.status(400).json({ message: `Bad Request` });
-    return;
-  }
   const token = getCookie(cookie, { req, res });
   if (!token) {
     res.status(401).json({ message: `Not Authorized` });
     return;
   }
   try {
+    const query = z
+      .object({
+        commentID: z.string(),
+      })
+      .parse(req.query);
     const userId = await fetchUserID(token as string);
-    const fetchComment = await fetchCommentUser(req.query.commentID as string);
+    const fetchComment = await fetchCommentUser(query.commentID as string);
     if (fetchComment?.userID !== userId.userID!) {
       res.status(401).json({ message: `Not Authorized` });
       return;
     }
-    console.log(fetchComment);
     const storeOldCom = await storeOldComments(fetchComment);
-    const data = await deleteComment(req.query.commentID as string);
+    const data = await deleteComment(query.commentID as string);
     res.status(200).json({ message: `deleted` });
     return;
   } catch (error: any) {
+    if (error.name === "ZodError") {
+      res.status(400).json({ message: error.message });
+      return;
+    }
     res.status(500).json({ message: error.message });
   }
 }
